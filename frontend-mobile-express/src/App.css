@@ -1,0 +1,18 @@
+#root {
+    margin: 0;
+}
+
+p, span, h1, h2, h3, h4, h5, h6, .fit-content {
+    display: inline-block;
+    margin: 0;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.texte-vert {
+    color: green;
+}
+
+.texte-rouge {
+    color: red;
+}
