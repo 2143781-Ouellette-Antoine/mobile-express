@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, Link, Stack, Toolbar, Typography } from '@mui/material'
+import { AppBar, Container, Link, Stack, Toolbar, Typography } from '@mui/material'
 import { Smartphone as SmartphoneIcon } from '@mui/icons-material'
 
 /**
@@ -31,6 +31,14 @@ function TopAppBar() {
                         </Link>
                         
                         <Stack direction="row" gap={2} sx={{ flexGrow: 1, display: 'flex' }}>
+                            {/* Recherche avancée */}
+                            <Link
+                                href="/recherche-avancee"
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                Recherche avancée
+                            </Link>
+
                             {/* Tous les téléphones intelligents */}
                             <Link
                                 href="/telephones-intelligents"

@@ -23,6 +23,7 @@ export default function useListeToutesCompagniesHook() {
     useEffect(() => {
         setIsCompagniesLoading(true)
         axios.get(`http://localhost:3000/api/compagnies/all`).then((response) => {
+            // Les compagnies sont dans la propriété "compagnies" de la réponse.
             setCompagnies(response.data.compagnies)
         })
     }, [])
