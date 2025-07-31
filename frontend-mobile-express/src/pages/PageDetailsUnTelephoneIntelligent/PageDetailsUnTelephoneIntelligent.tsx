@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom"
-import { Card, CardContent, CircularProgress, Stack, Typography } from "@mui/material"
-import useTelephoneIntelligentHook from "./HookPageDetailsUnTelephoneIntelligent"
 import { Fragment } from "react"
+import { useParams } from "react-router-dom"
+import { Box, Card, CardContent, CircularProgress, Stack, Typography } from "@mui/material"
+import usePageDetailsUnTelephoneIntelligentHook from "./HookPageDetailsUnTelephoneIntelligent"
 import CelluleTableauOuiNon from "../../components/PageDetailsUnTelephoneIntelligent/CelluleTableauOuiNon"
 import "./PageDetailsUnTelephoneIntelligent.css"
 
@@ -15,31 +15,36 @@ function PageDetailsUnTelephoneIntelligent() {
     const { id } = useParams()
 
     /**
-     * Récupération des variables d'état et des méthodes de PageDetailsUnTelephoneIntelligent dans le hook.
+     * Récupération des variables d'état de PageDetailsUnTelephoneIntelligent dans le hook.
      * @property {TelephoneIntelligent | undefined} telephoneIntelligent Le téléphone intelligent dont on veut afficher les détails.
      * @property {boolean} isTelephoneIntelligentLoading Indique si les données du téléphone intelligent sont en train d'être récupérées depuis l'API.
      */
     const {
         telephoneIntelligent,
         isTelephoneIntelligentLoading
-    } = useTelephoneIntelligentHook(id!)
+    } = usePageDetailsUnTelephoneIntelligentHook(id!)
     
     // Mettre un chargement parce qu'on ne peut pas afficher les données du téléphone intelligent
     // avant de les avoir reçues.
     if (isTelephoneIntelligentLoading) {
-        return <CircularProgress />
+        return (
+            <Box display="flex" justifyContent="center" sx={{ marginY: 2 }}>
+                <CircularProgress />
+            </Box>
+        )
     } else if (!telephoneIntelligent) {
         return (
-            <div>
-                <h1>
+            <Box justifyContent="center" sx={{ margin: 4 }}>
+                <Typography variant="h4">
                     Une erreur est survenue lors de la récupération des détails du téléphone
                     intelligent.
-                </h1>
-            </div>
+                </Typography>
+            </Box>
         )
     } else {
         return (
             <Stack alignItems="center" gap={2} sx={{ marginY: 2 }}>
+                {/* Nom du téléphone intelligent */}
                 <Typography variant="h4">
                     {telephoneIntelligent.nomCompagnie + " " + telephoneIntelligent.nom}
                 </Typography>
