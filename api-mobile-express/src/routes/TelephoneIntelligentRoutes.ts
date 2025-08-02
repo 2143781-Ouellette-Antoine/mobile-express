@@ -36,24 +36,6 @@ async function getDixPlusRecents(_: IReq, res: IRes) {
 }
 
 /**
- * Récupère tous les noms de compagnies de téléphones intelligents.
- * @param res - La réponse HTTP envoyée au client.
- */
-async function getAllCompagnies(_: IReq, res: IRes) {
-    const compagnies = await TelephoneIntelligentService.getAllCompagnies();
-    return res.status(HttpStatusCodes.OK).json({ compagnies });
-}
-
-/**
- * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
- * @param res - La réponse HTTP envoyée au client.
- */
-async function getPinnedCompagnies(_: IReq, res: IRes) {
-    const compagniesEpinglees = await TelephoneIntelligentService.getPinnedCompagnies();
-    return res.status(HttpStatusCodes.OK).json({ compagnies: compagniesEpinglees });
-}
-
-/**
  * Récupère tous les téléphones intelligents d'une compagnie.
  * @param req - La requête HTTP reçue contenant le nom de la compagnie.
  * @param res - La réponse HTTP envoyée au client.
@@ -63,6 +45,19 @@ async function getAllTelephonesIntelligentsFromCompagnie(req: IReq, res: IRes) {
     const nomCompagnie = req.params.nomCompagnie;
     const telephonesIntelligents = await TelephoneIntelligentService.getAllTelephonesIntelligentsFromCompagnie(nomCompagnie);
     return res.status(HttpStatusCodes.OK).json({ telephonesIntelligents: telephonesIntelligents });
+}
+
+/**
+ * Récupère toutes les valeurs distinctes de la clé passée en paramètre dans la base de données.
+ * Par exemple, on peut récupérer toutes les valeurs distinctes de la clé "nomCompagnie".
+ * @param req - La requête HTTP reçue contenant la clé de la base de données.
+ * @param res - La réponse HTTP envoyée au client.
+ */
+async function getAllValeursByCleBd(req: IReq, res: IRes) {
+    // Récupérer la clé dans l'URL.
+    const cleBd = req.params.cleBd;
+    const valeursDistinctes = await TelephoneIntelligentService.getAllValeursByCleBd(cleBd);
+    return res.status(HttpStatusCodes.OK).json({ valeursDistinctes: valeursDistinctes });
 }
 
 /**
@@ -111,17 +106,36 @@ async function delete_(req: IReq, res: IRes) {
     return res.status(HttpStatusCodes.OK).end();
 }
 
+/**
+ * Récupère tous les noms de compagnies de téléphones intelligents.
+ * @param res - La réponse HTTP envoyée au client.
+ */
+async function getAllCompagnies(_: IReq, res: IRes) {
+    const compagnies = await TelephoneIntelligentService.getAllValeursByCleBd('nomCompagnie');
+    return res.status(HttpStatusCodes.OK).json({ compagnies });
+}
+
+/**
+ * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
+ * @param res - La réponse HTTP envoyée au client.
+ */
+async function getPinnedCompagnies(_: IReq, res: IRes) {
+    const compagniesEpinglees = await TelephoneIntelligentService.getPinnedCompagnies();
+    return res.status(HttpStatusCodes.OK).json({ compagnies: compagniesEpinglees });
+}
+
 // **** Export default **** //
 
 export default {
     getAll,
     getById,
     getDixPlusRecents,
-    getAllCompagnies,
-    getPinnedCompagnies,
+    getAllValeursByCleBd,
     getAllTelephonesIntelligentsFromCompagnie,
     getRecherche,
     add,
     update,
     delete: delete_,
+    getAllCompagnies,
+    getPinnedCompagnies,
 } as const;

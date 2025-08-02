@@ -120,6 +120,12 @@ telephonesIntelligentsRouter.get(
     validate(['nomCompagnie', 'string', 'params']), // Valide le paramètre :nomCompagnie dans l'URL
     TelephoneIntelligentRoutes.getAllTelephonesIntelligentsFromCompagnie
 );
+// Get toutes les valeurs distinctes d'une clé de la base de données
+telephonesIntelligentsRouter.get(
+    Paths.TelephonesIntelligents.GetAllValeursByCleBd,
+    validate(['cleBd', 'string', 'params']), // Valide le paramètre :cleBd dans l'URL
+    TelephoneIntelligentRoutes.getAllValeursByCleBd
+);
 // Get recherche avec filtres
 // telephonesIntelligentsRouter.get(
 //     Paths.TelephonesIntelligents.GetRecherche,

@@ -40,28 +40,22 @@ function getDixPlusRecents(): Promise<ITelephoneIntelligent[]> {
 }
 
 /**
- * Récupère tous les noms de compagnies de téléphones intelligents.
- * @returns {Promise<string[]>} Un tableau contenant les noms de toutes les compagnies de téléphones intelligents.
- */
-function getAllCompagnies(): Promise<string[]> {
-    return TelephoneIntelligentRepo.getAllCompagnies();
-}
-
-/**
- * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
- * @returns {Promise<string[]>} Un tableau contenant les noms des compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
- */
-function getPinnedCompagnies(): Promise<string[]> {
-    return TelephoneIntelligentRepo.getPinnedCompagnies();
-}
-
-/**
  * Récupère tous les téléphones intelligents d'une compagnie.
  * @param nomCompagnie - Le nom de la compagnie pour laquelle on veut récupérer les téléphones intelligents.
  * @returns {Promise<ITelephoneIntelligent[]>} Un tableau contenant tous les téléphones intelligents de la compagnie spécifiée.
  */
 function getAllTelephonesIntelligentsFromCompagnie(nomCompagnie: string): Promise<ITelephoneIntelligent[]> {
     return TelephoneIntelligentRepo.getAllTelephonesIntelligentsFromCompagnie(nomCompagnie);
+}
+
+/**
+ * Récupère toutes les valeurs distinctes de la clé passée en paramètre dans la base de données.
+ * Par exemple, on peut récupérer toutes les valeurs distinctes de la clé "nomCompagnie".
+ * @param {string} cleBd le nom de la clé dans la base de données pour laquelle on veut récupérer les valeurs distinctes.
+ * @returns {Promise<string[]>} Un tableau contenant toutes les valeurs distinctes de la clé.
+ */
+function getAllValeursByCleBd(cleBd: string): Promise<string[]> {
+    return TelephoneIntelligentRepo.getAllValeursByCleBd(cleBd);
 }
 
 /**
@@ -103,13 +97,21 @@ async function _delete(id: string): Promise<void> {
     return TelephoneIntelligentRepo.delete(id);
 }
 
+/**
+ * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
+ * @returns {Promise<string[]>} Un tableau contenant les noms des compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
+ */
+function getPinnedCompagnies(): Promise<string[]> {
+    return TelephoneIntelligentRepo.getPinnedCompagnies();
+}
+
 // **** Export default **** //
 
 export default {
     getAll,
     getById,
     getDixPlusRecents,
-    getAllCompagnies,
+    getAllValeursByCleBd,
     getPinnedCompagnies,
     getAllTelephonesIntelligentsFromCompagnie,
     getRecherche,

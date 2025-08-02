@@ -64,43 +64,6 @@ async function getDixPlusRecents(): Promise<ITelephoneIntelligent[]> {
 }
 
 /**
- * Récupère tous les noms de compagnies de téléphones intelligents depuis la base de données.
- * @returns {Promise<string[]>} Un tableau contenant les noms de toutes les compagnies de téléphones intelligents.
- */
-async function getAllCompagnies(): Promise<string[]> {
-    try {
-        const compagnies = await TelephoneIntelligentModel.distinct('nomCompagnie').sort({ nomCompagnie: 1 });
-        return compagnies;
-    } catch (error) {
-        logger.err('Erreur lors de la récupération des compagnies de téléphones intelligents:', error);
-        throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne est survenue lors de la récupération des compagnies de téléphones intelligents.');
-    }
-}
-
-/**
- * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil depuis la base de données.
- * @returns {Promise<string[]>} Un tableau contenant les noms des compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
- */
-async function getPinnedCompagnies(): Promise<string[]> {
-    try {
-        // Retourne un tableau contenant un objet par compagnie.
-        // On commence par les compagnies épinglées, puis si il y a moins de 6 compagnies épinglées,
-        // on ajoute d'autres compagnies.
-        const compagnies = await TelephoneIntelligentModel.aggregate([
-            { $group: { _id: "$nomCompagnie" } },
-            { $sort: { compagnieEstEpinglee: 1, _id: 1 } }, // _id équivaut à $nomCompagnie de l'étape précédente de l'agrégation.
-            { $limit: 6 },
-            { $project: { _id: 0, nomCompagnie: "$_id" } } // Seulement afficher le champs nomCompagnie dans chaque objet.
-        ]).exec();
-        // On construit un tableau de chaines de caractères avec les propriétés nomCompagnie de chaque objet.
-        return compagnies.map(compagnie => compagnie.nomCompagnie);
-    } catch (error) {
-        logger.err('Erreur lors de la récupération des compagnies épinglées:', error);
-        throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne est survenue lors de la récupération des compagnies épinglées.');
-    }
-}
-
-/**
  * Récupère tous les téléphones intelligents d'une compagnie depuis la base de données.
  * @param nomCompagnie - Le nom de la compagnie pour laquelle on veut récupérer les téléphones intelligents.
  * @returns {Promise<ITelephoneIntelligent[]>} Un tableau contenant tous les téléphones intelligents de la compagnie spécifiée.
@@ -112,6 +75,33 @@ async function getAllTelephonesIntelligentsFromCompagnie(nomCompagnie: string): 
     } catch (error) {
         logger.err(`Erreur lors de la récupération des téléphones intelligents de la compagnie:`, error);
         throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, `Une erreur interne est survenue lors de la récupération des téléphones intelligents de la compagnie.`);
+    }
+}
+
+/**
+ * Récupère toutes les valeurs distinctes de la clé passée en paramètre dans la base de données.
+ * Par exemple, on peut récupérer toutes les valeurs distinctes de la clé "nomCompagnie".
+ * @param {string} cleBd le nom de la clé dans la base de données pour laquelle on veut récupérer les valeurs distinctes.
+ * @returns {Promise<string[]>} Un tableau contenant toutes les valeurs distinctes de la clé.
+ */
+async function getAllValeursByCleBd(cleBd: string): Promise<string[]> {
+    try {
+        // Récupérer les valeurs distinctes de cette clé dans la base de données.
+        const valeursDistinctes = await TelephoneIntelligentModel.distinct(cleBd);
+
+        // Trier les valeurs par ordre alphabétique en respectant les règles de la langue locale.
+        const valeursTriees = valeursDistinctes.sort(
+            // La méthode .sort() accepte une méthode de comparaison personnalisée.
+            // La méthode de comparaison personnalisée compare deux valeurs à la fois.
+            // Les deux valeurs sont comparées avec localeCompare() qui prend en compte
+            // les règles de la langue locale comme les accents.
+            (valeurA, valeurB) => valeurA.localeCompare(valeurB, 'fr-CA')
+        );
+
+        return valeursTriees;
+    } catch (error) {
+        logger.err('Erreur lors de la récupération de toutes les valeurs distinctes de cette clé:', error);
+        throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne est survenue lors de la récupération de toutes les valeurs distinctes de cette clé.');
     }
 }
 
@@ -212,6 +202,29 @@ async function delete_(id: string): Promise<void> {
     }
 }
 
+/**
+ * Récupère les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil depuis la base de données.
+ * @returns {Promise<string[]>} Un tableau contenant les noms des compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
+ */
+async function getPinnedCompagnies(): Promise<string[]> {
+    try {
+        // Retourne un tableau contenant un objet par compagnie.
+        // On commence par les compagnies épinglées, puis si il y a moins de 6 compagnies épinglées,
+        // on ajoute d'autres compagnies.
+        const compagnies = await TelephoneIntelligentModel.aggregate([
+            { $group: { _id: "$nomCompagnie" } },
+            { $sort: { compagnieEstEpinglee: 1, _id: 1 } }, // _id équivaut à $nomCompagnie de l'étape précédente de l'agrégation.
+            { $limit: 6 },
+            { $project: { _id: 0, nomCompagnie: "$_id" } } // Seulement afficher le champs nomCompagnie dans chaque objet.
+        ]).exec();
+        // On construit un tableau de chaines de caractères avec les propriétés nomCompagnie de chaque objet.
+        return compagnies.map(compagnie => compagnie.nomCompagnie);
+    } catch (error) {
+        logger.err('Erreur lors de la récupération des compagnies épinglées:', error);
+        throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne est survenue lors de la récupération des compagnies épinglées.');
+    }
+}
+
 // **** Export default **** //
 
 export default {
@@ -219,7 +232,7 @@ export default {
     getAll,
     getById,
     getDixPlusRecents,
-    getAllCompagnies,
+    getAllValeursByCleBd,
     getPinnedCompagnies,
     getAllTelephonesIntelligentsFromCompagnie,
     getRecherche,

@@ -21,6 +21,9 @@ export default {
         GetDixPlusRecents: '/dix-plus-recents',
         // Route pour obtenir les téléphones intelligents d'une compagnie.
         GetAllFromCompagnie: '/compagnie/:nomCompagnie',
+        // Route pour obtenir toutes les valeurs distinctes d'une clé de la base de données.
+        GetAllValeursByCleBd: '/valeurs-cle-bd/:cleBd',
+        // Route pour obtenir les téléphones intelligents en fonction de filtres de recherche.
         // Route pour rechercher des téléphones intelligents. Les filtres sont dans les paramètres URL.
         // GetRecherche: '/recherche',
         // Route pour créer un téléphone intelligent.
