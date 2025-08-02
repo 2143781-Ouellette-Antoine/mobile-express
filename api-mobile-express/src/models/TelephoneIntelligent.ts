@@ -46,7 +46,7 @@ import mongoose, { Schema, model } from 'mongoose';
 export interface ITelephoneIntelligent {
     nom: string;
     nomCompagnie: string;
-    anneeSortie: number;
+    dateSortie: Date;
     hauteurMm: number;
     largeurMm: number;
     epaisseurMm: number;
@@ -172,7 +172,7 @@ const CapteurCameraSchema = new Schema<ICapteurCamera>({
 const TelephoneIntelligentSchema = new Schema<ITelephoneIntelligent>({
     nom: { type: String, required: [true, 'Le nom du téléphone intelligent est obligatoire'] },
     nomCompagnie: { type: String, required: [true, 'Le nom de la compagnie du téléphone intelligent est obligatoire'] },
-    anneeSortie: { type: Number, required: [true, 'L\'année de sortie est obligatoire'] },
+    dateSortie: { type: Date, required: [true, 'La date de sortie est obligatoire'] },
     hauteurMm: { type: Number, required: [true, 'La hauteur est obligatoire'] },
     largeurMm: { type: Number, required: [true, 'La largeur est obligatoire'] },
     epaisseurMm: { type: Number, required: [true, 'L\'épaisseur est obligatoire'] },

@@ -1,4 +1,4 @@
-import { CircularProgress, Link, Stack, Typography } from '@mui/material'
+import { Box, CircularProgress, Link, Stack, Typography } from '@mui/material'
 import useListeCompagniesEpingleeHook from './HookListeCompagniesEpinglees'
 
 /**
@@ -18,7 +18,9 @@ function ListeCompagniesEpinglees() {
     // avant de les avoir reçues.
     if (isCompagniesEpingleesLoading) {
         return (
-            <CircularProgress />
+            <Box display="flex" justifyContent="center" sx={{ marginY: 2 }}>
+                <CircularProgress />
+            </Box>
         )
     } else {
         // foreach compagnie dans le tableau compagniesEpinglees[],

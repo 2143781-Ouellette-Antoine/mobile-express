@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PageAccueil from './pages/PageAccueil'
+import PageAdministration from './pages/PageAdministration/PageAdministration'
 import PageDetailsUnTelephoneIntelligent from './pages/PageDetailsUnTelephoneIntelligent/PageDetailsUnTelephoneIntelligent'
 import PageInexistante from './pages/PageInexistante'
 import PageRechercheAvancee from './pages/PageRechercheAvancee'
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/telephones-intelligents" element={<PageTousTelephonesIntelligents />} />
                     <Route path="/details-telephone-intelligent/:id" element={<PageDetailsUnTelephoneIntelligent />} />
                     <Route path="/recherche-avancee" element={<PageRechercheAvancee />} />
+                    <Route path="/administration" element={<PageAdministration />} />
                     <Route path="*" element={<PageInexistante />} />
                 </Route>
             </Routes>

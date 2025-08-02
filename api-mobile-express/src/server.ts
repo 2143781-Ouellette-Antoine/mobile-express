@@ -59,6 +59,9 @@ app.use(
     let status = HttpStatusCodes.BAD_REQUEST;
     if (err instanceof RouteError) {
       status = err.status;
+    } else {
+        status = HttpStatusCodes.INTERNAL_SERVER_ERROR;
+        err = new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne du serveur est survenue.');
     }
     return res.status(status).json({ error: err.message });
   }

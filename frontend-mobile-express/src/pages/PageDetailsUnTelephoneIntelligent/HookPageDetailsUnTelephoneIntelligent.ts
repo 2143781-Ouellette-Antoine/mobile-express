@@ -28,11 +28,13 @@ function usePageDetailsUnTelephoneIntelligentHook(id: string) {
      * Récupère les données du téléphone intelligent depuis l'API.
      */
     useEffect(() => {
+        // Activer le chargement.
         setTelephoneIntelligentState({ telephoneIntelligent: undefined, isLoading: true })
 
         axios.get(`http://localhost:3000/api/telephones-intelligents/id/${id}`)
             .then((response) => {
-                setTelephoneIntelligentState({ telephoneIntelligent: response.data.telephoneIntelligent, isLoading: false });
+                // Mettre à jour le téléphone intelligent et arrêter le chargement.
+                setTelephoneIntelligentState({ telephoneIntelligent: response.data.telephoneIntelligent, isLoading: false })
             })
     }, [id])
 

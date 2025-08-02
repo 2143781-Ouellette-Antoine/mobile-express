@@ -78,7 +78,7 @@ function getRecherche(filtresRecherche: any): Promise<ITelephoneIntelligent[]> {
  * @param telephoneIntelligent - L'objet téléphone intelligent à ajouter.
  * @returns {Promise<ITelephoneIntelligent>} Le téléphone intelligent ajouté.
  */
-function addOne(telephoneIntelligent: ITelephoneIntelligent): Promise<ITelephoneIntelligent> {
+async function addOne(telephoneIntelligent: ITelephoneIntelligent): Promise<ITelephoneIntelligent> {
     return TelephoneIntelligentRepo.add(telephoneIntelligent);
 }
 
@@ -88,10 +88,6 @@ function addOne(telephoneIntelligent: ITelephoneIntelligent): Promise<ITelephone
  * @returns {Promise<ITelephoneIntelligent>} Le téléphone intelligent mis à jour.
  */
 async function updateOne(telephoneIntelligent: ITelephoneIntelligent): Promise<ITelephoneIntelligent> {
-    const persists = await TelephoneIntelligentRepo.persists(telephoneIntelligent._id!);
-    if (!persists) {
-        throw new RouteError(HttpStatusCodes.NOT_FOUND, TELEPHONE_INTELLIGENT_NOT_FOUND_ERR);
-    }
     return TelephoneIntelligentRepo.update(telephoneIntelligent);
 }
 

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import jetValidator from 'jet-validator';
+import { Types as MongooseTypes } from 'mongoose';
 import Paths from '../constants/Paths';
 import TelephoneIntelligentRoutes from './TelephoneIntelligentRoutes';
 import TelephoneIntelligentModel from '@src/models/TelephoneIntelligent';
@@ -54,6 +55,48 @@ function validateTelephoneIntelligent(req: Request, res: Response, next: NextFun
     }
 }
 
+/**
+ * Valide la présence d'un id valide dans le corps de la requête.
+ * @param req - La requête HTTP reçue.
+ * @param res - La réponse HTTP envoyée au client.
+ * @param next - Méthode qui permet de passer au middleware suivant.
+ */
+function validateBodyHasId(req: Request, res: Response, next: NextFunction) {
+    // S'il n'y a pas d'id.
+    if (!req.body.telephoneIntelligent._id) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent est requis.' }).end();
+        return;
+    }
+    // Si l'id n'est pas un id MongoDB valide (ObjectId).
+    if (!MongooseTypes.ObjectId.isValid(req.body.telephoneIntelligent._id)) {
+        console.log('***************************passed*********************************.');
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent doit être un ObjectId valide.' }).end();
+        return;
+    }
+    next();
+}
+
+/**
+ * Valide la présence d'un id valide dans l'URL.
+ * @param req - La requête HTTP reçue.
+ * @param res - La réponse HTTP envoyée au client.
+ * @param next - Méthode qui permet de passer au middleware suivant.
+ */
+function validateUrlHasId(req: Request, res: Response, next: NextFunction) {
+    // S'il n'y a pas d'id.
+    if (!req.params.id) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent est requis.' }).end();
+        return;
+    }
+    // Si l'id n'est pas un id MongoDB valide (ObjectId).
+    if (!MongooseTypes.ObjectId.isValid(req.params.id)) {
+        console.log('***************************passed*********************************.');
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent n\'a pas le format d\'un id MongoDB valide (ObjectId).' }).end();
+        return;
+    }
+    next();
+}
+
 /******************************************************************************
                                     Routes
 ******************************************************************************/
@@ -63,7 +106,7 @@ telephonesIntelligentsRouter.get(Paths.TelephonesIntelligents.GetAll, TelephoneI
 // Get by id
 telephonesIntelligentsRouter.get(
     Paths.TelephonesIntelligents.GetById,
-    validate(['id', 'string', 'params']), // Valide le paramètre :id dans l'URL
+    validateUrlHasId,
     TelephoneIntelligentRoutes.getById
 );
 // Get dix plus récents
@@ -92,13 +135,14 @@ telephonesIntelligentsRouter.post(
 // Update
 telephonesIntelligentsRouter.put(
     Paths.TelephonesIntelligents.Put,
+    validateBodyHasId,
     validateTelephoneIntelligent,
     TelephoneIntelligentRoutes.update
 );
 // Delete
 telephonesIntelligentsRouter.delete(
     Paths.TelephonesIntelligents.Delete,
-    validate(['id', 'string', 'params']), // Valide le paramètre :id dans l'URL
+    validateUrlHasId,
     TelephoneIntelligentRoutes.delete
 );
 
