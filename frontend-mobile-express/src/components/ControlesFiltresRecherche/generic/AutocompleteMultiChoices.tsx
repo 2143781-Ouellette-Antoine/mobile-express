@@ -1,20 +1,21 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+import type { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { Autocomplete, Checkbox, TextField } from "@mui/material";
 import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '@mui/icons-material';
 import useHookRecupererValeursParCleBd from "../../../hooks/HookRecupererValeursParCleBd";
 
 /**
  * Props pour le composant React: AutocompleteMultiChoices.
- * @property {string} id L'id HTML du composant.
  * @property {string} label Le texte affiché au-dessus du champ texte.
  * @property {string} placeholder Le texte affiché dans le champ texte lorsqu'il est vide.
  * @property {string} cleBdChoix La clé dans la base de données pour laquelle récupérer les choix.
+ * @property {ControllerRenderProps<FieldValues, string>} fieldProperties Les propriétés passées par la librairie react-hook-form.
  */
 type AutocompleteMultiChoicesProps = {
-    id: string;
     label: string;
     placeholder: string;
     cleBdChoix: string;
+    fieldProperties: ControllerRenderProps<FieldValues, string>;
 }
 
 /**
@@ -38,7 +39,7 @@ const AutocompleteMultiChoices = forwardRef((props: AutocompleteMultiChoicesProp
     /**
      * Valeurs sélectionnées dans la liste déroulante.
      */
-    const [valeursSelectionnees, setValeursSelectionnees] = useState<string[]>([])
+    // const [valeursSelectionnees, setValeursSelectionnees] = useState<string[]>([])
 
     /**
      * Exposer la valeur actuelle de la liste déroulante via la référence (valeursSelectionnees).
@@ -46,16 +47,16 @@ const AutocompleteMultiChoices = forwardRef((props: AutocompleteMultiChoicesProp
      * @param {Function} getValeurs Définition de la méthode pour obtenir la valeur exposée (méthode fléchée).
      * Il faut passer la variable `ref` à la méthode useImperativeHandle.
      */
-    useImperativeHandle(ref, () => ({
-        getValeurs: () => valeursSelectionnees,
-    }))
+    // useImperativeHandle(ref, () => ({
+    //     getValeurs: () => valeursSelectionnees,
+    // }))
 
     return (
         <Autocomplete
-            id={props.id}
+            {...props.fieldProperties} // Passer les propriétés provenant de react-hook-form.
             loading={isListeChoixLoading}
             options={listeChoix || []}
-            value={valeursSelectionnees}
+            value={props.fieldProperties.value ?? []}
             /**
              * Méthode appelée à chaque fois que la sélection change.
              * @param {Object} _event L'événement qui a déclenché la méthode.
@@ -66,7 +67,8 @@ const AutocompleteMultiChoices = forwardRef((props: AutocompleteMultiChoicesProp
                 if (newValue === null) {
                     newValue = [];
                 }
-                setValeursSelectionnees(newValue);
+                // Passer la nouvelle valeur à la méthode onChange founie par react-hook-form.
+                props.fieldProperties.onChange(newValue)
             }}
             // Comment afficher le champ texte
             renderInput={(params) => (

@@ -1,6 +1,6 @@
 import { CircularProgress, Link, Stack, Typography } from '@mui/material'
-import type { TelephoneIntelligent } from "../../../models/TelephoneIntelligent"
-import useHookRecupererTelephonesIntelligentsRecents from '../../../hooks/HookRecupererTelephonesIntelligentsRecents'
+import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
+import useHookRecupererTelephonesIntelligentsRecents from '../../hooks/HookRecupererTelephonesIntelligentsRecents'
 
 /**
  * Liste des 10 téléphones intelligents les plus récemment sortis.

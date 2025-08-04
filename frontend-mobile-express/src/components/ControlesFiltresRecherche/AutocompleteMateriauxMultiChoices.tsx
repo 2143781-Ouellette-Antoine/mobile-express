@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+import type { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { Autocomplete, Checkbox, TextField } from "@mui/material";
 import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon } from '@mui/icons-material';
 import useHookRecupererMateriaux from "../../hooks/HookRecupererMateriaux";
@@ -9,10 +10,11 @@ import useHookRecupererMateriaux from "../../hooks/HookRecupererMateriaux";
  * @property {string} label Le texte affiché au-dessus du champ texte.
  * @property {string} placeholder Le texte affiché dans le champ texte lorsqu'il est vide.
  * @property {string} cleBdChoix La clé dans la base de données pour laquelle récupérer les choix.
+ * @property {ControllerRenderProps<FieldValues, string>} fieldProperties Les propriétés passées par la librairie react-hook-form.
  */
 type AutocompleteMateriauxMultiChoicesProps = {
-    id: string;
     label: string;
+    fieldProperties: ControllerRenderProps<FieldValues, string>;
 }
 
 /**
@@ -50,7 +52,7 @@ const AutocompleteMateriauxMultiChoices = forwardRef((props: AutocompleteMateria
 
     return (
         <Autocomplete
-            id={props.id}
+            {...props.fieldProperties} // Passer les propriétés provenant de react-hook-form.
             loading={isListeChoixLoading}
             options={listeChoix || []}
             value={valeursSelectionnees}

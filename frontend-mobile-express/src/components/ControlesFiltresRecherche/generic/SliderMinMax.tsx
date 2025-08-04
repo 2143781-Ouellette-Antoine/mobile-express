@@ -1,4 +1,5 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef } from "react";
+import type { ControllerRenderProps, FieldValues } from "react-hook-form";
 import { Slider, Stack, Typography } from "@mui/material"
 
 /**
@@ -8,6 +9,7 @@ import { Slider, Stack, Typography } from "@mui/material"
  * @property {number} MAXIMUM La valeur maximale du slider.
  * @property {number} [step] L'incrément de valeur du slider (optionnel).
  * @property {string} ariaLabelValueSuffix Le texte utilisé pour l'accessibilité.
+ * @property {ControllerRenderProps<FieldValues, string>} fieldProperties Les propriétés passées par la librairie react-hook-form.
  */
 type SliderMinMaxProps = {
     label: string
@@ -15,6 +17,7 @@ type SliderMinMaxProps = {
     MAXIMUM: number
     step?: number
     ariaLabelValueSuffix: string
+    fieldProperties: ControllerRenderProps<FieldValues, string>;
 }
 
 /**
@@ -29,23 +32,19 @@ const SliderMinMax = forwardRef((props: SliderMinMaxProps, ref) => {
     /**
      * Tableau contenant la valeur minimale sélectionnée et la valeur maximale sélectionnée.
      */
-    const [selectedRange, setSelectedRange] = useState<number[]>([props.MINIMUM, props.MAXIMUM])
-
-    /**
-     * Exposer la valeur actuelle du slider via la référence (selectedRange).
-     * @param {Object} ref Référence pour exposer les valeurs sélectionnées.
-     * @param {Function} getValeurs Définition de la méthode pour obtenir la valeur exposée (méthode fléchée).
-     * Il faut passer la variable `ref` à la méthode useImperativeHandle.
-     */
-    useImperativeHandle(ref, () => ({
-        getValeurs: () => selectedRange,
-    }))
+    // const [selectedRange, setSelectedRange] = useState<number[]>([props.MINIMUM, props.MAXIMUM])
 
     return (
         <Stack spacing={0}>
             <Typography gutterBottom>{props.label}</Typography>
             <Slider
-                value={selectedRange}
+                {...props.fieldProperties} // Passer les propriétés provenant de react-hook-form.
+                value={
+                    [
+                        props.fieldProperties.value?.min ?? props.MINIMUM,
+                        props.fieldProperties.value?.max ?? props.MAXIMUM
+                    ]
+                }
                 min={props.MINIMUM}
                 max={props.MAXIMUM}
                 // Afficher les valeurs minimales et maximales sur le slider.
@@ -56,12 +55,13 @@ const SliderMinMax = forwardRef((props: SliderMinMaxProps, ref) => {
                 step={props.step ?? 1} // Écart entre les valeurs du slider.
                 onChange={(_event, newValue) => {
                     if (Array.isArray(newValue)) {
-                        setSelectedRange(newValue)
+                        // Passer la nouvelle valeur à la méthode onChange founie par react-hook-form.
+                        props.fieldProperties.onChange({ min: newValue[0], max: newValue[1] })
                     }
                 }}
                 valueLabelDisplay="auto" // Afficher et cacher la valeur actuelle automatiquement.
                 aria-label={props.label}
-                aria-valuetext={`${selectedRange[0]} à ${selectedRange[1]}${props.ariaLabelValueSuffix}`}
+                // aria-valuetext={`${selectedRange[0]} à ${selectedRange[1]}${props.ariaLabelValueSuffix}`}
             />
         </Stack>
     )
