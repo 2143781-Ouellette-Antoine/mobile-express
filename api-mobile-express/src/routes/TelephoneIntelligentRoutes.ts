@@ -124,6 +124,15 @@ async function getPinnedCompagnies(_: IReq, res: IRes) {
     return res.status(HttpStatusCodes.OK).json({ compagnies: compagniesEpinglees });
 }
 
+/**
+ * Récupère tous les matériaux utilisés dans les téléphones intelligents.
+ * @param res - La réponse HTTP envoyée au client.
+ */
+async function getAllMateriaux(_: IReq, res: IRes) {
+    const materiaux = await TelephoneIntelligentService.getAllMateriaux();
+    return res.status(HttpStatusCodes.OK).json({ materiaux });
+}
+
 // **** Export default **** //
 
 export default {
@@ -138,4 +147,5 @@ export default {
     delete: delete_,
     getAllCompagnies,
     getPinnedCompagnies,
+    getAllMateriaux,
 } as const;

@@ -1,12 +1,16 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import type { TelephoneIntelligent } from "../../../models/TelephoneIntelligent"
+import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
 
 /**
- * Variables d'état et méthodes pour le composant React: ListeTelephonesIntelligentsRecents.
+ * Variables d'état et méthodes pour la récupération des téléphones intelligents
+ * les plus récemment sortis dans la base de données.
  * Ceci est un hook React.
+ * @returns {telephonesIntelligentsRecents: TelephoneIntelligent[],
+ * isTelephonesIntelligentsRecentsLoading: boolean} Un objet contenant
+ * les téléphones intelligents récemment sortis et l'état de chargement.
  */
-export default function useListeTelephonesIntelligentsRecentsHook() {
+export default function useHookRecupererTelephonesIntelligentsRecents() {
     /**
      * Tableau des téléphones intelligents récemment sortis.
      */

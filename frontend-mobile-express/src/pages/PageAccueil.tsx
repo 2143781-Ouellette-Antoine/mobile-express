@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
-import ListeCompagniesEpinglees from "../components/PageAccueil/ListeCompagniesEpinglees/ListeCompagniesEpinglees";
+import ListeCompagniesEpinglees from "../components/PageAccueil/ListeCompagniesEpinglees";
 import ListeTelephonesIntelligentsRecents from "../components/PageAccueil/ListeTelephonesIntelligentsRecents/ListeTelephonesIntelligentsRecents";
 
 /**

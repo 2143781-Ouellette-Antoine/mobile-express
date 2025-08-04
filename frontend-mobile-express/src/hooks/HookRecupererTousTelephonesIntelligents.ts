@@ -1,15 +1,17 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
+import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
 
 /**
- * Variables d'état et méthodes pour le composant React: ListeTelephonesIntelligentsUneCompagnie.
+ * Variables d'état et méthodes pour la récupération de tous les téléphones intelligents.
  * Ceci est un hook React.
- * @param {string} nomCompagnie Nom de la compagnie pour laquelle on veut récupérer les téléphones intelligents.
+ * @returns {telephonesIntelligents: TelephoneIntelligent[],
+ * isTelephonesIntelligentsLoading: boolean} Un objet contenant
+ * les téléphones intelligents et l'état de chargement.
  */
-export default function useListeTelephonesIntelligentsUneCompagnieHook(nomCompagnie: string) {
+export default function useHookRecupererTousTelephonesIntelligents() {
     /**
-     * Tableau de tous les téléphones intelligents de la compagnie.
+     * Tableau de tous les téléphones intelligents.
      */
     const [telephonesIntelligents, setTelephonesIntelligents] = useState<TelephoneIntelligent[]>([])
 
@@ -20,11 +22,11 @@ export default function useListeTelephonesIntelligentsUneCompagnieHook(nomCompag
 
     /**
      * Méthode exécutée une fois lors du chargement du composant.
-     * Récupère tous les téléphones intelligents d'une compagnie depuis l'API.
+     * Récupère tous les téléphones intelligents depuis l'API.
      */
     useEffect(() => {
         setIsTelephonesIntelligentsLoading(true)
-        axios.get(`http://localhost:3000/api/telephones-intelligents/compagnie/${nomCompagnie}`).then((response) => {
+        axios.get(`http://localhost:3000/api/telephones-intelligents/all`).then((response) => {
             setTelephonesIntelligents(response.data.telephonesIntelligents)
         })
     }, [])

@@ -225,6 +225,128 @@ async function getPinnedCompagnies(): Promise<string[]> {
     }
 }
 
+/**
+ * Récupère tous les matériaux utilisés dans les téléphones intelligents.
+ * @returns {Promise<string[]>} Un tableau contenant tous les matériaux utilisés dans les téléphones intelligents.
+ * 
+ * Explications détaillées:
+ * [
+ *     { "materiauAvant": "verre", "materiauArriere": "plastique", "materiauCadre": "aluminium" },
+ *     { "materiauAvant": "plastique", "materiauArriere": "verre", "materiauCadre": "aluminium" },
+ *     { "materiauAvant": "verre", "materiauArriere": "verre", "materiauCadre": "plastique" }
+ * ]
+ * 
+ * Étape 1 : $project avec $setUnion
+ * $setUnion veut dire faire une union d'une liste de champs.
+ * Donc, ici, on combine, pour chaque rangée, les valeurs des 3 champs "materiauAvant", "materiauArriere" et "materiauCadre"
+ * dans un tableau.
+ * [
+ *     { "materiaux": ["verre", "plastique", "aluminium"] },
+ *     { "materiaux": ["plastique", "verre", "aluminium"] },
+ *     { "materiaux": ["verre", "plastique"] }
+ * ]
+ * On voit que les doublons ont été éliminés. Dans la troisième rangée, il y a seulement 2 matériaux.
+ * 
+ * Étape 2 : $unwind
+ * $unwind permet de déballer les tableaux selon le nom du champ.
+ * Donc, tous les tableaux associés à un champ nommé "materiaux" sont déballées.
+ * Ce qui fait en sorte que les données sont seules et ne sont plus dans des tableaux.
+ * [
+ *     { "materiaux": "verre" },
+ *     { "materiaux": "plastique" },
+ *     { "materiaux": "aluminium" },
+ *     { "materiaux": "plastique" },
+ *     { "materiaux": "verre" },
+ *     { "materiaux": "aluminium" },
+ *     { "materiaux": "verre" },
+ *     { "materiaux": "plastique" }
+ * ]
+ * Donc, on a mis toutes les données une au-dessus de l'autre.
+ * 
+ * Étape 3 : $group avec $addToSet
+ * Maintenant qu'on a une liste de tous les matériaux, mais qu'il y a des doublons,
+ * on va regrouper toutes les valeurs ensemble (qui ont le nom de champ "materiaux") dans un champ "distinctMateriaux",
+ * mais en utilisant $addToSet pour ajouter seulement les valeurs uniques dans le tableau résultant.
+ * {
+ *     "distinctMateriaux": ["verre", "plastique", "aluminium"]
+ * }
+ * 
+ * Étape 4 : $project
+ * On veut seulement afficher le tableau de matériaux, pas l'id.
+ * MongoDB affiche toujours un id par défaut.
+ * On veut renommer le champ "distinctMateriaux" par "materiaux".
+ * {
+ *     "materiaux": ["verre", "plastique", "aluminium"]
+ * }
+ */
+async function getAllMateriaux(): Promise<string[]> {
+    try {
+        // Récupérer les valeurs distinctes des 3 champs matériaux combinés dans la base de données.
+        const listeObjetsMateriaux = await TelephoneIntelligentModel.aggregate([
+            {
+                $project: {
+                    // Projeter un nouveau champs appelé "materiaux" qui est un tableau des valeurs des 3 champs matériaux combinées.
+                    materiaux: {
+                        /**
+                         * $setUnion permet d'éviter les doublons à l'intérieur de materiauAvant, materiauArriere
+                         * et materiauCadre distinctivement.
+                         *
+                         * Exemple, s'il y a plusieurs valeurs identiques pour le champs materiauAvant,
+                         * $setUnion s'assure qu'elles ne sont ajoutées qu'une seule fois dans le tableau combiné.
+                         * 
+                         * On combine les valeurs des 3 champs matériaux dans un tableau.
+                         * 
+                         * $setUnion s'attend à recevoir un tableau des unions à créer.
+                         * Chaque union est un tableau des champs à combiner.
+                         *
+                         * ($ifNull s'assure que si un champ est null, il est remplacé par un tableau vide pour éviter
+                         * les erreurs. La méthode s'attend à un type de retour qui est un tableau, pas null.)
+                         */
+                        $setUnion: [
+                            // Première union. Je n'ai qu'une union.
+                            // Combiner "materiauAvant", "materiauArriere" et "materiauCadre".
+                            [
+                                { $ifNull: ["$materiauAvant", []] },
+                                { $ifNull: ["$materiauArriere", []] },
+                                { $ifNull: ["$materiauCadre", []] }
+                            ]
+                            // Il y aurait d'autres unions ici, dans ce tableau si j'en avais d'autres.
+                        ]
+                    }
+                }
+            },
+            // Déballer le tableau créé pour faire un document par matériau.
+            { $unwind: "$materiaux" },
+            // Grouper les matériaux.
+            // $addToSet retourne un tableau de toutes les valeurs uniques pour le champ "materiaux".
+            { $group: { _id: null, distinctMateriaux: { $addToSet: "$materiaux" } } },
+            // Enlever le champ _id dans chaque objet Materiau et
+            // renommer le champ "distinctMateriaux" en "valeur".
+            { $project: { _id: 0, valeur: "$distinctMateriaux" } },
+            //
+            { $unwind: "$valeur" }
+        ]);
+
+        // Extraire la valeur dans le champ "valeur" de chaque objet et construire un tableau
+        // de chaînes de caractères.
+        const listeMateriaux = listeObjetsMateriaux.map(objet => objet.valeur);
+
+        // Trier les matériaux par ordre alphabétique en respectant les règles de la langue locale.
+        const materiauxTries = listeMateriaux.sort(
+            // La méthode .sort() accepte une méthode de comparaison personnalisée.
+            // La méthode de comparaison personnalisée compare deux valeurs à la fois.
+            // Les deux valeurs sont comparées avec localeCompare() qui prend en compte
+            // les règles de la langue locale comme les accents.
+            (materiauA, materiauB) => materiauA.localeCompare(materiauB, 'fr-CA')
+        );
+
+        return materiauxTries;
+    } catch (error) {
+        logger.err('Erreur lors de la récupération de tous les matériaux:', error);
+        throw new RouteError(HttpStatusCodes.INTERNAL_SERVER_ERROR, 'Une erreur interne est survenue lors de la récupération de tous les matériaux.');
+    }
+}
+
 // **** Export default **** //
 
 export default {
@@ -233,10 +355,11 @@ export default {
     getById,
     getDixPlusRecents,
     getAllValeursByCleBd,
-    getPinnedCompagnies,
     getAllTelephonesIntelligentsFromCompagnie,
     getRecherche,
     add,
     update,
     delete: delete_,
+    getPinnedCompagnies,
+    getAllMateriaux,
 } as const;

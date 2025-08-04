@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 /**
- * Variables d'état et méthodes pour le composant React: ListeCompagniesEpinglees.
+ * Variables d'état et méthodes pour la récupération des compagnies épinglées dans la base de données.
  * Ceci est un hook React.
  * @returns {compagniesEpinglees: string[], isCompagniesEpingleesLoading: boolean} Un objet contenant
  * les compagnies épinglées et l'état de chargement.
  */
-export default function useListeCompagniesEpingleesHook() {
+export default function useHookRecupererCompagniesEpinglees() {
     /**
      * Une variable d'état contenant la liste des compagnies épinglées
      * et une variable qui indique si les données sont en train d'être récupérées depuis l'API.

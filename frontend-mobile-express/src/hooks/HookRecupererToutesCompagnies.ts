@@ -4,8 +4,10 @@ import { useEffect, useState } from "react"
 /**
  * Variables d'état et méthodes pour le composant React: ListeToutesCompagnies.
  * Ceci est un hook React.
+ * @returns {compagnies: string[], isCompagniesLoading: boolean} Un objet contenant
+ * les compagnies et l'état de chargement.
  */
-export default function useListeToutesCompagniesHook() {
+export default function useHookRecupererToutesCompagnies() {
     /**
      * Tableau de toutes les compagnies.
      */

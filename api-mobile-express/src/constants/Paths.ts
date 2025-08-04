@@ -11,6 +11,11 @@ export default {
         // Route pour obtenir les compagnies de téléphones intelligents qui sont épinglées pour la page d'accueil.
         GetCompagniesEpingleesAccueil: '/epinglees-accueil',
     },
+    Materiaux: {
+        Base: '/materiaux',
+        // Route pour obtenir tous les matériaux.
+        GetAll: '/all',
+    },
     TelephonesIntelligents: {
         Base: '/telephones-intelligents',
         // Route pour obtenir tous les téléphones intelligents.

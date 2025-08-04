@@ -1,6 +1,6 @@
 import { CircularProgress, Link, Stack, Typography } from '@mui/material'
 import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
-import useListeTousTelephonesIntelligentsHook from './HookListeTousTelephonesIntelligents'
+import useHookRecupererTousTelephonesIntelligents from '../../hooks/HookRecupererTousTelephonesIntelligents'
 
 /**
  * Liste de tous les téléphones intelligents.
@@ -16,7 +16,7 @@ function ListeTousTelephonesIntelligents() {
     const {
         telephonesIntelligents,
         isTelephonesIntelligentsLoading
-    } = useListeTousTelephonesIntelligentsHook()
+    } = useHookRecupererTousTelephonesIntelligents()
 
     // Mettre un chargement parce qu'on ne peut pas afficher les téléphones intelligents
     // tant qu'on ne les a pas reçus.

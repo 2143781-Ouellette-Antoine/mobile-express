@@ -17,6 +17,7 @@ const validate = jetValidator();
 
 const apiRouter = Router(); // `/api`
 const compagniesRouter = Router(); // `/api/compagnies`
+const materiauxRouter = Router(); // `/api/materiaux`
 const telephonesIntelligentsRouter = Router(); // `/api/telephones-intelligents`
 
 // **** Functions **** //
@@ -90,7 +91,6 @@ function validateUrlHasId(req: Request, res: Response, next: NextFunction) {
     }
     // Si l'id n'est pas un id MongoDB valide (ObjectId).
     if (!MongooseTypes.ObjectId.isValid(req.params.id)) {
-        console.log('***************************passed*********************************.');
         res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent n\'a pas le format d\'un id MongoDB valide (ObjectId).' }).end();
         return;
     }
@@ -159,13 +159,16 @@ compagniesRouter.get(
     Paths.Compagnies.GetCompagniesEpingleesAccueil,
     TelephoneIntelligentRoutes.getPinnedCompagnies
 );
+// Get all matériaux
+materiauxRouter.get(Paths.Materiaux.GetAll, TelephoneIntelligentRoutes.getAllMateriaux);
 
 /******************************************************************************
                             Appliquer les routeurs
 ******************************************************************************/
 
-// `compagniesRouter`, `pucesRouter`, `certificationsResistanceEauRouter` et `telephonesIntelligentsRouter` sont à l'intérieur de `apiRouter`.
+// `compagniesRouter`, `materiauxRouter` et `telephonesIntelligentsRouter` sont à l'intérieur de `apiRouter`.
 apiRouter.use(Paths.Compagnies.Base, compagniesRouter); // Sa base est `/compagnies`.
+apiRouter.use(Paths.Materiaux.Base, materiauxRouter); // Sa base est `/materiaux`.
 apiRouter.use(Paths.TelephonesIntelligents.Base, telephonesIntelligentsRouter); // Sa base est `/telephones-intelligents`.
 
 // **** Export default **** //

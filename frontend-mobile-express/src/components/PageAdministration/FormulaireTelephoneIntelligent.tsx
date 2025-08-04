@@ -1,6 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField, Typography } from "@mui/material";
-import AutocompleteOneChoice from "../ControlesFiltresRecherche/AutocompleteOneChoice";
-import useListeToutesCompagniesHook from "../PageToutesCompagnies/HookListeToutesCompagnies";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import AutocompleteOneChoice from "../ControlesFiltresRecherche/generic/AutocompleteOneChoice";
+import AutocompleteMateriauxOneChoice from "../ControlesFiltresRecherche/AutocompleteMateriauxOneChoice";
 import React, { useState } from "react";
 
 /**
@@ -21,14 +22,6 @@ interface FormulaireTelephoneIntelligentProps {
  * @returns Un composant React pour une fenêtre contextuelle de formulaire pour un téléphone intelligent.
  */
 function FormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentProps) {
-    /**
-     * Liste de toutes les compagnies de téléphones intelligents.
-     * @property {Array} compagnies Liste de toutes les compagnies.
-     * @property {boolean} isCompagniesLoading Indique si les données des compagnies
-     * sont en train d'être récupérées depuis l'API.
-     */
-    const { compagnies, isCompagniesLoading } = useListeToutesCompagniesHook()
-
     /**
      * 
      * @param event 
@@ -85,11 +78,10 @@ function FormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentPro
                     <Stack gap={2} sx={{ m: 2 }}>
                         {/* Nom de la compagnie du téléphone intelligent (texte) */}
                         <AutocompleteOneChoice
+                            id={"compagnieTelephoneIntelligent"}
                             label={"Compagnie"}
                             placeholder={"Sélectionnez ou entrez une compagnie"}
-                            listeChoix={compagnies}
-                            isDonneesChoixLoading={isCompagniesLoading}
-                            id={"compagnieTelephoneIntelligent"}
+                            cleBdChoix={"nomCompagnie"}
                         />
 
                         {/* Nom du téléphone intelligent (texte) */}
@@ -150,50 +142,39 @@ function FormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentPro
                         <Typography variant="h5">Matériaux</Typography>
 
                         {/* Matériau avant (texte) */}
-                        <AutocompleteOneChoice
-                            label={"Matériau avant"}
-                            placeholder={"Sélectionnez ou entrez un matériau"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
+                        <AutocompleteMateriauxOneChoice
                             id={"materiauAvantTelephoneIntelligent"}
+                            label={"Matériau avant"}
                         />
 
                         {/* Matériau arrière (texte) */}
-                        <AutocompleteOneChoice
-                            label={"Matériau arrière"}
-                            placeholder={"Sélectionnez ou entrez un matériau"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
+                        <AutocompleteMateriauxOneChoice
                             id={"materiauArriereTelephoneIntelligent"}
+                            label={"Matériau arrière"}
                         />
 
                         {/* Matériau cadre (texte) */}
-                        <AutocompleteOneChoice
-                            label={"Matériau cadre"}
-                            placeholder={"Sélectionnez ou entrez un matériau"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
+                        <AutocompleteMateriauxOneChoice
                             id={"materiauCadreTelephoneIntelligent"}
+                            label={"Matériau cadre"}
                         />
 
                         {/* Résistance à l'eau (texte) */}
                         <AutocompleteOneChoice
+                            id={"resistanceEauTelephoneIntelligent"}
                             label={"Résistance à l'eau"}
                             placeholder={"Sélectionnez ou entrez une certification"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id={"resistanceEauTelephoneIntelligent"}
+                            cleBdChoix={"resistanceEau"}
                         />
 
                         <Typography variant="h5">Écran</Typography>
 
                         {/* Technologie de l'écran (texte) */}
                         <AutocompleteOneChoice
+                            id={"technologieEcranTelephoneIntelligent"}
                             label={"Technologie de l'écran"}
                             placeholder={"Sélectionnez ou entrez une technologie"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id={"technologieEcranTelephoneIntelligent"}
+                            cleBdChoix={"technologieEcran"}
                         />
 
                         {/* Taille de l'écran (nombre) */}
@@ -240,11 +221,10 @@ function FormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentPro
 
                         {/* Nom de la puce (texte) */}
                         <AutocompleteOneChoice
+                            id="nomPuceTelephoneIntelligent"
                             label="Nom de la puce"
                             placeholder="Sélectionnez ou entrez un nom de puce"
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="nomPuceTelephoneIntelligent"
+                            cleBdChoix={"nomPuce"}
                         />
 
                         {/* Vitesse du processeur (nombre) */}
@@ -277,32 +257,32 @@ function FormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentPro
                                     onChange={e => handleChangeConfig(index, 'stockage', e.target.value)}
                                     sx={{ flex: 1 }}
                                 />
-                                <Button
+                                <IconButton
                                     onClick={() => handleRemoveConfig(index)}
                                     disabled={configurationsMemoireStockage.length === 1}
                                 >
-                                    -
-                                </Button>
-                                <Button onClick={handleAddConfig}>+</Button>
+                                    <DeleteIcon />
+                                </IconButton>
+                                <IconButton onClick={handleAddConfig}>
+                                    <AddIcon />
+                                </IconButton>
                             </Stack>
                         ))}
 
                         {/* Technologie stockage (texte) */}
                         <AutocompleteOneChoice
+                            id="technologieStockageTelephoneIntelligent"
                             label="Technologie de stockage"
                             placeholder="Sélectionnez ou entrez une technologie de stockage"
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="technologieStockageTelephoneIntelligent"
+                            cleBdChoix={"technologieStockage"}
                         />
 
                         {/* Système d'exploitation (texte) */}
                         <AutocompleteOneChoice
+                            id="systemeExploitationTelephoneIntelligent"
                             label="Système d'exploitation"
                             placeholder="Sélectionnez ou entrez un système d'exploitation"
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="systemeExploitationTelephoneIntelligent"
+                            cleBdChoix={"systemeExploitation"}
                         />
 
                         {/* Version max du système d'exploitation (nombre) */}

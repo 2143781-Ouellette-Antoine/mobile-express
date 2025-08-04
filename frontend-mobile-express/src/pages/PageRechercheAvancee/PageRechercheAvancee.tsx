@@ -1,7 +1,8 @@
 import { Box, Checkbox, FormControlLabel, Stack, TextField, Typography } from "@mui/material"
-import AutocompleteMultiChoices from "../components/ControlesFiltresRecherche/AutocompleteMultiChoices";
-import SliderMinMax from "../components/ControlesFiltresRecherche/SliderMinMax";
-import useListeToutesCompagniesHook from "../components/PageToutesCompagnies/HookListeToutesCompagnies";
+import AutocompleteMultiChoices from "../../components/ControlesFiltresRecherche/generic/AutocompleteMultiChoices";
+import SliderMinMax from "../../components/ControlesFiltresRecherche/generic/SliderMinMax";
+import useHookPageRechercheAvancee from "./HookPageRechercheAvancee";
+import AutocompleteMateriauxMultiChoices from "../../components/ControlesFiltresRecherche/AutocompleteMateriauxMultiChoices";
 
 /**
  * Page de recherche avancée pour les téléphones intelligents.
@@ -9,12 +10,9 @@ import useListeToutesCompagniesHook from "../components/PageToutesCompagnies/Hoo
  */
 function PageRechercheAvancee() {
     /**
-     * Liste de toutes les compagnies de téléphones intelligents.
-     * @property {Array} compagnies Liste de toutes les compagnies.
-     * @property {boolean} isCompagniesLoading Indique si les données des compagnies
-     * sont en train d'être récupérées depuis l'API.
+     * Récupération des variables d'état et des méthodes de la page de recherche avancée.
      */
-    const { compagnies, isCompagniesLoading } = useListeToutesCompagniesHook()
+    const { onSubmit } = useHookPageRechercheAvancee()
 
     return (
         <Box
@@ -45,11 +43,10 @@ function PageRechercheAvancee() {
                         <Stack direction="column" spacing={2} width="50%">
                             {/* Compagnie (multi-sélection) */}
                             <AutocompleteMultiChoices
+                                id="choice-compagnie"
                                 label={"Compagnie"}
                                 placeholder={"Sélectionnez une ou plusieurs compagnies"}
-                                listeChoix={compagnies}
-                                isDonneesChoixLoading={isCompagniesLoading}
-                                id="choice-compagnie"
+                                cleBdChoix={"nomCompagnie"}
                             />
 
                             {/* Année de sortie (min max) */}
@@ -120,32 +117,23 @@ function PageRechercheAvancee() {
                     <Stack direction="row" spacing={3}>
                         <Stack direction="column" spacing={2} width="50%">
                             {/* Matériau avant (multi-sélection) */}
-                            <AutocompleteMultiChoices
-                                label={"Matériau avant"}
-                                placeholder={"Sélectionnez un ou plusieurs matériaux"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
+                            <AutocompleteMateriauxMultiChoices
                                 id="choice-materiauxAvant"
+                                label={"Matériau avant"}
                             />
 
                             {/* Matériau arrière (multi-sélection) */}
-                            <AutocompleteMultiChoices
-                                label={"Matériau arrière"}
-                                placeholder={"Sélectionnez un ou plusieurs matériaux"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
+                            <AutocompleteMateriauxMultiChoices
                                 id="choice-materiauxArriere"
+                                label={"Matériau arrière"}
                             />
                         </Stack>
 
                         <Box width="50%">
                             {/* Matériau cadre (multi-sélection) */}
-                            <AutocompleteMultiChoices
-                                label={"Matériau cadre"}
-                                placeholder={"Sélectionnez un ou plusieurs matériaux"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
+                            <AutocompleteMateriauxMultiChoices
                                 id="choice-materiauxCadre"
+                                label={"Matériau cadre"}
                             />
                         </Box>
                     </Stack>
@@ -153,11 +141,10 @@ function PageRechercheAvancee() {
                     <Box sx={{ paddingTop: 2 }}>
                         {/* Résistance à l'eau et à la poussière (multi-sélection) */}
                         <AutocompleteMultiChoices
+                            id="choice-resistanceEau"
                             label={"Résistance à l'eau et à la poussière"}
                             placeholder={"Sélectionnez une ou plusieurs certifications"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="choice-resistanceEau"
+                            cleBdChoix={"resistanceEau"}
                         />
                     </Box>
                 </Stack>
@@ -169,11 +156,10 @@ function PageRechercheAvancee() {
                         <Stack direction="column" spacing={3} width="50%">
                             {/* Technologie écran (multi-sélection) */}
                             <AutocompleteMultiChoices
+                                id="choice-technologieEcran"
                                 label={"Technologie écran"}
                                 placeholder={"Sélectionnez une ou plusieurs technologies"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-technologieEcran"
+                                cleBdChoix={"technologieEcran"}
                             />
 
                             {/* Taille écran (min max) */}
@@ -219,11 +205,10 @@ function PageRechercheAvancee() {
                         <Box width="50%">
                             {/* Puce (multi-sélection) */}
                             <AutocompleteMultiChoices
+                                id="choice-puce"
                                 label={"Nom de la puce"}
                                 placeholder={"Sélectionnez une ou plusieurs puces"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-puce"
+                                cleBdChoix={"nomPuce"}
                             />
                         </Box>
 
@@ -255,11 +240,10 @@ function PageRechercheAvancee() {
 
                             {/* Technologie du stockage (texte) */}
                             <AutocompleteMultiChoices
+                                id="choice-technologie-stockage"
                                 label={"Technologie du stockage"}
                                 placeholder={"Sélectionnez une ou plusieurs technologies"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-technologie-stockage"
+                                cleBdChoix={"technologieStockage"}
                             />
                         </Stack>
 
@@ -282,11 +266,10 @@ function PageRechercheAvancee() {
                         <Box width="50%">
                             {/* Système d'exploitation (multi-sélection) */}
                             <AutocompleteMultiChoices
+                                id="choice-systeme-exploitation"
                                 label={"Système d'exploitation"}
                                 placeholder={"Sélectionnez un ou plusieurs systèmes d'exploitation"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-systeme-exploitation"
+                                cleBdChoix={"systemeExploitation"}
                             />
                         </Box>
 
@@ -308,13 +291,11 @@ function PageRechercheAvancee() {
                     <Stack direction="row" spacing={3}>
                         <Stack direction="column" spacing={2} width="50%">
                             {/* Possède type de caméra (texte) */}
-                            <AutocompleteMultiChoices
+                            {/* <AutocompleteMultiChoices
+                                id="choice-type-camera"
                                 label={"Type de caméra"}
                                 placeholder={"Sélectionnez un ou plusieurs types de caméra"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-type-camera"
-                            />
+                            /> */}
 
                             {/* Possède stabilisation optique de l'image (booléen) */}
                             <FormControlLabel
@@ -341,11 +322,10 @@ function PageRechercheAvancee() {
                         <Box width="50%">
                             {/* Port (texte) */}
                             <AutocompleteMultiChoices
+                                id="choice-port"
                                 label={"Port"}
                                 placeholder={"Sélectionnez un ou plusieurs ports"}
-                                listeChoix={["À venir..."]}
-                                isDonneesChoixLoading={false}
-                                id="choice-port"
+                                cleBdChoix={"modelePortUsb"}
                             />
                         </Box>
 
@@ -379,11 +359,10 @@ function PageRechercheAvancee() {
                     <Box width="50%">
                         {/* Type d'authentification (texte) */}
                         <AutocompleteMultiChoices
+                            id="choice-authentification"
                             label={"Type d'authentification"}
                             placeholder={"Sélectionnez un ou plusieurs types d'authentification"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="choice-authentification"
+                            cleBdChoix={"typeAuthentification"}
                         />
                     </Box>
                 </Stack>
@@ -420,13 +399,12 @@ function PageRechercheAvancee() {
 
                     <Box width="50%">
                         {/* Réseau mobile (multi-sélection) */}
-                        <AutocompleteMultiChoices
+                        {/* <AutocompleteMultiChoices
+                            id="choice-reseau-mobile"
                             label={"Réseau mobile"}
                             placeholder={"Sélectionnez un ou plusieurs réseaux mobiles"}
-                            listeChoix={["À venir..."]}
-                            isDonneesChoixLoading={false}
-                            id="choice-reseau-mobile"
-                        />
+                            cleBdChoix={"generationReseauMobile"}
+                        /> */}
                     </Box>
                 </Stack>
             </Stack>

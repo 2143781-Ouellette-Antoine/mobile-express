@@ -1,5 +1,5 @@
 import { CircularProgress, Link, Stack, Typography } from '@mui/material'
-import useListeToutesCompagniesHook from './HookListeToutesCompagnies'
+import useHookRecupererToutesCompagnies from '../../hooks/HookRecupererToutesCompagnies'
 
 /**
  * Liste de toutes les compagnies.
@@ -12,7 +12,7 @@ function ListeToutesCompagnies() {
      * @property {Compagnie[]} compagnies Liste de toutes les compagnies.
      * @property {boolean} isCompagniesLoading Indique si les compagnies sont en train d'être récupérées depuis l'API.
      */
-    const { compagnies, isCompagniesLoading } = useListeToutesCompagniesHook()
+    const { compagnies, isCompagniesLoading } = useHookRecupererToutesCompagnies()
 
     // Mettre un chargement parce qu'on ne peut pas afficher les compagnies
     // avant de les avoir reçues.

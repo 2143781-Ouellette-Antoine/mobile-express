@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
-import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
+import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
 
 /**
- * Variables d'état et méthodes pour le composant React: PageDetailsUnTelephoneIntelligent.
+ * Variables d'état et méthodes pour la récupération des détails d'un téléphone intelligent.
  * Ceci est un hook React.
  * @param id L'id dans la base de données du téléphone intelligent.
- * @returns Un objet contenant les détails du téléphone intelligent et l'état de chargement.
+ * @returns {telephoneIntelligent: TelephoneIntelligent | undefined,
+ * isTelephoneIntelligentLoading: boolean} Un objet contenant les détails du téléphone
+ * intelligent et l'état de chargement.
  */
-function usePageDetailsUnTelephoneIntelligentHook(id: string) {
+function useHookRecupererUnTelephoneIntelligent(id: string) {
     /**
      * Une variable d'état contenant le TelephoneIntelligent à afficher
      * et une variable qui indique si les données sont en train d'être récupérées depuis l'API.
@@ -46,4 +48,4 @@ function usePageDetailsUnTelephoneIntelligentHook(id: string) {
     }
 }
 
-export default usePageDetailsUnTelephoneIntelligentHook
+export default useHookRecupererUnTelephoneIntelligent

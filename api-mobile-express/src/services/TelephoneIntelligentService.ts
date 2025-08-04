@@ -105,6 +105,14 @@ function getPinnedCompagnies(): Promise<string[]> {
     return TelephoneIntelligentRepo.getPinnedCompagnies();
 }
 
+/**
+ * Récupère tous les matériaux utilisés dans les téléphones intelligents.
+ * @returns {Promise<string[]>} Un tableau contenant tous les matériaux utilisés dans les téléphones intelligents.
+ */
+function getAllMateriaux(): Promise<string[]> {
+    return TelephoneIntelligentRepo.getAllMateriaux();
+}
+
 // **** Export default **** //
 
 export default {
@@ -112,10 +120,11 @@ export default {
     getById,
     getDixPlusRecents,
     getAllValeursByCleBd,
-    getPinnedCompagnies,
     getAllTelephonesIntelligentsFromCompagnie,
     getRecherche,
     addOne,
     updateOne,
     delete: _delete,
+    getPinnedCompagnies,
+    getAllMateriaux,
 } as const;

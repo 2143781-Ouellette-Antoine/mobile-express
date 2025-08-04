@@ -1,7 +1,7 @@
 import { Fragment } from "react"
 import { useParams } from "react-router-dom"
 import { Box, Card, CardContent, CircularProgress, Stack, Typography } from "@mui/material"
-import usePageDetailsUnTelephoneIntelligentHook from "./HookPageDetailsUnTelephoneIntelligent"
+import useHookRecupererUnTelephoneIntelligent from "../../hooks/HookRecupererUnTelephoneIntelligent"
 import CelluleTableauOuiNon from "../../components/PageDetailsUnTelephoneIntelligent/CelluleTableauOuiNon"
 import "./PageDetailsUnTelephoneIntelligent.css"
 
@@ -22,7 +22,7 @@ function PageDetailsUnTelephoneIntelligent() {
     const {
         telephoneIntelligent,
         isTelephoneIntelligentLoading
-    } = usePageDetailsUnTelephoneIntelligentHook(id!)
+    } = useHookRecupererUnTelephoneIntelligent(id!)
     
     // Mettre un chargement parce qu'on ne peut pas afficher les données du téléphone intelligent
     // avant de les avoir reçues.

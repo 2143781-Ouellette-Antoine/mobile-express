@@ -1,6 +1,6 @@
 import { CircularProgress, Link, Stack, Typography } from '@mui/material'
 import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
-import useListeTelephonesIntelligentsUneCompagnieHook from './HookListeTelephonesIntelligentsUneCompagnie'
+import useHookRecupererTelephonesIntelligentsUneCompagnie from '../../hooks/HookRecupererTelephonesIntelligentsUneCompagnie'
 
 /**
  * Props pour le composant React: ListeTelephonesIntelligentsUneCompagnie.
@@ -25,7 +25,7 @@ function ListeTelephonesIntelligentsUneCompagnie(props: ListeTelephonesIntellige
     const {
         telephonesIntelligents,
         isTelephonesIntelligentsLoading
-    } = useListeTelephonesIntelligentsUneCompagnieHook(props.nomCompagnie!)
+    } = useHookRecupererTelephonesIntelligentsUneCompagnie(props.nomCompagnie!)
 
     // Mettre un chargement parce qu'on ne peut pas afficher les téléphones intelligents
     // tant qu'on ne les a pas reçus.

@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Link, Stack, Typography } from '@mui/material'
-import useListeCompagniesEpingleeHook from './HookListeCompagniesEpinglees'
+import useListeCompagniesEpingleeHook from '../../hooks/HookRecupererCompagniesEpinglees'
 
 /**
  * Liste des compagnies épinglées sur la page d'accueil.
