@@ -1,5 +1,9 @@
-import { AppBar, Container, Link, Stack, Toolbar, Typography } from '@mui/material'
-import { Smartphone as SmartphoneIcon } from '@mui/icons-material'
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { AppBar, Button, Container, Link, Skeleton, Stack, Toolbar, Typography } from '@mui/material'
+import { Logout as LogoutIcon, Smartphone as SmartphoneIcon } from '@mui/icons-material'
+import { useIsAuthLoadedContext } from '../contexts/ContextIsAuthLoaded';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
 /**
  * La barre de navigation en haut du site web.
@@ -7,6 +11,25 @@ import { Smartphone as SmartphoneIcon } from '@mui/icons-material'
  * @returns Un composant React pour la barre de navigation en haut du site web.
  */
 function TopAppBar() {
+    // Variables état de l'utilisateur
+    const { isAuthLoaded, setIsAuthLoaded } = useIsAuthLoadedContext();
+    const [user] = useAuthState(auth);
+
+    /**
+     * Déconnecte l'administrateur.
+     */
+    const handleLogout = () => {
+        // Début du chargement
+        setIsAuthLoaded(false);
+
+        signOut(auth).then(() => {
+            // Fin du chargement
+            setIsAuthLoaded(true);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -55,6 +78,28 @@ function TopAppBar() {
                                 Compagnies
                             </Link>
                         </Stack>
+
+                        {/* Bouton "Se déconnecter" seulement visible quand l'administrateur est connecté. */}
+                        {
+                            (user) && (
+                                (!isAuthLoaded) ? (
+                                    <Skeleton variant='text' animation={'wave'}>
+                                        <Typography variant='body1'>Se déconnecter</Typography>
+                                    </Skeleton>
+                                ) : (
+                                        <Button
+                                            onClick={() => {
+                                                handleLogout();
+                                            }}
+                                            variant="contained"
+                                            color="secondary"
+                                            startIcon={<LogoutIcon />}
+                                        >
+                                            Se déconnecter
+                                        </Button>
+                                )
+                            )
+                        }
                     </Stack>
                 </Toolbar>
             </Container>

@@ -5,16 +5,19 @@ import useHookRecupererMateriaux from "../../hooks/HookRecupererMateriaux";
 /**
  * Props pour le composant React: AutocompleteMateriauxOneChoice.
  * @property {string} id L'id HTML du composant.
+ * @property {string} name Le nom du champ.
  * @property {string} label Le texte affiché au-dessus du champ texte.
  */
 type AutocompleteMateriauxOneChoiceProps = {
     id: string;
+    name: string;
     label: string;
 }
 
 /**
  * Liste déroulante à une sélection avec champs texte d'autocomplétion pour les matériaux.
  * @prop {string} id L'id HTML du composant.
+ * @prop {string} name Le nom du champ.
  * @prop {string} label Le texte affiché au-dessus du champ texte.
  * @returns Un composant React qui affiche un champ texte d'autocomplétion avec une liste déroulante pour les matériaux.
  * forwardRef() Permet au composant d'exposer un noeud DOM au composant parent à l'aide d'une référence.
@@ -63,7 +66,12 @@ const AutocompleteMateriauxOneChoice = forwardRef((props: AutocompleteMateriauxO
             }}
             // Comment afficher le champ texte
             renderInput={(params) => (
-                <TextField {...params} label={props.label} placeholder="Sélectionnez ou entrez un matériau" />
+                <TextField
+                    {...params}
+                    name={props.name}
+                    label={props.label}
+                    placeholder="Sélectionnez ou entrez un matériau"
+                />
             )}
             freeSolo // Permet à l'utilisateur de saisir un texte qui n'est pas dans la liste des choix.
             autoHighlight

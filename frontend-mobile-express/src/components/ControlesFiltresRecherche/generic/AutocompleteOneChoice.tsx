@@ -5,12 +5,14 @@ import useHookRecupererValeursParCleBd from "../../../hooks/HookRecupererValeurs
 /**
  * Props pour le composant React: AutocompleteOneChoice.
  * @property {string} id L'id HTML du composant.
+ * @property {string} name Le nom du champ.
  * @property {string} label Le texte affiché au-dessus du champ texte.
  * @property {string} placeholder Le texte affiché dans le champ texte lorsqu'il est vide.
  * @property {string} cleBdChoix La clé dans la base de données pour laquelle récupérer les choix.
  */
 type AutocompleteOneChoiceProps = {
     id: string;
+    name: string;
     label: string;
     placeholder: string;
     cleBdChoix: string;
@@ -19,6 +21,7 @@ type AutocompleteOneChoiceProps = {
 /**
  * Liste déroulante à une sélection avec champs texte d'autocomplétion.
  * @prop {string} id L'id HTML du composant.
+ * @prop {string} name Le nom du champ.
  * @prop {string} label Le texte affiché au-dessus du champ texte.
  * @prop {string} placeholder Le texte affiché dans le champ texte lorsqu'il est vide.
  * @returns Un composant React qui affiche un champ texte d'autocomplétion avec une liste déroulante.
@@ -68,7 +71,12 @@ const AutocompleteOneChoice = forwardRef((props: AutocompleteOneChoiceProps, ref
             }}
             // Comment afficher le champ texte
             renderInput={(params) => (
-                <TextField {...params} label={props.label} placeholder={props.placeholder} />
+                <TextField
+                    {...params}
+                    name={props.name}
+                    label={props.label}
+                    placeholder={props.placeholder}
+                />
             )}
             freeSolo // Permet à l'utilisateur de saisir un texte qui n'est pas dans la liste des choix.
             autoHighlight

@@ -1,8 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { Add as AddIcon } from '@mui/icons-material';
-import FormulaireTelephoneIntelligent from "../../components/PageAdministration/FormulaireTelephoneIntelligent";
+import FormulaireTelephoneIntelligent from "../../components/PageAdministration/FormulaireTelephoneIntelligent/FormulaireTelephoneIntelligent";
+import TemporarySnackbar from "../../components/TemporarySnackbar";
 import usePageAdministrationHook from "./HookPageAdministration";
-import FenetreConfirmationSuppression from "../../components/PageAdministration/FenetreConfirmationSuppression";
+import ListeModifierSupprimer from "../../components/PageAdministration/ListeModifierSupprimer/ListeModifierSupprimer";
 
 /**
  * Page d'administration pour l'administrateur.
@@ -16,10 +17,10 @@ function PageAdministration() {
     const {
         isFormulaireCreationOuvert,
         setIsFormulaireCreationOuvert,
-        isFormulaireModificationOuvert,
-        setIsFormulaireModificationOuvert,
-        isFenetreConfirmationSuppressionOuverte,
-        setIsFenetreConfirmationSuppressionOuverte,
+        isSnackbarOpen,
+        setIsSnackbarOpen,
+        snackbarMessage,
+        snackbarMessageType
     } = usePageAdministrationHook()
 
     return (
@@ -35,31 +36,26 @@ function PageAdministration() {
                     Créer
                 </Button>
 
-                {/* Liste de tous les téléphones intelligents*/}
-                
+                {/* Liste de tous les téléphones intelligents avec des options de modification et de suppression */}
+                <ListeModifierSupprimer />
 
                 {/* Fenêtre contextuelle pour le formulaire de création d'un téléphone intelligent */}
                 <FormulaireTelephoneIntelligent
+                    isModifier={false}
                     isFormulaireOuvert={isFormulaireCreationOuvert}
                     setIsFormulaireOuvert={setIsFormulaireCreationOuvert}
                     titreFormulaire={"Créer un téléphone intelligent"}
                     texteBoutonSoumettre={"Créer"}
                 />
-
-                {/* Fenêtre contextuelle pour le formulaire de modification d'un téléphone intelligent */}
-                <FormulaireTelephoneIntelligent
-                    isFormulaireOuvert={isFormulaireModificationOuvert}
-                    setIsFormulaireOuvert={setIsFormulaireModificationOuvert}
-                    titreFormulaire={"Modifier un téléphone intelligent"}
-                    texteBoutonSoumettre={"Modifier"}
-                />
-
-                {/* Fenêtre contextuelle de confirmation de suppression */}
-                <FenetreConfirmationSuppression
-                    isOuvert={isFenetreConfirmationSuppressionOuverte}
-                    setIsOuvert={setIsFenetreConfirmationSuppressionOuverte}
-                />
             </Stack>
+
+            {/* Snackbar caché par défaut qui affiche les messages */}
+            <TemporarySnackbar
+                parentIsSnackbarOpen={isSnackbarOpen} // Partager à l'enfant la valeur de la variable d'état pour qu'il sache si le snackbar doit être affiché.
+                parentSetIsSnackbarOpen={setIsSnackbarOpen} // Passer une référence de la méthode de changement de la variable d'état pour que l'enfant puisse la déclencher.
+                message={snackbarMessage} // Passer un message à afficher dans le snackbar.
+                snackbarMessageType={snackbarMessageType} // Passer le type de message pour changer la couleur du snackbar.
+            />
         </Box>
     )
 }

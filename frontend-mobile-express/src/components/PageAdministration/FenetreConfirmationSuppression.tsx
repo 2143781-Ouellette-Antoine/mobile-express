@@ -1,23 +1,25 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material"
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 
 /**
  * Props pour le composant React: FenetreConfirmationSuppression.
  * @property {boolean} isOuvert Indique si la fenêtre de confirmation est ouverte.
- * @property {function} setIsOuvert Fonction pour fermer la fenêtre de confirmation.
+ * @property {function} onClose Fonction pour fermer la fenêtre de confirmation.
+ * @property {function} onConfirm Fonction à exécuter lors de la confirmation.
  */
 interface FenetreConfirmationSuppressionProps {
     isOuvert: boolean;
-    setIsOuvert: (isOpen: boolean) => void;
+    onClose: () => void;
+    onConfirm: () => void;
 }
 
 /**
- * Fenêtre contextuelle de confirmation de suppression.
+ * Fenêtre contextuelle de confirmation générique.
  */
-function FenetreConfirmationSuppression(props: FenetreConfirmationSuppressionProps) {
+function FenetreConfirmationSuppression({ isOuvert, onClose, onConfirm }: FenetreConfirmationSuppressionProps) {
     return (
         <Dialog
-            open={props.isOuvert}
-            onClose={() => props.setIsOuvert(false)}
+            open={isOuvert}
+            onClose={onClose}
         >
             <DialogTitle>Confirmation de suppression</DialogTitle>
 
@@ -28,9 +30,11 @@ function FenetreConfirmationSuppression(props: FenetreConfirmationSuppressionPro
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={() => props.setIsOuvert(false)}>Annuler</Button>
+                <Button onClick={onClose}>Annuler</Button>
                 <Button
-                    onClick={() => alert("Non implémenté")}
+                    color="error"
+                    variant="contained"
+                    onClick={onConfirm}
                 >
                     Supprimer
                 </Button>
