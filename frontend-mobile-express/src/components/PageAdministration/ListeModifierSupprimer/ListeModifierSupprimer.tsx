@@ -6,6 +6,7 @@ import type { TelephoneIntelligent } from "../../../models/TelephoneIntelligent"
 import useHookRecupererTousTelephonesIntelligents from "../../../hooks/HookRecupererTousTelephonesIntelligents";
 import FenetreConfirmationSuppression from "../FenetreConfirmationSuppression";
 import FormulaireTelephoneIntelligent from "../FormulaireTelephoneIntelligent/FormulaireTelephoneIntelligent";
+import { getToken } from "../../../firebase";
 
 /**
  * Liste de tous les téléphones intelligents avec des options de modification et de suppression
@@ -37,7 +38,15 @@ function ListeModifierSupprimer() {
      */
     const supprimerTelephoneIntelligent = async (id: string) => {
         try {
-            await axios.delete(`http://localhost:3000/api/telephones-intelligents/id/${id}`);
+            const token = await getToken();
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
+            
+            await axios.delete(
+                `http://localhost:3000/api/telephones-intelligents/id/${id}`,
+                config
+            );
             setIdASupprimer(null);
             fetchTelephonesIntelligents(); // Actualiser la liste après suppression
         } catch (error) {

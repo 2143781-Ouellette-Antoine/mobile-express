@@ -1,7 +1,9 @@
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import TelephoneIntelligentService from '@src/services/TelephoneIntelligentService';
 import { ITelephoneIntelligent } from '@src/models/TelephoneIntelligent';
+import { DictionnaireFiltreRequete } from "../models/FiltresRecherche";
 import { IReq, IRes } from './types/express/misc';
+import { Request, Response } from 'express';
 
 // **** Functions **** //
 
@@ -65,12 +67,84 @@ async function getAllValeursByCleBd(req: IReq, res: IRes) {
  * @param req - La requête HTTP reçue contenant les filtres de recherche.
  * @param res - La réponse HTTP envoyée au client.
  */
-async function getRecherche(req: IReq, res: IRes) {
-    // Récupérer les filtres de recherche dans l'URL.
-    const filtresRecherche = req.query;
-    console.log('Filtres de recherche:', filtresRecherche);
-    const telephonesIntelligents = await TelephoneIntelligentService.getRecherche(filtresRecherche);
+async function getRecherche(req: Request<{ body: Record<string, any> }>, res: Response) {
+    // Utiliser le corps de la requête pour construire une requête MongoDB.
+    const query = buildMongoDbQuery(req.body);
+    // Récupérer les téléphones intelligents qui correspondent à la recherche.
+    const telephonesIntelligents = await TelephoneIntelligentService.getRecherche(query);
     return res.status(HttpStatusCodes.OK).json({ telephonesIntelligents: telephonesIntelligents });
+}
+
+/**
+ * Construit la requête MongoDB à partir des données dans le corps de la requête
+ * pour la route de recherche des téléphones intelligents.
+ * @param requestBody - Le corps de la requête contenant les filtres de recherche.
+ */
+function buildMongoDbQuery(requestBody: Record<string, any>): Record<string, any> {
+    // Déclarer la requête MongoDB initialement vide.
+    const requeteMongoDb: Record<string, any> = {};
+
+    // key: Nom du filtre dans la requête.
+    // value: Valeur du filtre fournie dans la requête.
+    // Boucler pour chaque filtre dans le corps de la requête.
+    for (const [key, value] of Object.entries(requestBody)) { // Converti l'objet en tableau de paires clé-valeur.
+        // Récupérer les propriétés de ce filtre.
+        const proprietesFiltre = DictionnaireFiltreRequete[key];
+        // Si un filtre avec ce nom n'existe pas dans le dictionnaire, ignorer le filtre.
+        if (!proprietesFiltre) continue;
+
+        // Déconstruire l'objet en 2 variables.
+        const { nomChampBd, operator } = proprietesFiltre;
+
+        if (operator === "$regex") {
+            /**
+             * Ajouter un filtre sur une des clés dans la BD qui est égal au regex.
+             * ex:
+             * {
+             *      "nom": {
+             *          $regex: "valeur",
+             *          $options: "i"
+             *      }
+             * }
+             */
+            requeteMongoDb[nomChampBd] = {
+                $regex: value,
+                $options: "i"
+            };
+        } else if (operator === "$eq") {
+            // Ajouter un filtre sur une des clés dans la BD qui est égal à la valeur fournie.
+            requeteMongoDb[nomChampBd] = value;
+        } else {
+            /**
+             * Créer la clé dans la requête MongoDB, seulement si elle n'existe pas.
+             * ex:
+             * {
+             *      "poidsG": {}
+             * }
+             */
+            if (!requeteMongoDb[nomChampBd]) requeteMongoDb[nomChampBd] = {};
+
+            /**
+             * Puis, ajouter le filtre à l'intérieur de la clé.
+             * ex:
+             * {
+             *      "poidsG": {
+             *          $gte: 10
+             *      }
+             * }
+             * ou s'il y en a déjà un:
+             * {
+             *      "poidsG": {
+             *          $gte: 10,
+             *          $lte: 200
+             *      }
+             * }
+             */
+            requeteMongoDb[nomChampBd][operator] = value; // À l'intérieur de la clé du nom du champ dans la BD, à l'intérieur de la clé de l'opérateur.
+        }
+    }
+
+    return requeteMongoDb;
 }
 
 /**

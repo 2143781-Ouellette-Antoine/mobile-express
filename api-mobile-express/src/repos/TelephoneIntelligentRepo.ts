@@ -107,12 +107,13 @@ async function getAllValeursByCleBd(cleBd: string): Promise<string[]> {
 
 /**
  * Retourne les téléphones intelligents qui respectent les critères de recherche.
- * @param filtresRecherche - Un objet contenant les filtres de recherche.
- * @return {Promise<ITelephoneIntelligent[]>} Un tableau des téléphones intelligents qui correspondent aux filtres de recherche.
+ * @param {Record<string, any>} requeteMongoDB La requête MongoDB à exécuter.
+ * @return {Promise<ITelephoneIntelligent[]>} Un tableau des téléphones intelligents qui correspondent
+ * aux filtres de recherche.
  */
-async function getRecherche(filtresRecherche: any): Promise<ITelephoneIntelligent[]> {
+async function getRecherche(requeteMongoDB: Record<string, any>): Promise<ITelephoneIntelligent[]> {
     try {
-        const telephonesIntelligents = await TelephoneIntelligentModel.find(filtresRecherche);
+        const telephonesIntelligents = await TelephoneIntelligentModel.find(requeteMongoDB);
         return telephonesIntelligents;
     } catch (error) {
         logger.err('Erreur lors de la recherche de téléphones intelligents:', error);

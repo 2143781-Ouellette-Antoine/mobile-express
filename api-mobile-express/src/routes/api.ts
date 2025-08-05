@@ -5,6 +5,7 @@ import Paths from '../constants/Paths';
 import TelephoneIntelligentRoutes from './TelephoneIntelligentRoutes';
 import TelephoneIntelligentModel from '@src/models/TelephoneIntelligent';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
+import { DictionnaireFiltreRequete } from '@src/models/FiltresRecherche';
 
 // **** Variables **** //
 
@@ -97,6 +98,66 @@ function validateUrlHasId(req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+/**
+ * Valide et convertit les filtres de recherche dans le corps de la requête.
+ * @param req - La requête HTTP reçue.
+ * @param res - La réponse HTTP envoyée au client.
+ * @param next - Méthode qui permet de passer au middleware suivant.
+ */
+function validateFiltresRecherche(req: Request<{ body: Record<string, any> }>, res: Response, next: NextFunction) {
+    // key: Nom du filtre dans la requête.
+    // value: Valeur du filtre fournie dans la requête.
+    // Boucler pour chaque filtre dans le corps de la requête.
+    for (const [key, value] of Object.entries(req.body)) {
+        // Récupérer les propriétés de ce filtre.
+        const proprietesFiltre = DictionnaireFiltreRequete[key];
+        // Si un filtre avec ce nom n'existe pas dans le dictionnaire, bloquer la requête.
+        if (!proprietesFiltre) {
+            return res.status(400).json({ error: `Filtre inconnu: '${key}'` });
+        }
+
+        // Actions selon le type de variable du filtre (qui a été défini dans le dictionnaire).
+        switch (proprietesFiltre.type) {
+            case "number":
+                // Si la valeur n'est pas un nombre ou est un tableau de nombres, bloquer la requête.
+                if (Array.isArray(value) || isNaN(Number(value))) {
+                    return res.status(400).json({ error: `Le filtre '${key}' doit être un nombre.` });
+                }
+                // Écraser la valeur à la clé actuelle par la valeur convertie en nombre.
+                req.body[key] = Number(value);
+                break;
+
+            case "boolean":
+                // Si la valeur n'est pas la chaîne de caractères "true" ou "false", bloquer la requête.
+                if (value !== "true" && value !== "false") {
+                    return res.status(400).json({ error: `Le filtre '${key}' doit être 'true' ou 'false'.` });
+                }
+                // Écraser la valeur à la clé actuelle par la valeur convertie en booléen.
+                req.body[key] = value === "true"; // (value === "true") retourne un booléen.
+                break;
+
+            case "string":
+                if (Array.isArray(value)) {
+                    return res.status(400).json({ error: `Le filtre '${key}' doit être une chaîne de caractères.` });
+                }
+                break;
+
+            case "array":
+                if (typeof value === "string") {
+                    // Séparer la chaîne de caractères en un tableau.
+                    req.body[key] = value.split(","); // S'il n'y a qu'une valeur, ce sera un tableau de 1 élément.
+                } else if (!Array.isArray(value)) {
+                    // Si la valeur ne peut pas être convertie en tableau, bloquer la requête.
+                    return res.status(400).json({ error: `Le filtre '${key}' doit être un tableau.` });
+                }
+                break;
+        }
+    }
+
+    // Si la requête n'a pas été bloquée, passer à l'intergiciel suivant.
+    next();
+};
+
 /******************************************************************************
                                     Routes
 ******************************************************************************/
@@ -126,12 +187,12 @@ telephonesIntelligentsRouter.get(
     validate(['cleBd', 'string', 'params']), // Valide le paramètre :cleBd dans l'URL
     TelephoneIntelligentRoutes.getAllValeursByCleBd
 );
-// Get recherche avec filtres
-// telephonesIntelligentsRouter.get(
-//     Paths.TelephonesIntelligents.GetRecherche,
-//     validateFiltresRecherche,
-//     TelephoneIntelligentRoutes.getRecherche
-// );
+// Post recherche avec filtres
+telephonesIntelligentsRouter.post(
+    Paths.TelephonesIntelligents.GetRecherche,
+    validateFiltresRecherche,
+    TelephoneIntelligentRoutes.getRecherche
+);
 // Create
 telephonesIntelligentsRouter.post(
     Paths.TelephonesIntelligents.Post,

@@ -17,6 +17,7 @@ import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 
 import { NodeEnvs } from '@src/constants/misc';
 import { RouteError } from '@src/other/classes';
+import { firebaseAuthentication } from './authentificationFirebase';
 
 // **** Variables **** //
 
@@ -40,6 +41,9 @@ if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
 if (EnvVars.NodeEnv === NodeEnvs.Production.valueOf()) {
   app.use(helmet());
 }
+
+// Add firebase authentication middleware
+app.use(firebaseAuthentication);
 
 // Add APIs, must be after middleware
 app.use(Paths.Base, BaseRouter);

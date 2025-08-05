@@ -60,11 +60,11 @@ function getAllValeursByCleBd(cleBd: string): Promise<string[]> {
 
 /**
  * Retourne les téléphones intelligents qui respectent les critères de recherche.
- * @param filtresRecherche - Un objet contenant les filtres de recherche.
+ * @param {Record<string, any>} query - La requête MongoDB à exécuter.
  * @return {Promise<ITelephoneIntelligent[]>} Un tableau des téléphones intelligents qui correspondent aux filtres de recherche.
  */
-function getRecherche(filtresRecherche: any): Promise<ITelephoneIntelligent[]> {
-    return TelephoneIntelligentRepo.getRecherche(filtresRecherche);
+function getRecherche(query: Record<string, any>): Promise<ITelephoneIntelligent[]> {
+    return TelephoneIntelligentRepo.getRecherche(query);
 }
 
 /**
