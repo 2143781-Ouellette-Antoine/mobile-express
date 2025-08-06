@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
+import type { FiltresRecherche } from "../../models/FiltresRecherche"
 
 /**
  * Variables d'état et méthodes pour la récupération des téléphones intelligents d'une compagnie.
@@ -9,7 +10,7 @@ import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
  * @returns {telephonesIntelligents: TelephoneIntelligent[], isTelephonesIntelligentsLoading: boolean} Un objet contenant
  * les téléphones intelligents et l'état de chargement.
  */
-export default function useHookRecupererResultatsRecherche(filtresRecherche: string) {
+export default function useHookRecupererResultatsRecherche(filtresRecherche: FiltresRecherche) {
     /**
      * Tableau de tous les téléphones intelligents de la compagnie.
      */
@@ -26,7 +27,10 @@ export default function useHookRecupererResultatsRecherche(filtresRecherche: str
      */
     useEffect(() => {
         setIsTelephonesIntelligentsLoading(true)
-        axios.get(`http://localhost:3000/api/telephones-intelligents/recherche/${filtresRecherche}`).then((response) => {
+        axios.post(
+            `http://localhost:3000/api/telephones-intelligents/recherche`,
+            filtresRecherche
+        ).then((response) => {
             setTelephonesIntelligents(response.data.telephonesIntelligents)
         })
     }, [filtresRecherche])

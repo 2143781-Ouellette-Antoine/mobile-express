@@ -22,9 +22,20 @@ export const firebaseAuthentication = async (
     next: NextFunction
 ) => {
     /**
-     * Ignorer la vérification si la route ne fait pas partie des routes protégées POST, PUT, DELETE.
+     * Ignorer la vérification si la route ne fait pas partie des routes protégées:
+     *  - POST /telephones-intelligents
+     *  - PUT /telephones-intelligents
+     *  - DELETE /telephones-intelligents/id/:id
      */
-    if (!['POST', 'PUT', 'DELETE'].includes(req.method)) {
+    if (
+        !(
+            // Si ne fait pas partie de cette liste.
+            (req.method === 'POST' && req.path === '/telephones-intelligents') ||
+            (req.method === 'PUT' && req.path === '/telephones-intelligents') ||
+            (req.method === 'DELETE' && req.path.startsWith('/telephones-intelligents/id/'))
+        )
+    ) {
+        // Passer par dessus la vérification de l'authentification.
         return next();
     }
 

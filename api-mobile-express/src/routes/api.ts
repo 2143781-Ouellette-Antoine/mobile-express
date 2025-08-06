@@ -6,6 +6,7 @@ import TelephoneIntelligentRoutes from './TelephoneIntelligentRoutes';
 import TelephoneIntelligentModel from '@src/models/TelephoneIntelligent';
 import HttpStatusCodes from '@src/constants/HttpStatusCodes';
 import { DictionnaireFiltreRequete } from '@src/models/FiltresRecherche';
+import { isBoolean } from 'util';
 
 // **** Variables **** //
 
@@ -128,12 +129,12 @@ function validateFiltresRecherche(req: Request<{ body: Record<string, any> }>, r
                 break;
 
             case "boolean":
-                // Si la valeur n'est pas la chaîne de caractères "true" ou "false", bloquer la requête.
-                if (value !== "true" && value !== "false") {
-                    return res.status(400).json({ error: `Le filtre '${key}' doit être 'true' ou 'false'.` });
+                // Si la valeur n'est pas true ou false, bloquer la requête.
+                if (typeof value !== 'boolean') {
+                    return res.status(400).json({ error: `Le filtre '${key}' doit être true ou false.` });
                 }
                 // Écraser la valeur à la clé actuelle par la valeur convertie en booléen.
-                req.body[key] = value === "true"; // (value === "true") retourne un booléen.
+                req.body[key] = value == true; // (value == "true") retourne un booléen.
                 break;
 
             case "string":

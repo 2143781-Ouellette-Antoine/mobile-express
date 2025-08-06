@@ -1,7 +1,7 @@
 import { CircularProgress, Link, Stack, Typography } from '@mui/material'
 import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
+import type { FiltresRecherche } from '../../models/FiltresRecherche'
 import useHookRecupererResultatsRecherche from './HookRecupererResultatsRecherche'
-import { FiltresRecherche } from '../../models/FiltresRecherche'
 
 /**
  * Props du composant React: ListeResultatsRecherche.

@@ -1,18 +1,16 @@
 import { Box, Stack, Typography } from "@mui/material"
+import ListeResultatsRecherche from "../../components/PageResultatsRecherche/ListeResultatsRecherche"
+import useHookPageResultatsRecherche from "./HookPageResultatsRecherche"
 
 /**
  * Page qui affiche les résultats de recherche (liste des téléphones intelligents correspondants).
  * @returns Un composant React pour la page qui affiche les résultats de recherche.
  */
 function PageResultatsRecherche() {
-    // Récupérer et parse les filtres de recherche dans l'URL.
-    const searchParams = new URLSearchParams(window.location.search)
-    const filters = {
-        brand: searchParams.get("brand") || "",
-        model: searchParams.get("model") || "",
-        minPrice: searchParams.get("minPrice") || "",
-        maxPrice: searchParams.get("maxPrice") || "",
-    }
+    const { parseFiltresRecherche } = useHookPageResultatsRecherche()
+
+    const filtresRecherche = parseFiltresRecherche()
+    if (!filtresRecherche) return <div />
 
     return (
         <Box
@@ -36,7 +34,7 @@ function PageResultatsRecherche() {
                     Résultats de la recherche
                 </Typography>
 
-                <ListeResultatsRecherche />
+                <ListeResultatsRecherche filtresRecherche={filtresRecherche} />
             </Stack>
         </Box>
     )

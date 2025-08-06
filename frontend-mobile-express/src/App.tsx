@@ -5,6 +5,7 @@ import PageConnexionAdministrateur from './pages/PageConnexionAdministrateur'
 import PageDetailsUnTelephoneIntelligent from './pages/PageDetailsUnTelephoneIntelligent/PageDetailsUnTelephoneIntelligent'
 import PageInexistante from './pages/PageInexistante'
 import PageRechercheAvancee from './pages/PageRechercheAvancee/PageRechercheAvancee'
+import PageResultatsRecherche from './pages/PageResultatsRecherche/PageResultatsRecherche'
 import PageTelephonesIntelligentUneCompagnie from './pages/PageTelephonesIntelligentUneCompagnie'
 import PageTousTelephonesIntelligents from './pages/PageTousTelephonesIntelligents'
 import PageToutesCompagnies from './pages/PageToutesCompagnies'
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/telephones-intelligents" element={<PageTousTelephonesIntelligents />} />
                     <Route path="/details-telephone-intelligent/:id" element={<PageDetailsUnTelephoneIntelligent />} />
                     <Route path="/recherche-avancee" element={<PageRechercheAvancee />} />
+                    <Route path="/resultats-recherche" element={<PageResultatsRecherche />} />
                     <Route path="/connexion-administrateur" element={<PageConnexionAdministrateur />} />
                     <Route path="/administration" element={<PageAdministration />} />
                     <Route path="*" element={<PageInexistante />} />
