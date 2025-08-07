@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import type { TelephoneIntelligent } from "../../models/TelephoneIntelligent"
 import type { FiltresRecherche } from "../../models/FiltresRecherche"
+import { useTemporarySnackbarContext } from "../../contexts/ContextTemporarySnackbar"
 
 /**
  * Variables d'état et méthodes pour la récupération des téléphones intelligents d'une compagnie.
@@ -22,6 +23,11 @@ export default function useHookRecupererResultatsRecherche(filtresRecherche: Fil
     const [isTelephonesIntelligentsLoading, setIsTelephonesIntelligentsLoading] = useState<boolean>(true)
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère les résultats de recherche de téléphones intelligents depuis l'API.
      */
@@ -32,6 +38,11 @@ export default function useHookRecupererResultatsRecherche(filtresRecherche: Fil
             filtresRecherche
         ).then((response) => {
             setTelephonesIntelligents(response.data.telephonesIntelligents)
+        })
+        .catch((_error) => {
+            setSnackbarMessage("Une erreur est survenue lors de la récupération des résultats de recherche.")
+            setSnackbarMessageType("error")
+            setIsSnackbarOpen(true)
         })
     }, [filtresRecherche])
 

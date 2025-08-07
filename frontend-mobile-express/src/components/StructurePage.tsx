@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import TopAppBar from "./TopAppBar"
+import TemporarySnackbar from "./TemporarySnackbar"
 
 /**
  * La structure de base de chaque page du site web.
@@ -10,6 +11,7 @@ function StructurePage() {
     return (
         <div>
             <TopAppBar />
+            <TemporarySnackbar />
             {/* Le contenu principal de la page sera rendu ici. */}
             {/* Utilisation de Outlet pour afficher les composants enfants */}
             <Outlet />

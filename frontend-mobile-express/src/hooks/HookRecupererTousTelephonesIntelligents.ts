@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState, useCallback } from "react"
 import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar"
 
 /**
  * Variables d'état et méthodes pour la récupération de tous les téléphones intelligents.
@@ -22,6 +23,11 @@ export default function useHookRecupererTousTelephonesIntelligents() {
     const [isTelephonesIntelligentsLoading, setIsTelephonesIntelligentsLoading] = useState<boolean>(true)
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode pour récupérer les téléphones intelligents depuis l'API.
      * Peut être appelée pour recharger les données.
      */
@@ -31,7 +37,9 @@ export default function useHookRecupererTousTelephonesIntelligents() {
             const response = await axios.get(`http://localhost:3000/api/telephones-intelligents/all`)
             setTelephonesIntelligents(response.data.telephonesIntelligents)
         } catch (error) {
-            console.error("Erreur lors de la récupération des téléphones intelligents:", error)
+            setSnackbarMessage("Une erreur est survenue lors de la récupération des téléphones intelligents.")
+            setSnackbarMessageType("error")
+            setIsSnackbarOpen(true)
         } finally {
             setIsTelephonesIntelligentsLoading(false)
         }

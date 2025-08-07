@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar"
 
 /**
  * Variables d'état et méthodes pour la récupération des téléphones intelligents
@@ -22,14 +23,25 @@ export default function useHookRecupererTelephonesIntelligentsRecents() {
     const [isTelephonesIntelligentsRecentsLoading, setIsTelephonesIntelligentsRecentsLoading] = useState<boolean>(true)
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère les 10 téléphones intelligents les plus récemment sortis depuis l'API.
      */
     useEffect(() => {
         setIsTelephonesIntelligentsRecentsLoading(true)
-        axios.get(`http://localhost:3000/api/telephones-intelligents/dix-plus-recents`).then((response) => {
-            setTelephonesIntelligentsRecents(response.data.telephonesIntelligents)
-        })
+        axios.get(`http://localhost:3000/api/telephones-intelligents/dix-plus-recents`)
+            .then((response) => {
+                setTelephonesIntelligentsRecents(response.data.telephonesIntelligents)
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des téléphones intelligents récents.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
+            })
     }, [])
 
     /**

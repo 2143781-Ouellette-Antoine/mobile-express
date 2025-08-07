@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar";
 
 /**
  * Variables d'état et méthodes pour la récupération des matériaux dans la base de données.
@@ -23,6 +24,11 @@ export default function useHookRecupererMateriaux() {
     )
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère la liste des matériaux depuis l'API.
      */
@@ -33,6 +39,11 @@ export default function useHookRecupererMateriaux() {
         axios.get("http://localhost:3000/api/materiaux/all")
             .then((response) => {
                 setListeValeursState({ listeValeursState: response.data.materiaux, isListeValeursLoading: false })
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des matériaux.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
             })
     }, [])
 

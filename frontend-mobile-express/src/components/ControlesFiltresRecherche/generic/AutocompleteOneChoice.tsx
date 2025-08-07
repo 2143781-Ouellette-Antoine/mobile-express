@@ -76,6 +76,7 @@ const AutocompleteOneChoice = forwardRef((props: AutocompleteOneChoiceProps, ref
                     name={props.name}
                     label={props.label}
                     placeholder={props.placeholder}
+                    required
                 />
             )}
             freeSolo // Permet à l'utilisateur de saisir un texte qui n'est pas dans la liste des choix.

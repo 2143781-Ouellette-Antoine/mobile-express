@@ -43,10 +43,10 @@ function PageRechercheAvancee() {
                         <Typography variant="h5" color="#c00000">Général</Typography>
 
                         <Stack direction="row" spacing={3}>
-                            <Stack direction="column" spacing={2} width="50%">
+                            <Box width="50%">
                                 {/* Compagnie (multi-sélection) */}
                                 <FormFieldController
-                                    name="compagnies"
+                                    name="nomsCompagnies"
                                     control={formController}
                                     defaultValue={[]}
                                     // react-hook-form fournit des propriétés ( field[] ) pour gérer le champ.
@@ -59,28 +59,12 @@ function PageRechercheAvancee() {
                                         />
                                     )}
                                 />
-
-                                {/* Année de sortie (min max) */}
-                                <FormFieldController
-                                    name="rangeAnneeSortie"
-                                    control={formController}
-                                    defaultValue={{ min: 2000, max: 2025 }}
-                                    render={({ field }) => (
-                                        <SliderMinMax
-                                            label="Année de sortie"
-                                            MINIMUM={2000}
-                                            MAXIMUM={2025}
-                                            ariaLabelValueSuffix=""
-                                            fieldProperties={field}
-                                        />
-                                    )}
-                                />
-                            </Stack>
+                            </Box>
                             
                             <Box width="50%">
                                 {/* Nom du téléphone intelligent (texte) */}
                                 <FormFieldController
-                                    name="nomTelephoneIntelligent"
+                                    name="nom"
                                     control={formController}
                                     defaultValue=""
                                     render={({ field }) => (
@@ -104,8 +88,8 @@ function PageRechercheAvancee() {
                         <Stack direction="row" spacing={8}>
                             <Stack direction="column" spacing={3} width="50%">
                                 {/* Hauteur (min max) */}
-                                <FormFieldController
-                                    name="hauteur"
+                                {/* <FormFieldController
+                                    name="rangeHauteurMm"
                                     control={formController}
                                     defaultValue={{ min: 80, max: 200 }}
                                     render={({ field }) => (
@@ -117,11 +101,11 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
 
                                 {/* Largeur (min max) */}
-                                <FormFieldController
-                                    name="largeur"
+                                {/* <FormFieldController
+                                    name="rangeLargeurMm"
                                     control={formController}
                                     defaultValue={{ min: 40, max: 100 }}
                                     render={({ field }) => (
@@ -133,13 +117,13 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
 
                             <Stack direction="column" spacing={3} width="50%">
                                 {/* Épaisseur (min max) */}
-                                <FormFieldController
-                                    name="epaisseur"
+                                {/* <FormFieldController
+                                    name="rangeEpaisseurMm"
                                     control={formController}
                                     defaultValue={{ min: 1, max: 40 }}
                                     render={({ field }) => (
@@ -151,11 +135,11 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
 
                                 {/* Poids (min max) */}
-                                <FormFieldController
-                                    name="poids"
+                                {/* <FormFieldController
+                                    name="rangePoidsG"
                                     control={formController}
                                     defaultValue={{ min: 50, max: 250 }}
                                     render={({ field }) => (
@@ -167,7 +151,7 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
                         </Stack>
 
@@ -177,7 +161,7 @@ function PageRechercheAvancee() {
                             <Stack direction="column" spacing={2} width="50%">
                                 {/* Matériaux avant (multi-sélection) */}
                                 <FormFieldController
-                                    name="materiauxAvant"
+                                    name="materiauxAvants"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -190,7 +174,7 @@ function PageRechercheAvancee() {
 
                                 {/* Matériaux arrière (multi-sélection) */}
                                 <FormFieldController
-                                    name="materiauxArriere"
+                                    name="materiauxArrieres"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -205,7 +189,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Matériaux cadre (multi-sélection) */}
                                 <FormFieldController
-                                    name="materiauxCadre"
+                                    name="materiauxCadres"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -221,7 +205,7 @@ function PageRechercheAvancee() {
                         <Box sx={{ paddingTop: 2 }}>
                             {/* Résistance à l'eau et à la poussière (multi-sélection) */}
                             <FormFieldController
-                                name="resistanceEau"
+                                name="resistancesEau"
                                 control={formController}
                                 defaultValue={[]}
                                 render={({ field }) => (
@@ -243,7 +227,7 @@ function PageRechercheAvancee() {
                             <Stack direction="column" spacing={3} width="50%">
                                 {/* Technologie écran (multi-sélection) */}
                                 <FormFieldController
-                                    name="technologieEcran"
+                                    name="technologiesEcran"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -257,8 +241,8 @@ function PageRechercheAvancee() {
                                 />
 
                                 {/* Taille écran (min max) */}
-                                <FormFieldController
-                                    name="tailleEcran"
+                                {/* <FormFieldController
+                                    name="rangeTailleEcranPixels"
                                     control={formController}
                                     defaultValue={{ min: 5, max: 12 }}
                                     render={({ field }) => (
@@ -270,11 +254,11 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
 
                                 {/* Taux de rafraichissement (min max) */}
-                                <FormFieldController
-                                    name="tauxRafraichissement"
+                                {/* <FormFieldController
+                                    name="rangeTauxRafraichissementHz"
                                     control={formController}
                                     defaultValue={{ min: 60, max: 120 }}
                                     render={({ field }) => (
@@ -286,12 +270,12 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
                             <Stack direction="column" justifyContent="flex-end" spacing={3} width="50%">
                                 {/* Résolution largeur (min max) */}
-                                <FormFieldController
-                                    name="resolutionLargeur"
+                                {/* <FormFieldController
+                                    name="rangeResolutionLargeurPixels"
                                     control={formController}
                                     defaultValue={{ min: 640, max: 3840 }}
                                     render={({ field }) => (
@@ -303,11 +287,11 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
 
                                 {/* Résolution hauteur (min max) */}
-                                <FormFieldController
-                                    name="resolutionHauteur"
+                                {/* <FormFieldController
+                                    name="rangeResolutionHauteurPixels"
                                     control={formController}
                                     defaultValue={{ min: 480, max: 2160 }}
                                     render={({ field }) => (
@@ -319,7 +303,7 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
                         </Stack>
                     </Stack>
@@ -331,7 +315,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Puces (multi-sélection) */}
                                 <FormFieldController
-                                    name="puces"
+                                    name="nomsPuces"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -347,8 +331,8 @@ function PageRechercheAvancee() {
 
                             <Box width="50%">
                                 {/* Vitesse processeur (min max) */}
-                                <FormFieldController
-                                    name="vitesseProcesseur"
+                                {/* <FormFieldController
+                                    name="rangeVitessePuceGhz"
                                     control={formController}
                                     defaultValue={{ min: 1, max: 5 }}
                                     render={({ field }) => (
@@ -361,7 +345,7 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Box>
                         </Stack>
                     </Stack>
@@ -372,8 +356,8 @@ function PageRechercheAvancee() {
                         <Stack direction="row" spacing={8}>
                             <Stack direction="column" spacing={3} width="50%">
                                 {/* Mémoire vive (nombre) */}
-                                <FormFieldController
-                                    name="memoireVive"
+                                {/* <FormFieldController
+                                    name="rangeMemoireViveGb"
                                     control={formController}
                                     defaultValue={{ min: 1, max: 16 }}
                                     render={({ field }) => (
@@ -385,11 +369,11 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
 
                                 {/* Technologie du stockage (texte) */}
-                                <FormFieldController
-                                    name="technologieStockage"
+                                {/* <FormFieldController
+                                    name="technologiesStockage"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -400,13 +384,13 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
 
                             <Box width="50%">
                                 {/* Stockage (nombre) */}
-                                <FormFieldController
-                                    name="stockage"
+                                {/* <FormFieldController
+                                    name="rangeStockageGb"
                                     control={formController}
                                     defaultValue={{ min: 8, max: 2048 }}
                                     render={({ field }) => (
@@ -418,7 +402,7 @@ function PageRechercheAvancee() {
                                             fieldProperties={field}
                                         />
                                     )}
-                                />
+                                /> */}
                             </Box>
                         </Stack>
                     </Stack>
@@ -430,7 +414,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Système d'exploitation (multi-sélection) */}
                                 <FormFieldController
-                                    name="systemeExploitation"
+                                    name="systemesExploitation"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -447,7 +431,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Version minimum du système d'exploitation (nombre) */}
                                 <FormFieldController
-                                    name="versionMinimumSystemeExploitation"
+                                    name="minVersionSystemeExploitation"
                                     control={formController}
                                     defaultValue=""
                                     render={({ field }) => (
@@ -477,7 +461,7 @@ function PageRechercheAvancee() {
                                 /> */}
 
                                 {/* Possède stabilisation optique de l'image (booléen) */}
-                                <FormFieldController
+                                {/* <FormFieldController
                                     name="possedeStabilisationOptiqueImage"
                                     control={formController}
                                     defaultValue={false}
@@ -491,13 +475,13 @@ function PageRechercheAvancee() {
                                             label="Stabilisation optique"
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
 
                             <Stack direction="column" spacing={3} width="50%">
                                 {/* Résolution minimum (nombre) */}
-                                <FormFieldController
-                                    name="resolutionMinimumCamera"
+                                {/* <FormFieldController
+                                    name="minResolutionCameraMp"
                                     control={formController}
                                     defaultValue=""
                                     render={({ field }) => (
@@ -509,7 +493,7 @@ function PageRechercheAvancee() {
                                             fullWidth
                                         />
                                     )}
-                                />
+                                /> */}
                             </Stack>
                         </Stack>
                     </Stack>
@@ -521,7 +505,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Port (texte) */}
                                 <FormFieldController
-                                    name="modelePortUsb"
+                                    name="modelesPortsUsb"
                                     control={formController}
                                     defaultValue={[]}
                                     render={({ field }) => (
@@ -538,7 +522,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Possède recharge sans fil (booléen) */}
                                 <FormFieldController
-                                    name="rechargeSansFil"
+                                    name="possedeRechargeSansFil"
                                     control={formController}
                                     defaultValue={false}
                                     render={({ field }) => (
@@ -561,8 +545,8 @@ function PageRechercheAvancee() {
 
                         <Box width="50%">
                             {/* Capacité de la batterie (nombre) */}
-                            <FormFieldController
-                                name="capaciteBatterie"
+                            {/* <FormFieldController
+                                name="rangeCapaciteBatterieMah"
                                 control={formController}
                                 defaultValue={{ min: 1000, max: 10000 }}
                                 render={({ field }) => (
@@ -574,7 +558,7 @@ function PageRechercheAvancee() {
                                         fieldProperties={field}
                                     />
                                 )}
-                            />
+                            /> */}
                         </Box>
                     </Stack>
 
@@ -584,7 +568,7 @@ function PageRechercheAvancee() {
                         <Box width="50%">
                             {/* Type d'authentification (texte) */}
                             <FormFieldController
-                                name="typeAuthentification"
+                                name="typesAuthentification"
                                 control={formController}
                                 defaultValue={[]}
                                 render={({ field }) => (
@@ -664,11 +648,17 @@ function PageRechercheAvancee() {
 
                         <Box width="50%">
                             {/* Réseau mobile (multi-sélection) */}
-                            {/* <AutocompleteMultiChoices
-                                id="choice-reseau-mobile"
-                                label={"Réseau mobile"}
-                                placeholder={"Sélectionnez un ou plusieurs réseaux mobiles"}
-                                cleBdChoix={"generationReseauMobile"}
+                            {/* <FormFieldController
+                                name="generationReseauMobile"
+                                control={formController}
+                                render={({ field }) => (
+                                    <AutocompleteMultiChoices
+                                        label={"Réseau mobile"}
+                                        placeholder={"Sélectionnez un ou plusieurs réseaux mobiles"}
+                                        cleBdChoix={"generationReseauMobile"}
+                                        fieldProperties={field}
+                                    />
+                                )}
                             /> */}
                         </Box>
                     </Stack>

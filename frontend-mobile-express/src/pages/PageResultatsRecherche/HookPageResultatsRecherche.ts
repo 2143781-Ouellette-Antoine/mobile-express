@@ -1,3 +1,4 @@
+import { useTemporarySnackbarContext } from "../../contexts/ContextTemporarySnackbar"
 import { dictionnaireFiltreType, type FiltresRecherche } from "../../models/FiltresRecherche"
 
 /**
@@ -5,6 +6,11 @@ import { dictionnaireFiltreType, type FiltresRecherche } from "../../models/Filt
  * Ceci est un hook React.
  */
 export default function useHookPageResultatsRecherche() {
+    /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+    
     /**
      * Récupérer et convertir les filtres de recherche dans l'URL.
      * @returns Un objet FiltresRecherche ou null en cas d'erreur.
@@ -42,18 +48,19 @@ export default function useHookPageResultatsRecherche() {
                      * Utiliser `Array.isArray` à la place de `typeof` pour vérifier si la propriété "nomsCompagnies" dans FiltresRecherche est un tableau.
                      */
                     } else if (expectedPropertyType === "string[]") {
-                        filtresRecherche[key] = value.split(",")
+                        filtresRecherche[key] = value.split(",").map(decodeURIComponent);
                     } else if (expectedPropertyType === "string") {
-                        filtresRecherche[key] = value
+                        filtresRecherche[key] = decodeURIComponent(value);
                     }
                 }
             }
 
             return filtresRecherche as FiltresRecherche
-        } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "Erreur inconnue"
-            console.error("Erreur lors de la récupération des filtres de recherche :", errorMessage)
-            alert("Une erreur est survenue lors de la récupération des filtres de recherche.")
+        } catch (_error) {
+            setSnackbarMessage("Une erreur est survenue lors de la récupération des filtres de recherche.")
+            setSnackbarMessageType("error")
+            setIsSnackbarOpen(true)
+
             return null
         }
     }

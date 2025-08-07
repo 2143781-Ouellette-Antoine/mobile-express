@@ -4,32 +4,32 @@
 import React, { type ReactNode, createContext, useContext, useState } from 'react';
 
 interface IsAuthLoadedContextProps {
-  isAuthLoaded: boolean;
-  setIsAuthLoaded: (isAuthLoaded: boolean) => void;
+    isAuthLoaded: boolean;
+    setIsAuthLoaded: (isAuthLoaded: boolean) => void;
 }
 
 const IsAuthLoadedContext = createContext<IsAuthLoadedContextProps | undefined>(undefined);
 
 const IsAuthLoadedContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthLoaded, setIsAuthLoaded] = useState<boolean>(true);
+    const [isAuthLoaded, setIsAuthLoaded] = useState<boolean>(true);
 
-  const setIsAuthLoadedPrivate = (isAuthLoaded: boolean) => {
-    setIsAuthLoaded(isAuthLoaded);
-  };
+    const setIsAuthLoadedPrivate = (isAuthLoaded: boolean) => {
+        setIsAuthLoaded(isAuthLoaded);
+    };
 
-  return (
-    <IsAuthLoadedContext.Provider value={{ isAuthLoaded: isAuthLoaded, setIsAuthLoaded: setIsAuthLoadedPrivate }}>
-      {children}
-    </IsAuthLoadedContext.Provider>
-  );
+    return (
+        <IsAuthLoadedContext.Provider value={{ isAuthLoaded: isAuthLoaded, setIsAuthLoaded: setIsAuthLoadedPrivate }}>
+            {children}
+        </IsAuthLoadedContext.Provider>
+    );
 };
 
 const useIsAuthLoadedContext = () => {
-  const context = useContext(IsAuthLoadedContext);
-  if (!context) {
-    throw new Error(`useIsAuthLoadedContext devrait être utilisé à l'intérieur d'un IsAuthLoadedContext`);
-  }
-  return context;
+    const context = useContext(IsAuthLoadedContext);
+    if (!context) {
+        throw new Error(`useIsAuthLoadedContext devrait être utilisé à l'intérieur d'un IsAuthLoadedContext`);
+    }
+    return context;
 };
   
 export { IsAuthLoadedContextProvider, useIsAuthLoadedContext };

@@ -1,7 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { Add as AddIcon } from '@mui/icons-material';
 import FormulaireTelephoneIntelligent from "../../components/PageAdministration/FormulaireTelephoneIntelligent/FormulaireTelephoneIntelligent";
-import TemporarySnackbar from "../../components/TemporarySnackbar";
 import usePageAdministrationHook from "./HookPageAdministration";
 import ListeModifierSupprimer from "../../components/PageAdministration/ListeModifierSupprimer/ListeModifierSupprimer";
 
@@ -16,11 +15,7 @@ function PageAdministration() {
      */
     const {
         isFormulaireCreationOuvert,
-        setIsFormulaireCreationOuvert,
-        isSnackbarOpen,
-        setIsSnackbarOpen,
-        snackbarMessage,
-        snackbarMessageType
+        setIsFormulaireCreationOuvert
     } = usePageAdministrationHook()
 
     return (
@@ -48,14 +43,6 @@ function PageAdministration() {
                     texteBoutonSoumettre={"Créer"}
                 />
             </Stack>
-
-            {/* Snackbar caché par défaut qui affiche les messages */}
-            <TemporarySnackbar
-                parentIsSnackbarOpen={isSnackbarOpen} // Partager à l'enfant la valeur de la variable d'état pour qu'il sache si le snackbar doit être affiché.
-                parentSetIsSnackbarOpen={setIsSnackbarOpen} // Passer une référence de la méthode de changement de la variable d'état pour que l'enfant puisse la déclencher.
-                message={snackbarMessage} // Passer un message à afficher dans le snackbar.
-                snackbarMessageType={snackbarMessageType} // Passer le type de message pour changer la couleur du snackbar.
-            />
         </Box>
     )
 }

@@ -9,24 +9,24 @@
 7. Vérifier que l'API retourne un message d'erreur générique quand une erreur interne survient pour ne pas faire fuire des messages d'erreurs pouvant compromettre la sécurité. [:heavy_check_mark:]
 8. Vérifier que lorsqu'un téléphone intelligent est supprimé, la liste affichée est mise à jour. [:heavy_check_mark:]
 9. Vérifier que le site redirige vers la page de connexion lorsque l'utilisateur essaie d'accéder la page d'administration sans être authentifié. [:heavy_check_mark:]
-10. 
-11. 
-12. 
-13. 
-14. 
-15. 
-16. 
-17. 
-18. 
-19. 
-20. 
-21. 
-22. 
-23. 
-24. 
-25. 
-26. 
-27. 
-28. Vérifier que les valeurs du téléphone intelligent sont correctement modifiées lorsque qu'on soumet le formulaire de modification.
-29. Vérifier qu'une fenêtre de confirmation est affichée avant d'effectuer une suppression.
-30. Vérifier que le téléphone intelligent est supprimé de la base de données lorsqu'on clique sur le bouton « Supprimer ». [:heavy_check_mark:]
+10. Vérifier que le site redirige automatiquement vers la page d'administration après que l'administrateur se soit authentifié. [:heavy_check_mark:]
+11. Vérifier que cliquer sur le bouton « Créer » ouvre le formulaire de création d'un téléphone intelligent et que le titre est bon. [:heavy_check_mark:]
+12. Vérifier que cliquer sur le bouton « Modifier » ouvre le formulaire de modification d'un téléphone intelligent et que les anciennes données sont remplies. [:heavy_check_mark:]
+13. Vérifier qu'une fenêtre de confirmation est affichée avant d'effectuer une suppression. [:heavy_check_mark:]
+14. Vérifier que le téléphone intelligent est supprimé de la base de données lorsqu'on clique sur le bouton « Supprimer ». [:heavy_check_mark:]
+15. Vérifier que la page de tous les téléphones intelligents affiche bien tous les téléphones intelligents. [:heavy_check_mark:]
+16. Vérifier que la page de toutes les compagnies affiche bien tous les téléphones intelligents. [:heavy_check_mark:]
+17. Vérifier que la page des résultats de recherche ne plante pas si aucun filtre n'est sélectionné. [:heavy_check_mark:]
+18. Vérifier que la page de détails d'un téléphone intelligent affiche un message d'erreur si le téléphone n'est pas trouvé. [:heavy_check_mark:]
+19. Vérifier que la page des résultats de recherche affiche les téléphones intelligents qui correspondent aux filtres sélectionnés. [:heavy_check_mark:]
+20. Vérifier que les listes déroulantes dans les pages de recherche et les formulaires de création et de modification sont correctement remplies avec les données des téléphones intelligents actuellement enregistrés. [:heavy_check_mark:]
+21. Vérifier qu'il est possible d'entrer une nouvelle valeur qui n'est pas déjà dans la liste déroulante dans les formulaires de création et de modification. [:heavy_check_mark:]
+22. Vérifier qu'il y a une rétroaction de chargement pendant que les données données sont récupérées depuis l'API. [:heavy_check_mark:]
+23. Vérifier que la déconnexion de l'administrateur fonctionne. [:heavy_check_mark:]
+24. Vérifier que la recherche fonctionne même si plusieurs filtres sont sélectionnés. [:heavy_check_mark:]
+25. Vérifier que les anciennes données du téléphone intelligent sont préremplies dans le formulaire de modification lors de l'ouverture.
+26. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs lorsque les données entrées sont invalides.
+27. Vérifier que la création, la modification et la supression d'un téléphone intelligent affiche un message de succès.
+28. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs quand les données entrées sont invalides.
+29. Vérifier que le site web affiche un message d'erreur en français lorsque une erreur survient lors de la communication avec l'API.
+30. Vérifier que les valeurs du téléphone intelligent sont correctement modifiées lorsque qu'on soumet le formulaire de modification.

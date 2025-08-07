@@ -3,7 +3,7 @@
  * 
  * @property {string} nom - Le nom du téléphone intelligent.
  * @property {string} nomCompagnie - Le nom de la compagnie du téléphone intelligent.
- * @property {number} anneeSortie - L'année de sortie du téléphone intelligent.
+ * @property {Date} dateSortie - La date de sortie du téléphone intelligent.
  * @property {number} hauteurMm - La hauteur du téléphone intelligent en millimètres.
  * @property {number} largeurMm - La largeur du téléphone intelligent en millimètres.
  * @property {number} epaisseurMm - L'épaisseur du téléphone intelligent en millimètres.
@@ -41,7 +41,7 @@
 export type TelephoneIntelligent = {
     nom: string;
     nomCompagnie: string;
-    anneeSortie: number;
+    dateSortie: Date;
     hauteurMm: number;
     largeurMm: number;
     epaisseurMm: number;

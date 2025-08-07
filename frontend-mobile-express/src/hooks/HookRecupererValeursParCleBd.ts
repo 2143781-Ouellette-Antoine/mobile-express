@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar";
 
 /**
  * Variables d'état et méthodes pour la récupération des valeurs associées à une clé dans la base de données.
@@ -25,6 +26,11 @@ export default function useHookRecupererValeursParCleBd(cleBd: string) {
     )
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère la liste des valeurs pour la clé BD passée en props depuis l'API.
      */
@@ -35,6 +41,11 @@ export default function useHookRecupererValeursParCleBd(cleBd: string) {
         axios.get(`http://localhost:3000/api/telephones-intelligents/valeurs-cle-bd/${cleBd}`)
             .then((response) => {
                 setListeValeursState({ listeValeursState: response.data.valeursDistinctes, isListeValeursLoading: false })
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des choix des listes déroulantes.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
             })
     }, [])
 

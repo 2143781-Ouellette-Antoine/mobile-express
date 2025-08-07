@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar"
 
 /**
  * Variables d'état et méthodes pour la récupération des téléphones intelligents d'une compagnie.
@@ -21,14 +22,25 @@ export default function useHookRecupererTelephonesIntelligentsUneCompagnie(nomCo
     const [isTelephonesIntelligentsLoading, setIsTelephonesIntelligentsLoading] = useState<boolean>(true)
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère tous les téléphones intelligents d'une compagnie depuis l'API.
      */
     useEffect(() => {
         setIsTelephonesIntelligentsLoading(true)
-        axios.get(`http://localhost:3000/api/telephones-intelligents/compagnie/${nomCompagnie}`).then((response) => {
-            setTelephonesIntelligents(response.data.telephonesIntelligents)
-        })
+        axios.get(`http://localhost:3000/api/telephones-intelligents/compagnie/${nomCompagnie}`)
+            .then((response) => {
+                setTelephonesIntelligents(response.data.telephonesIntelligents)
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des téléphones intelligents.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
+            })
     }, [])
 
     /**

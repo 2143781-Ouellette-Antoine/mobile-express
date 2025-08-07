@@ -42,6 +42,12 @@ function PageDetailsUnTelephoneIntelligent() {
             </Box>
         )
     } else {
+        const dateSortieString = new Date(telephoneIntelligent.dateSortie)
+            .toLocaleDateString("fr-FR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            })
         return (
             <Stack alignItems="center" gap={2} sx={{ marginY: 2 }}>
                 {/* Nom du téléphone intelligent */}
@@ -75,8 +81,10 @@ function PageDetailsUnTelephoneIntelligent() {
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td className="tg-d3nm">Année de sortie</td>
-                                <td className="tg-0pky" colSpan={3}>{telephoneIntelligent.anneeSortie}</td>
+                                <td className="tg-d3nm">Date de sortie</td>
+                                <td className="tg-0pky" colSpan={3}>
+                                    {dateSortieString}
+                                </td>
                             </tr>
                             <tr>
                                 <td className="tg-d3nm" rowSpan={4}>Construction</td>
@@ -282,7 +290,19 @@ function PageDetailsUnTelephoneIntelligent() {
                             </tr>
                             <tr>
                                 <td className="tg-fymr">Carte(s) SIM</td>
-                                <td className="tg-0pky" colSpan={2}>{telephoneIntelligent.descriptionCartesSim}</td>
+                                <td className="tg-0pky" colSpan={2}>
+                                    {
+                                        // Remplacer les sauts de ligne par des <br /> dans la description des cartes SIM.
+                                        // Boucler toutes les rangées de texte de la description des cartes SIM.
+                                        telephoneIntelligent.descriptionCartesSim.split("\n").map((rangee, index) => (
+                                            <Fragment key={index}>
+                                                {rangee}
+                                                {/* Pour chaque ligne, si ce n'est pas la dernière ligne, ajouter un saut de ligne */}
+                                                {index !== telephoneIntelligent.descriptionCartesSim.split("\n").length - 1 && <br />}
+                                            </Fragment>
+                                        ))
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <td className="tg-d3nm">Couleurs</td>

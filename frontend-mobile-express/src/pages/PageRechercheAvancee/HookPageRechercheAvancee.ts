@@ -23,7 +23,29 @@ export default function useHookPageRechercheAvancee() {
      * Construit un URL selon les filtres de recherche sélectionnés et navigue vers la page de résultats de recherche.
      */
     const onSubmit = (data: any) => {
-        console.log("Données soumises :", JSON.stringify(data))
+        // Créer un objet URLSearchParams initialement vide
+        // pour construire l'URL de recherche.
+        const params = new URLSearchParams();
+
+        // Convertir l'objet en URLSearchParams qui est accepté par la méthode navigate.
+        Object.entries(data).forEach(([key, value]) => {
+            // Ne pas ajouter les paramètres vides.
+            if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
+                return; // Passer au paramètre suivant si la valeur est vide.
+            }
+
+            if (Array.isArray(value)) {
+                // Convertir le tableau en une chaîne de caractères séparée par des virgules.
+                // Concaténer la clé actuelle et la valeur au URLSearchParams.
+                params.append(key, value.map(encodeURIComponent).join(","));
+            } else {
+                // Concaténer la clé actuelle et la valeur au URLSearchParams.
+                params.append(key, String(value));
+            }
+        });
+
+        // Naviguer vers la page de résultats avec les filtres de recherche.
+        navigate(`/resultats-recherche?${params.toString()}`);
     };
 
     // Exposer les variables d'état et les méthodes pour qu'elles soient accessibles dans le composant.

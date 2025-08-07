@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar";
 
 /**
  * Variables d'état et méthodes pour la récupération des compagnies épinglées dans la base de données.
@@ -23,6 +24,11 @@ export default function useHookRecupererCompagniesEpinglees() {
     )
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère les compagnies épinglées depuis l'API.
      */
@@ -33,6 +39,11 @@ export default function useHookRecupererCompagniesEpinglees() {
         axios.get(`http://localhost:3000/api/compagnies/epinglees-accueil`)
             .then((response) => {
                 setCompagniesEpingleesState({ compagniesEpinglees: response.data.compagnies, isLoading: false })
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des compagnies épinglées.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
             })
     }, [])
 

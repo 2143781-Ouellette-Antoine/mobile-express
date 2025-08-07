@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
+import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar";
 
 /**
  * Variables d'état et méthodes pour la récupération des détails d'un téléphone intelligent.
@@ -26,6 +27,11 @@ function useHookRecupererUnTelephoneIntelligent(id: string) {
     )
 
     /**
+     * Récupération du contexte pour pouvoir afficher des messages.
+     */
+    const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
+
+    /**
      * Méthode exécutée une fois lors du chargement du composant.
      * Récupère les données du téléphone intelligent depuis l'API.
      */
@@ -37,6 +43,11 @@ function useHookRecupererUnTelephoneIntelligent(id: string) {
             .then((response) => {
                 // Mettre à jour le téléphone intelligent et arrêter le chargement.
                 setTelephoneIntelligentState({ telephoneIntelligent: response.data.telephoneIntelligent, isLoading: false })
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération du téléphone intelligent.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
             })
     }, [id])
 
