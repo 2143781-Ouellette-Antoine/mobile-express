@@ -24,9 +24,9 @@
 22. Vérifier qu'il y a une rétroaction de chargement pendant que les données données sont récupérées depuis l'API. [:heavy_check_mark:]
 23. Vérifier que la déconnexion de l'administrateur fonctionne. [:heavy_check_mark:]
 24. Vérifier que la recherche fonctionne même si plusieurs filtres sont sélectionnés. [:heavy_check_mark:]
-25. Vérifier que les anciennes données du téléphone intelligent sont préremplies dans le formulaire de modification lors de l'ouverture.
-26. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs lorsque les données entrées sont invalides.
-27. Vérifier que la création, la modification et la supression d'un téléphone intelligent affiche un message de succès.
-28. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs quand les données entrées sont invalides.
-29. Vérifier que le site web affiche un message d'erreur en français lorsque une erreur survient lors de la communication avec l'API.
-30. Vérifier que les valeurs du téléphone intelligent sont correctement modifiées lorsque qu'on soumet le formulaire de modification.
+25. Vérifier que les anciennes données du téléphone intelligent sont préremplies dans le formulaire de modification lors de l'ouverture. [:heavy_check_mark:]
+26. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs lorsque les données entrées sont invalides. [:heavy_check_mark:]
+27. Vérifier que la création, la modification et la supression d'un téléphone intelligent affiche un message de succès. [:heavy_check_mark:]
+28. Vérifier que les formulaires de création et de modification affichent des messages d'erreurs quand les données entrées sont invalides. [:heavy_check_mark:]
+29. Vérifier que le site web affiche un message d'erreur en français lorsque une erreur survient lors de la communication avec l'API. [:heavy_check_mark:]
+30. Vérifier que les valeurs du téléphone intelligent sont correctement modifiées lorsque qu'on soumet le formulaire de modification. [:heavy_check_mark:]

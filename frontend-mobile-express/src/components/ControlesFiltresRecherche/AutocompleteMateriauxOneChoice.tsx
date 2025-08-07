@@ -12,6 +12,7 @@ type AutocompleteMateriauxOneChoiceProps = {
     id: string;
     name: string;
     label: string;
+    defaultValue?: string;
 }
 
 /**
@@ -34,7 +35,7 @@ const AutocompleteMateriauxOneChoice = forwardRef((props: AutocompleteMateriauxO
     /**
      * Valeur sélectionnée dans la liste déroulante.
      */
-    const [valeurSelectionnee, setValeurSelectionnee] = useState<string>("")
+    const [valeurSelectionnee, setValeurSelectionnee] = useState<string>(props.defaultValue || "")
 
     /**
      * Exposer la valeur actuelle de la liste déroulante via la référence (valeurSelectionnee).

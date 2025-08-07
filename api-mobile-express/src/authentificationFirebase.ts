@@ -40,22 +40,17 @@ export const firebaseAuthentication = async (
     }
 
     const authHeader = req.headers.authorization;
-    console.log('body: ', req.body);
-    console.log('start firebaseAuthentication');
 
     if (authHeader) {
         const idToken = authHeader.split(' ')[1];
-        console.log('idToken:', idToken);
 
         admin
             .auth()
             .verifyIdToken(idToken)
             .then(function (decodedToken) {
-                console.log('Next()');
                 next();
             })
             .catch(function (error) {
-                console.log('catch Error:', error);
                 const errorMessage = {
                     error: error,
                 };
@@ -63,7 +58,6 @@ export const firebaseAuthentication = async (
                 res.end();
             });
     } else {
-        console.log('no header');
         const errorMessage = {
             error: 'Entête authorization manquante',
         };

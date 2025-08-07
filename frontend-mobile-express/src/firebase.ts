@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { type NavigateOptions, type To } from 'react-router-dom';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDETOfNZXP7ab3YYPXNwRQH6QlIEev1hHQ",
@@ -22,7 +21,6 @@ export const logInWithEmailAndPassword = async (
     try {
         await signInWithEmailAndPassword(auth, email, password);
     } catch (err: any) {
-        console.error(err);
         alert(err.message);
     }
 };
@@ -35,8 +33,7 @@ export const getToken = async () => {
         .then(function (idToken) {
             return idToken;
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch(function (_error) {
             return null;
         });
 };

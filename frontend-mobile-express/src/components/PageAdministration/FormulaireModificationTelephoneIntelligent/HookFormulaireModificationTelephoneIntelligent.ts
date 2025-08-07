@@ -1,18 +1,19 @@
 import axios from "axios"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { TelephoneIntelligent } from "../../../models/TelephoneIntelligent"
-import type { FormulaireTelephoneIntelligentProps } from "./FormulaireTelephoneIntelligent";
+import type { FormulaireModificationTelephoneIntelligentProps } from "./FormulaireModificationTelephoneIntelligent";
 import { getToken } from "../../../firebase";
 import { useTemporarySnackbarContext } from "../../../contexts/ContextTemporarySnackbar";
+import useHookRecupererUnTelephoneIntelligent from "../../../hooks/HookRecupererUnTelephoneIntelligent";
 
 /**
- * Variables d'état et méthodes pour le composant React: FormulaireTelephoneIntelligent.
+ * Variables d'état et méthodes pour le composant React: FormulaireModificationTelephoneIntelligent.
  * Ceci est un hook React.
- * @param {FormulaireTelephoneIntelligentProps} props Les propriétés du composant React.
+ * @param {FormulaireModificationTelephoneIntelligentProps} props Les propriétés du composant React.
  * @returns { { Function, string, boolean } } Un objet contenant les variables d'état et
- * les méthodes de FormulaireTelephoneIntelligent.
+ * les méthodes de FormulaireModificationTelephoneIntelligent.
  */
-export default function useHookFormulaireTelephoneIntelligent(props: FormulaireTelephoneIntelligentProps) {
+export default function useHookFormulaireModificationTelephoneIntelligent(props: FormulaireModificationTelephoneIntelligentProps) {
     // Gestion des erreurs de validation
     const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -20,42 +21,32 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
      * Configurations de mémoire et de stockage entrées.
      */
     const [configurationsMemoireStockage, setConfigurationsMemoireStockage] = useState([
-        { memoire: "", stockage: "" }
+        { stockageGb: 0, memoireViveGb: 0 }
+    ]);
+
+    /**
+     * Caméras du téléphone intelligent entrées.
+     */
+    const [capteursCamera, setCapteursCamera] = useState([
+        { type: "", estEnAvant: false, resolutionMp: 0, possedeStabilisationOptiqueImage: false }
     ]);
 
     /**
      * Récupération du contexte pour pouvoir afficher des messages.
      */
     const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
-    
+
     /**
-     * Méthode pour créer un téléphone intelligent dans la base de données.
-     * @param {TelephoneIntelligent} telephoneIntelligentACreer Le téléphone intelligent à créer.
+     * Récupération du téléphone intelligent à modifier s'il y a un id.
      */
-    const creerTelephoneIntelligent = async (telephoneIntelligentACreer: TelephoneIntelligent) => {
-        try {
-            const token = await getToken();
-            const config = {
-                headers: { Authorization: `Bearer ${token}` },
-            };
+    const { telephoneIntelligent: telephoneIntelligentAModifier, isTelephoneIntelligentLoading: isTelephoneIntelligentAModifierLoading } = useHookRecupererUnTelephoneIntelligent(props.idAModifier);
 
-            const response = await axios.post(
-                "http://localhost:3000/api/telephones-intelligents",
-                telephoneIntelligentACreer,
-                config
-            )
-
-            setSnackbarMessage("Le téléphone intelligent a été créé avec succès.")
-            setSnackbarMessageType("success")
-            setIsSnackbarOpen(true)
-
-            return response.data
-        } catch (_error) {
-            setSnackbarMessage("Une erreur est survenue lors de la création du téléphone intelligent.")
-            setSnackbarMessageType("error")
-            setIsSnackbarOpen(true)
+    useEffect(() => {
+        if (telephoneIntelligentAModifier) {
+            setConfigurationsMemoireStockage(telephoneIntelligentAModifier.configurationsMemoireViveStockage);
+            setCapteursCamera(telephoneIntelligentAModifier.capteursCamera);
         }
-    }
+    }, [telephoneIntelligentAModifier]);
 
     /**
      * Méthode pour modifier un téléphone intelligent dans la base de données.
@@ -63,18 +54,20 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
      */
     const modifierTelephoneIntelligent = async (telephoneIntelligentAModifier: TelephoneIntelligent) => {
         try {
+            // Préparer l'authentification avec le token Firebase.
             const token = await getToken();
             const config = {
                 headers: { "Authorization": `Bearer ${token}` },
             };
 
-            console.log("telephoneIntelligentAModifier:", telephoneIntelligentAModifier);
-            console.log("config:", config);
             const response = await axios.put(
                 `http://localhost:3000/api/telephones-intelligents`,
                 telephoneIntelligentAModifier,
                 config
             )
+
+            // Rafraichir la page après modification
+            window.location.reload();
 
             setSnackbarMessage("Le téléphone intelligent a été modifié avec succès.")
             setSnackbarMessageType("success")
@@ -107,35 +100,35 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
         if (!formJson["dateSortie"] || formJson["dateSortie"].trim() === "") {
             newErrors["dateSortie"] = "La date de sortie est obligatoire.";
         // S'il n'est pas capable de créer une date avec la valeur.
-        } else if (isNaN(new Date(formJson["dateSortie"]).getTime())) {
+        } else if (isNaN(new Date(formJson["dateSortie"]).getFullYear())) {
             newErrors["dateSortie"] = "La date de sortie n'est pas valide.";
         }
 
         if (!formJson["hauteurMm"] || formJson["hauteurMm"].trim() === "") {
             newErrors["hauteurMm"] = "La hauteur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseInt(formJson["hauteurMm"], 10))) {
+        } else if (isNaN(parseFloat(formJson["hauteurMm"]))) {
             newErrors["hauteurMm"] = "La hauteur doit être un nombre valide.";
         }
 
         if (!formJson["largeurMm"] || formJson["largeurMm"].trim() === "") {
             newErrors["largeurMm"] = "La largeur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseInt(formJson["largeurMm"], 10))) {
+        } else if (isNaN(parseFloat(formJson["largeurMm"]))) {
             newErrors["largeurMm"] = "La largeur doit être un nombre valide.";
         }
 
         if (!formJson["epaisseurMm"] || formJson["epaisseurMm"].trim() === "") {
             newErrors["epaisseurMm"] = "L'épaisseur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseInt(formJson["epaisseurMm"], 10))) {
+        } else if (isNaN(parseFloat(formJson["epaisseurMm"]))) {
             newErrors["epaisseurMm"] = "L'épaisseur doit être un nombre valide.";
         }
 
         if (!formJson["poidsG"] || formJson["poidsG"].trim() === "") {
             newErrors["poidsG"] = "Le poids est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseInt(formJson["poidsG"], 10))) {
+        } else if (isNaN(parseFloat(formJson["poidsG"]))) {
             newErrors["poidsG"] = "Le poids doit être un nombre valide.";
         }
 
@@ -227,20 +220,12 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
             descriptionCartesSim: formJson["descriptionCartesSim"] as string || "",
             urlImagePrincipale: formJson["urlImagePrincipale"] as string || "",
             configurationsMemoireViveStockage,
-            capteursCamera: [],
-            couleurs: [],
+            capteursCamera,
+            couleurs: (formJson["couleurs"] as string || "").split(", ").map(couleur => couleur.trim())
         };
 
-        console.log("Données finales :", finalData);
-
-        // Si c'est un formulaire de modification.
-        if (props.isModifier) {
-            // Appeler la méthode pour modifier le téléphone intelligent.
-            modifierTelephoneIntelligent(finalData);
-        } else {
-            // Appeler la méthode pour créer un téléphone intelligent.
-            creerTelephoneIntelligent(finalData);
-        }
+        // Appeler la méthode pour modifier le téléphone intelligent.
+        modifierTelephoneIntelligent(finalData);
     }
 
     /**
@@ -249,10 +234,10 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
      * @param {"memoire" | "stockage"} field Le champ à modifier (mémoire ou stockage).
      * @param {string} value La nouvelle valeur pour le champ spécifié.
      */
-    const handleChangeConfig = (index: number, field: "memoire" | "stockage", value: string) => {
+    const handleChangeConfigurationsMemoireStockage = (index: number, field: "memoire" | "stockage", value: string) => {
         setConfigurationsMemoireStockage(prev =>
             prev.map((config, i) =>
-                i === index ? { ...config, [field]: value } : config
+                i === index ? { ...config, [field]: parseInt(value, 10) } : config
             )
         );
     };
@@ -263,7 +248,7 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
     const addEmptyConfigurationMemoireStockage = () => {
         // Remplacer le tableau des configurations par un tableau qui contient
         // l'ancienne liste plus une nouvelle configuration vide.
-        setConfigurationsMemoireStockage(prevConfigs => [...prevConfigs, { memoire: "", stockage: "" }]);
+        setConfigurationsMemoireStockage(prevConfigs => [...prevConfigs, { memoireViveGb: 0, stockageGb: 0 }]);
     };
 
     /**
@@ -278,17 +263,58 @@ export default function useHookFormulaireTelephoneIntelligent(props: FormulaireT
         );
     };
 
+    /**
+     * Méthode appelée lorsqu'une valeur de caméra change.
+     * @param {number} index L'index de la caméra à modifier.
+     * @param {"type" | "estEnAvant" | "resolutionMp" | "possedeStabilisationOptiqueImage"} field Le champ à modifier (type, estEnAvant, etc.).
+     * @param {any} value La nouvelle valeur pour le champ spécifié.
+     */
+    const handleChangeCapteursCamera = (index: number, field: "type" | "estEnAvant" | "resolutionMp" | "possedeStabilisationOptiqueImage", value: any) => {
+        setCapteursCamera(prev =>
+            prev.map((camera, i) =>
+                i === index ? { ...camera, [field]: value } : camera
+            )
+        );
+    };
+
+    /**
+     * Ajouter une capteur de caméra vide en bas de la liste dans le formulaire.
+     */
+    const addEmptyCapteurCamera = () => {
+        // Remplacer le tableau des capteurs par un tableau qui contient
+        // l'ancienne liste plus un nouveau capteur vide.
+        setCapteursCamera(prevCameras => [...prevCameras, { type: "", estEnAvant: false, resolutionMp: 0, possedeStabilisationOptiqueImage: false }]);
+    };
+
+    /**
+     * Enlève une caméra à l'index spécifié de la liste dans le formulaire.
+     * @param {number} indexASupprimer L'index de la caméra à supprimer.
+     */
+    const removeCapteurCamera = (indexASupprimer: number) => {
+        setCapteursCamera(prevCameras =>
+            // Si la liste a plus de 1 élément.
+            // Filter(): Garde tous les éléments qui ne sont pas égal à l'index à supprimer.
+            prevCameras.length > 1 ? prevCameras.filter((_camera, currentIndex) => currentIndex !== indexASupprimer) : prevCameras
+        );
+    };
+
     // Exposer les variables d'état et les méthodes pour qu'elles soient accessibles dans le composant.
     return {
+        telephoneIntelligentAModifier,
+        isTelephoneIntelligentAModifierLoading,
         errors,
         handleSubmit,
         configurationsMemoireStockage,
         setConfigurationsMemoireStockage,
-        creerTelephoneIntelligent,
         modifierTelephoneIntelligent,
         validerFormulaire,
-        handleChangeConfig,
+        handleChangeConfigurationsMemoireStockage,
         addEmptyConfigurationMemoireStockage,
-        removeConfigurationMemoireStockage
+        removeConfigurationMemoireStockage,
+        capteursCamera,
+        setCapteursCamera,
+        handleChangeCapteursCamera,
+        addEmptyCapteurCamera,
+        removeCapteurCamera
     }
 }

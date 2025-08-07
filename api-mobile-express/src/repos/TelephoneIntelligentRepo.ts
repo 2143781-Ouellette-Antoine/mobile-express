@@ -231,6 +231,8 @@ async function getPinnedCompagnies(): Promise<string[]> {
  * @returns {Promise<string[]>} Un tableau contenant tous les matériaux utilisés dans les téléphones intelligents.
  * 
  * Explications détaillées:
+ * 
+ * Échantillon:
  * [
  *     { "materiauAvant": "verre", "materiauArriere": "plastique", "materiauCadre": "aluminium" },
  *     { "materiauAvant": "plastique", "materiauArriere": "verre", "materiauCadre": "aluminium" },
@@ -279,6 +281,15 @@ async function getPinnedCompagnies(): Promise<string[]> {
  * {
  *     "materiaux": ["verre", "plastique", "aluminium"]
  * }
+ * 
+ * Étape 5 : $unwind
+ * Déballer le tableau "valeur" pour séparer les matériaux.
+ * [
+ *     { "valeur": "verre" },
+ *     { "valeur": "plastique" },
+ *     { "valeur": "aluminium" }
+ * ]
+ * Il reste seulement des objets « matériau » avec un champ "valeur" qu'on va mapper.
  */
 async function getAllMateriaux(): Promise<string[]> {
     try {
@@ -330,6 +341,7 @@ async function getAllMateriaux(): Promise<string[]> {
 
         // Extraire la valeur dans le champ "valeur" de chaque objet et construire un tableau
         // de chaînes de caractères.
+        // En d'autres mots, créer un tableau des valeurs en bouclant les objets de listeObjetsMateriaux.
         const listeMateriaux = listeObjetsMateriaux.map(objet => objet.valeur);
 
         // Trier les matériaux par ordre alphabétique en respectant les règles de la langue locale.

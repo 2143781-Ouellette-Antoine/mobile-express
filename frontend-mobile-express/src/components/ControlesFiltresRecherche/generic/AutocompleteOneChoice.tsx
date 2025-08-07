@@ -16,6 +16,7 @@ type AutocompleteOneChoiceProps = {
     label: string;
     placeholder: string;
     cleBdChoix: string;
+    defaultValue?: string;
 }
 
 /**
@@ -39,7 +40,7 @@ const AutocompleteOneChoice = forwardRef((props: AutocompleteOneChoiceProps, ref
     /**
      * Valeur sélectionnée dans la liste déroulante.
      */
-    const [valeurSelectionnee, setValeurSelectionnee] = useState<string>("")
+    const [valeurSelectionnee, setValeurSelectionnee] = useState<string>(props.defaultValue || "")
 
     /**
      * Exposer la valeur actuelle de la liste déroulante via la référence (valeurSelectionnee).

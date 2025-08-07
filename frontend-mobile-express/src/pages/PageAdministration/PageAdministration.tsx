@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
 import { Add as AddIcon } from '@mui/icons-material';
-import FormulaireTelephoneIntelligent from "../../components/PageAdministration/FormulaireTelephoneIntelligent/FormulaireTelephoneIntelligent";
+import FormulaireCreationTelephoneIntelligent from "../../components/PageAdministration/FormulaireCreationTelephoneIntelligent/FormulaireCreationTelephoneIntelligent";
 import usePageAdministrationHook from "./HookPageAdministration";
 import ListeModifierSupprimer from "../../components/PageAdministration/ListeModifierSupprimer/ListeModifierSupprimer";
 
@@ -35,12 +35,13 @@ function PageAdministration() {
                 <ListeModifierSupprimer />
 
                 {/* Fenêtre contextuelle pour le formulaire de création d'un téléphone intelligent */}
-                <FormulaireTelephoneIntelligent
+                <FormulaireCreationTelephoneIntelligent
                     isModifier={false}
                     isFormulaireOuvert={isFormulaireCreationOuvert}
                     setIsFormulaireOuvert={setIsFormulaireCreationOuvert}
                     titreFormulaire={"Créer un téléphone intelligent"}
                     texteBoutonSoumettre={"Créer"}
+                    idAModifier={null}
                 />
             </Stack>
         </Box>

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState } from "react"
 import type { TelephoneIntelligent } from "../models/TelephoneIntelligent"
 import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackbar"
 
@@ -13,14 +13,18 @@ import { useTemporarySnackbarContext } from "../contexts/ContextTemporarySnackba
  */
 export default function useHookRecupererTousTelephonesIntelligents() {
     /**
-     * Tableau de tous les téléphones intelligents.
+     * Une variable d'état contenant la liste des compagnies épinglées
+     * et une variable qui indique si les données sont en train d'être récupérées depuis l'API.
      */
-    const [telephonesIntelligents, setTelephonesIntelligents] = useState<TelephoneIntelligent[]>([])
-
-    /**
-     * Indique si les téléphones intelligents sont en train d'être récupérés depuis l'API.
-     */
-    const [isTelephonesIntelligentsLoading, setIsTelephonesIntelligentsLoading] = useState<boolean>(true)
+    const [telephonesIntelligentsState, setTelephonesIntelligentsState] = useState<
+        // Le type de la variable d'état est un objet avec deux propriétés:
+        // - Une liste d'objets `TelephoneIntelligent`;
+        // - Un booléen.
+        { telephonesIntelligents: TelephoneIntelligent[]; isLoading: boolean }
+    >(
+        // La valeur par défaut de la variable d'état.
+        { telephonesIntelligents: [], isLoading: true }
+    )
 
     /**
      * Récupération du contexte pour pouvoir afficher des messages.
@@ -28,36 +32,27 @@ export default function useHookRecupererTousTelephonesIntelligents() {
     const { setSnackbarMessage, setSnackbarMessageType, setIsSnackbarOpen } = useTemporarySnackbarContext()
 
     /**
-     * Méthode pour récupérer les téléphones intelligents depuis l'API.
-     * Peut être appelée pour recharger les données.
-     */
-    const fetchTelephonesIntelligents = useCallback(async () => {
-        setIsTelephonesIntelligentsLoading(true)
-        try {
-            const response = await axios.get(`http://localhost:3000/api/telephones-intelligents/all`)
-            setTelephonesIntelligents(response.data.telephonesIntelligents)
-        } catch (error) {
-            setSnackbarMessage("Une erreur est survenue lors de la récupération des téléphones intelligents.")
-            setSnackbarMessageType("error")
-            setIsSnackbarOpen(true)
-        } finally {
-            setIsTelephonesIntelligentsLoading(false)
-        }
-    }, [])
-
-    /**
      * Méthode exécutée une fois lors du chargement du composant.
-     * Récupère tous les téléphones intelligents depuis l'API.
      */
     useEffect(() => {
-        fetchTelephonesIntelligents()
-    }, [fetchTelephonesIntelligents])
+        // Activer le chargement.
+        setTelephonesIntelligentsState({ telephonesIntelligents: [], isLoading: true })
+
+        axios.get(`http://localhost:3000/api/telephones-intelligents/all`)
+            .then((response) => {
+                setTelephonesIntelligentsState({ telephonesIntelligents: response.data.telephonesIntelligents, isLoading: false })
+            })
+            .catch((_error) => {
+                setSnackbarMessage("Une erreur est survenue lors de la récupération des téléphones intelligents.")
+                setSnackbarMessageType("error")
+                setIsSnackbarOpen(true)
+            })
+    }, [])
 
     // Exposer les variables d'état et les méthodes pour qu'elles soient accessibles dans le composant.
     // useEffect() n'est pas nécessaire, car il est exposé automatiquement par le hook.
     return {
-        telephonesIntelligents,
-        isTelephonesIntelligentsLoading,
-        fetchTelephonesIntelligents
+        telephonesIntelligents: telephonesIntelligentsState.telephonesIntelligents,
+        isTelephonesIntelligentsLoading: telephonesIntelligentsState.isLoading
     }
 }

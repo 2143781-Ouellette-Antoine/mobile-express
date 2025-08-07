@@ -643,26 +643,6 @@ function PageRechercheAvancee() {
                         </Stack>
                     </Stack>
 
-                    <Stack direction="column" spacing={2}>
-                        <Typography variant="h5" color="#c00000" sx={{ paddingTop: 2 }}>Réseau mobile</Typography>
-
-                        <Box width="50%">
-                            {/* Réseau mobile (multi-sélection) */}
-                            {/* <FormFieldController
-                                name="generationReseauMobile"
-                                control={formController}
-                                render={({ field }) => (
-                                    <AutocompleteMultiChoices
-                                        label={"Réseau mobile"}
-                                        placeholder={"Sélectionnez un ou plusieurs réseaux mobiles"}
-                                        cleBdChoix={"generationReseauMobile"}
-                                        fieldProperties={field}
-                                    />
-                                )}
-                            /> */}
-                        </Box>
-                    </Stack>
-
                     {/* Bouton de recherche */}
                     <Button
                         type="submit"

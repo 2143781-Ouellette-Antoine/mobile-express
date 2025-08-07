@@ -1,12 +1,10 @@
-import axios from "axios";
-import { useState } from "react";
 import { Button, CircularProgress, Stack, Typography } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import type { TelephoneIntelligent } from "../../../models/TelephoneIntelligent";
+import useHookListeModifierSupprimer from "./HookListeModifierSupprimer";
 import useHookRecupererTousTelephonesIntelligents from "../../../hooks/HookRecupererTousTelephonesIntelligents";
 import FenetreConfirmationSuppression from "../FenetreConfirmationSuppression";
-import FormulaireTelephoneIntelligent from "../FormulaireTelephoneIntelligent/FormulaireTelephoneIntelligent";
-import { getToken } from "../../../firebase";
+import FormulaireModificationTelephoneIntelligent from "../FormulaireModificationTelephoneIntelligent/FormulaireModificationTelephoneIntelligent";
 
 /**
  * Liste de tous les téléphones intelligents avec des options de modification et de suppression
@@ -21,38 +19,21 @@ function ListeModifierSupprimer() {
      */
     const {
         telephonesIntelligents,
-        isTelephonesIntelligentsLoading,
-        fetchTelephonesIntelligents
+        isTelephonesIntelligentsLoading
     } = useHookRecupererTousTelephonesIntelligents()
 
-    const [idASupprimer, setIdASupprimer] = useState<string | null>(null);
-    const [isFenetreConfirmationSuppressionOuverte, setIsFenetreConfirmationSuppressionOuverte] = useState(false);
     /**
-     * Indique si le formulaire de modification est ouvert.
+     * Récupération des variables d'état et des méthodes de ListeModifierSupprimer.
      */
-    const [isFormulaireModificationOuvert, setIsFormulaireModificationOuvert] = useState<boolean>(false)
-
-    /**
-     * Supprime un téléphone intelligent dans la base de données.
-     * @param id L'id du téléphone intelligent à supprimer.
-     */
-    const supprimerTelephoneIntelligent = async (id: string) => {
-        try {
-            const token = await getToken();
-            const config = {
-                headers: { Authorization: `Bearer ${token}` },
-            };
-            
-            await axios.delete(
-                `http://localhost:3000/api/telephones-intelligents/id/${id}`,
-                config
-            );
-            setIdASupprimer(null);
-            fetchTelephonesIntelligents(); // Actualiser la liste après suppression
-        } catch (error) {
-            console.error("Erreur lors de la suppression du téléphone intelligent:", error);
-        }
-    };
+    const {
+        isFormulaireModificationOuvert,
+        setIsFormulaireModificationOuvert,
+        isFenetreConfirmationSuppressionOuverte,
+        setIsFenetreConfirmationSuppressionOuverte,
+        idAModifierOuSupprimer,
+        setIdAModifierOuSupprimer,
+        supprimerTelephoneIntelligent
+    } = useHookListeModifierSupprimer()
 
     // Mettre un chargement parce qu'on ne peut pas afficher les téléphones intelligents
     // tant qu'on ne les a pas reçus.
@@ -82,7 +63,10 @@ function ListeModifierSupprimer() {
                                 variant="outlined"
                                 color="warning"
                                 startIcon={<EditIcon />}
-                                onClick={() => setIsFormulaireModificationOuvert(true)}
+                                onClick={() => {
+                                    setIdAModifierOuSupprimer(telephoneIntelligent._id || null);
+                                    setIsFormulaireModificationOuvert(true);
+                                }}
                             >
                                 Modifier
                             </Button>
@@ -92,7 +76,7 @@ function ListeModifierSupprimer() {
                                 color="error"
                                 startIcon={<DeleteIcon />}
                                 onClick={() => {
-                                    setIdASupprimer(telephoneIntelligent._id || null);
+                                    setIdAModifierOuSupprimer(telephoneIntelligent._id || null);
                                     setIsFenetreConfirmationSuppressionOuverte(true);
                                 }}
                             >
@@ -102,26 +86,28 @@ function ListeModifierSupprimer() {
                     ))}
                 </Stack>
 
-                {/* Fenêtre contextuelle pour le formulaire de création d'un téléphone intelligent */}
-                <FormulaireTelephoneIntelligent
-                    isModifier={true}
-                    isFormulaireOuvert={isFormulaireModificationOuvert}
-                    setIsFormulaireOuvert={setIsFormulaireModificationOuvert}
-                    titreFormulaire={"Modifier un téléphone intelligent"}
-                    texteBoutonSoumettre={"Modifier"}
-                />
+                {idAModifierOuSupprimer && (
+                    <>
+                        {/* Fenêtre contextuelle pour le formulaire de modification d'un téléphone intelligent */}
+                        <FormulaireModificationTelephoneIntelligent
+                            isFormulaireOuvert={isFormulaireModificationOuvert}
+                            setIsFormulaireOuvert={setIsFormulaireModificationOuvert}
+                            idAModifier={idAModifierOuSupprimer}
+                        />
 
-                {/* Fenêtre contextuelle de confirmation de suppression */}
-                <FenetreConfirmationSuppression
-                    isOuvert={isFenetreConfirmationSuppressionOuverte}
-                    onClose={() => setIsFenetreConfirmationSuppressionOuverte(false)}
-                    onConfirm={() => {
-                        if (idASupprimer) {
-                            supprimerTelephoneIntelligent(idASupprimer);
-                            setIsFenetreConfirmationSuppressionOuverte(false);
-                        }
-                    }}
-                />
+                        {/* Fenêtre contextuelle de confirmation de suppression  */}
+                        <FenetreConfirmationSuppression
+                            isOuvert={isFenetreConfirmationSuppressionOuverte}
+                            onClose={() => setIsFenetreConfirmationSuppressionOuverte(false)}
+                            onConfirm={() => {
+                                if (idAModifierOuSupprimer) {
+                                    supprimerTelephoneIntelligent(idAModifierOuSupprimer);
+                                    setIsFenetreConfirmationSuppressionOuverte(false);
+                                }
+                            }}
+                        />
+                    </>
+                )}
             </>
         )
     }

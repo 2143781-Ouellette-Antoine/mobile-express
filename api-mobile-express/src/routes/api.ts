@@ -72,7 +72,6 @@ function validateBodyHasId(req: Request, res: Response, next: NextFunction) {
     }
     // Si l'id n'est pas un id MongoDB valide (ObjectId).
     if (!MongooseTypes.ObjectId.isValid(req.body.telephoneIntelligent._id)) {
-        console.log('***************************passed*********************************.');
         res.status(HttpStatusCodes.BAD_REQUEST).send({ error: 'L\'id du téléphone intelligent doit être un ObjectId valide.' }).end();
         return;
     }
