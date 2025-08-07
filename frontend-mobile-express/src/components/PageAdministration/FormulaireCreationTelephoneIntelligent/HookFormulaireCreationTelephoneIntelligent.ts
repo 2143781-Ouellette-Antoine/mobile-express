@@ -19,7 +19,7 @@ export default function useHookFormulaireCreationTelephoneIntelligent() {
      * Configurations de mémoire et de stockage entrées.
      */
     const [configurationsMemoireStockage, setConfigurationsMemoireStockage] = useState([
-        { memoire: "", stockage: "" }
+        { memoire: 0, stockage: 0 }
     ]);
 
     /**
@@ -73,7 +73,64 @@ export default function useHookFormulaireCreationTelephoneIntelligent() {
      * @returns true si le formulaire est valide, sinon false.
      */
     function validerFormulaire(formJson: Record<string, any>) {
+        // Initialiser un objet pour stocker les erreurs.
         const newErrors: Record<string, string> = {};
+
+        // Validation des configurations mémoire-stockage.
+        if (Array.isArray(configurationsMemoireStockage)) {
+            // Boucler sur chaque configuration mémoire-stockage.
+            configurationsMemoireStockage.forEach((_config, i) => {
+                // Récupérer les clés pour chaque configuration.
+                const memoireKey = `configurationsMemoireViveStockage[${i}].memoireViveGb`;
+                const stockageKey = `configurationsMemoireViveStockage[${i}].stockageGb`;
+
+                // Récupérer les valeurs de mémoire et de stockage pour la configuration actuelle.
+                const memoireValue = formJson[memoireKey];
+                const stockageValue = formJson[stockageKey];
+
+                if (!memoireValue || memoireValue.toString().trim() === "") {
+                    newErrors[memoireKey] = "La mémoire vive est obligatoire pour chaque configuration.";
+                } else if (isNaN(parseInt(memoireValue, 10)) || parseInt(memoireValue, 10) < 0) {
+                    newErrors[memoireKey] = "La mémoire vive doit être un nombre positif.";
+                }
+                if (!stockageValue || stockageValue.toString().trim() === "") {
+                    newErrors[stockageKey] = "Le stockage est obligatoire pour chaque configuration.";
+                } else if (isNaN(parseInt(stockageValue, 10)) || parseInt(stockageValue, 10) < 0) {
+                    newErrors[stockageKey] = "Le stockage doit être un nombre positif.";
+                }
+            });
+        }
+
+        // Validation des capteurs de caméra.
+        if (Array.isArray(capteursCamera)) {
+            // Boucler sur chaque capteur de caméra.
+            capteursCamera.forEach((capteur, i) => {
+                // Récupérer les clés pour chaque capteur.
+                const typeKey = `capteursCamera[${i}].type`;
+                const resolutionMpKey = `capteursCamera[${i}].resolutionMp`;
+                // Vérifier le champ type obligatoire.
+                if (!capteur.type || capteur.type.trim() === "") {
+                    newErrors[typeKey] = "Le type de capteur est obligatoire pour chaque caméra.";
+                }
+                // Vérifier que le champ résolutionMp est un nombre positif.
+                if (
+                    capteur.resolutionMp === undefined || capteur.resolutionMp === null ||
+                    isNaN(Number(capteur.resolutionMp)) || Number(capteur.resolutionMp) < 0
+                ) {
+                    newErrors[resolutionMpKey] = "La résolution du capteur doit être un nombre positif.";
+                }
+                // (estEnAvant et possedeStabilisationOptiqueImage sont des booléens).
+            });
+        }
+
+        if (!formJson["urlImagePrincipale"] || formJson["urlImagePrincipale"].trim() === "") {
+            newErrors["urlImagePrincipale"] = "L'URL de l'image principale est obligatoire.";
+        /**
+         * Regex généré par : OpenAI. (2025). ChatGPT (version 29 juillet 2025) [Modèle massif de langage]. https://chat.openai.com/chat
+         */
+        } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|gif)$/i.test(formJson["urlImagePrincipale"])) {
+            newErrors["urlImagePrincipale"] = "L'URL de l'image principale n'est pas valide.";
+        }
 
         if (!formJson["nom"] || formJson["nom"].trim() === "") {
             newErrors["nom"] = "Le nom est obligatoire.";
@@ -93,43 +150,182 @@ export default function useHookFormulaireCreationTelephoneIntelligent() {
         if (!formJson["hauteurMm"] || formJson["hauteurMm"].trim() === "") {
             newErrors["hauteurMm"] = "La hauteur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseFloat(formJson["hauteurMm"]))) {
-            newErrors["hauteurMm"] = "La hauteur doit être un nombre valide.";
+        } else if (
+            isNaN(parseFloat(formJson["hauteurMm"])) ||
+            parseFloat(formJson["hauteurMm"]) < 0
+        ) {
+            newErrors["hauteurMm"] = "La hauteur doit être un nombre positif.";
         }
 
         if (!formJson["largeurMm"] || formJson["largeurMm"].trim() === "") {
             newErrors["largeurMm"] = "La largeur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseFloat(formJson["largeurMm"]))) {
-            newErrors["largeurMm"] = "La largeur doit être un nombre valide.";
+        } else if (
+            isNaN(parseFloat(formJson["largeurMm"])) ||
+            parseFloat(formJson["largeurMm"]) < 0
+        ) {
+            newErrors["largeurMm"] = "La largeur doit être un nombre positif.";
         }
 
         if (!formJson["epaisseurMm"] || formJson["epaisseurMm"].trim() === "") {
             newErrors["epaisseurMm"] = "L'épaisseur est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseFloat(formJson["epaisseurMm"]))) {
-            newErrors["epaisseurMm"] = "L'épaisseur doit être un nombre valide.";
+        } else if (
+            isNaN(parseFloat(formJson["epaisseurMm"])) ||
+            parseFloat(formJson["epaisseurMm"]) < 0
+        ) {
+            newErrors["epaisseurMm"] = "L'épaisseur doit être un nombre positif.";
         }
 
         if (!formJson["poidsG"] || formJson["poidsG"].trim() === "") {
             newErrors["poidsG"] = "Le poids est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseFloat(formJson["poidsG"]))) {
-            newErrors["poidsG"] = "Le poids doit être un nombre valide.";
+        } else if (
+            isNaN(parseFloat(formJson["poidsG"])) ||
+            parseFloat(formJson["poidsG"]) < 0
+        ) {
+            newErrors["poidsG"] = "Le poids doit être un nombre positif.";
+        }
+
+        if (!formJson["materiauAvant"] || formJson["materiauAvant"].trim() === "") {
+            newErrors["materiauAvant"] = "Le matériau avant est obligatoire.";
+        }
+
+        if (!formJson["materiauArriere"] || formJson["materiauArriere"].trim() === "") {
+            newErrors["materiauArriere"] = "Le matériau arrière est obligatoire.";
+        }
+
+        if (!formJson["materiauCadre"] || formJson["materiauCadre"].trim() === "") {
+            newErrors["materiauCadre"] = "Le matériau du cadre est obligatoire.";
+        }
+
+        if (!formJson["resistanceEau"] || formJson["resistanceEau"].trim() === "") {
+            newErrors["resistanceEau"] = "La résistance à l'eau est obligatoire.";
+        }
+
+        if (!formJson["technologieEcran"] || formJson["technologieEcran"].trim() === "") {
+            newErrors["technologieEcran"] = "La technologie de l'écran est obligatoire.";
         }
 
         if (!formJson["tailleEcranPouces"] || formJson["tailleEcranPouces"].trim() === "") {
             newErrors["tailleEcranPouces"] = "La taille de l'écran est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseFloat(formJson["tailleEcranPouces"]))) {
-            newErrors["tailleEcranPouces"] = "La taille de l'écran doit être un nombre valide.";
+        } else if (
+            isNaN(parseFloat(formJson["tailleEcranPouces"])) ||
+            parseFloat(formJson["tailleEcranPouces"]) < 0
+        ) {
+            newErrors["tailleEcranPouces"] = "La taille de l'écran doit être un nombre positif.";
+        }
+
+        if (!formJson["resolutionEcranLargeurPixels"] || formJson["resolutionEcranLargeurPixels"].trim() === "") {
+            newErrors["resolutionEcranLargeurPixels"] = "La résolution de l'écran en largeur est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseInt(formJson["resolutionEcranLargeurPixels"], 10)) ||
+            parseInt(formJson["resolutionEcranLargeurPixels"], 10) < 0
+        ) {
+            newErrors["resolutionEcranLargeurPixels"] = "La résolution de l'écran en largeur doit être un nombre positif.";
+        }
+
+        if (!formJson["resolutionEcranHauteurPixels"] || formJson["resolutionEcranHauteurPixels"].trim() === "") {
+            newErrors["resolutionEcranHauteurPixels"] = "La résolution de l'écran en hauteur est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseInt(formJson["resolutionEcranHauteurPixels"], 10)) ||
+            parseInt(formJson["resolutionEcranHauteurPixels"], 10) < 0
+        ) {
+            newErrors["resolutionEcranHauteurPixels"] = "La résolution de l'écran en hauteur doit être un nombre positif.";
+        }
+
+        if (!formJson["tauxRafraichissementEcranHz"] || formJson["tauxRafraichissementEcranHz"].trim() === "") {
+            newErrors["tauxRafraichissementEcranHz"] = "Le taux de rafraîchissement de l'écran est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseInt(formJson["tauxRafraichissementEcranHz"], 10)) ||
+            parseInt(formJson["tauxRafraichissementEcranHz"], 10) < 0
+        ) {
+            newErrors["tauxRafraichissementEcranHz"] = "Le taux de rafraîchissement de l'écran doit être un nombre positif.";
+        }
+
+        if (!formJson["nomPuce"] || formJson["nomPuce"].trim() === "") {
+            newErrors["nomPuce"] = "Le nom de la puce est obligatoire.";
+        }
+
+        if (!formJson["vitessePuceGhz"] || formJson["vitessePuceGhz"].trim() === "") {
+            newErrors["vitessePuceGhz"] = "La vitesse de la puce est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseFloat(formJson["vitessePuceGhz"])) ||
+            parseFloat(formJson["vitessePuceGhz"]) < 0
+        ) {
+            newErrors["vitessePuceGhz"] = "La vitesse de la puce doit être un nombre positif.";
+        }
+
+        if (!formJson["descriptionCoeursPuce"] || formJson["descriptionCoeursPuce"].trim() === "") {
+            newErrors["descriptionCoeursPuce"] = "La description des cœurs de la puce est obligatoire.";
+        }
+
+        if (!formJson["nomGraphiquesPuce"] || formJson["nomGraphiquesPuce"].trim() === "") {
+            newErrors["nomGraphiquesPuce"] = "Le nom des graphiques de la puce est obligatoire.";
+        }
+
+        if (!formJson["technologieStockage"] || formJson["technologieStockage"].trim() === "") {
+            newErrors["technologieStockage"] = "La technologie de stockage est obligatoire.";
+        }
+
+        if (!formJson["systemeExploitation"] || formJson["systemeExploitation"].trim() === "") {
+            newErrors["systemeExploitation"] = "Le système d'exploitation est obligatoire.";
+        }
+
+        if (!formJson["maxVersionSystemeExploitation"] || formJson["maxVersionSystemeExploitation"].trim() === "") {
+            newErrors["maxVersionSystemeExploitation"] = "La version maximale du système d'exploitation est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseInt(formJson["maxVersionSystemeExploitation"], 10)) ||
+            parseInt(formJson["maxVersionSystemeExploitation"], 10) < 0
+        ) {
+            newErrors["maxVersionSystemeExploitation"] = "La version maximale du système d'exploitation doit être un nombre positif.";
+        }
+
+        if (!formJson["modelePortUsb"] || formJson["modelePortUsb"].trim() === "") {
+            newErrors["modelePortUsb"] = "Le modèle du port USB est obligatoire.";
         }
 
         if (!formJson["capaciteBatterieMah"] || formJson["capaciteBatterieMah"].trim() === "") {
             newErrors["capaciteBatterieMah"] = "La capacité de la batterie est obligatoire.";
         // S'il n'est pas capable de créer un nombre avec la valeur.
-        } else if (isNaN(parseInt(formJson["capaciteBatterieMah"], 10))) {
-            newErrors["capaciteBatterieMah"] = "La capacité de la batterie doit être un nombre valide.";
+        } else if (
+            isNaN(parseInt(formJson["capaciteBatterieMah"], 10)) ||
+            parseInt(formJson["capaciteBatterieMah"], 10) < 0
+        ) {
+            newErrors["capaciteBatterieMah"] = "La capacité de la batterie doit être un nombre positif.";
+        }
+
+        if (!formJson["typeAuthentification"] || formJson["typeAuthentification"].trim() === "") {
+            newErrors["typeAuthentification"] = "Le type d'authentification est obligatoire.";
+        }
+
+        if (!formJson["generationReseauMobile"] || formJson["generationReseauMobile"].trim() === "") {
+            newErrors["generationReseauMobile"] = "La génération du réseau mobile est obligatoire.";
+        // S'il n'est pas capable de créer un nombre avec la valeur.
+        } else if (
+            isNaN(parseInt(formJson["generationReseauMobile"], 10)) ||
+            parseInt(formJson["generationReseauMobile"], 10) < 0
+        ) {
+            newErrors["generationReseauMobile"] = "La génération du réseau mobile doit être un nombre positif.";
+        }
+
+        if (!formJson["descriptionCartesSim"] || formJson["descriptionCartesSim"].trim() === "") {
+            newErrors["descriptionCartesSim"] = "La description des cartes SIM est obligatoire.";
+        }
+
+        if (!formJson["couleurs"] || formJson["couleurs"].trim() === "") {
+            newErrors["couleurs"] = "Les couleurs sont obligatoires.";
+        /**
+         * Regex généré par : OpenAI. (2025). ChatGPT (version 29 juillet 2025) [Modèle massif de langage]. https://chat.openai.com/chat
+         */
+        } else if (!/^\s*\w+(\s*,\s*\w+)*\s*$/.test(formJson["couleurs"])) {
+            newErrors["couleurs"] = "Les couleurs doivent être une liste de mots séparés par des virgules.";
         }
 
         // Mettre à jour la variable d'état du tableau des erreurs.
@@ -223,7 +419,7 @@ export default function useHookFormulaireCreationTelephoneIntelligent() {
     const handleChangeConfigurationsMemoireStockage = (index: number, field: "memoire" | "stockage", value: string) => {
         setConfigurationsMemoireStockage(prev =>
             prev.map((config, i) =>
-                i === index ? { ...config, [field]: value } : config
+                i === index ? { ...config, [field]: parseInt(value, 10) } : config
             )
         );
     };
@@ -234,7 +430,7 @@ export default function useHookFormulaireCreationTelephoneIntelligent() {
     const addEmptyConfigurationMemoireStockage = () => {
         // Remplacer le tableau des configurations par un tableau qui contient
         // l'ancienne liste plus une nouvelle configuration vide.
-        setConfigurationsMemoireStockage(prevConfigs => [...prevConfigs, { memoire: "", stockage: "" }]);
+        setConfigurationsMemoireStockage(prevConfigs => [...prevConfigs, { memoire: 0, stockage: 0 }]);
     };
 
     /**

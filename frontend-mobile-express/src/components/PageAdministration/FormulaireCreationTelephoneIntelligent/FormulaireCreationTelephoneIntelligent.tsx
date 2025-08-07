@@ -77,7 +77,7 @@ function FormulaireCreationTelephoneIntelligent(props: FormulaireCreationTelepho
                             required
                         />
 
-                        {/* Année de sortie (nombre) */}
+                        {/* Date de sortie (nombre) */}
                         <TextField
                             id="dateSortieTelephoneIntelligent"
                             name="dateSortie"
