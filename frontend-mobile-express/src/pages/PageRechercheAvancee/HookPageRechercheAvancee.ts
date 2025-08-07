@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import sliderDefaults from "../../constants/MinMaxFiltresRecherche"
 
 /**
  * Variables d'état et méthodes pour le composant React: PageRechercheAvancee.
@@ -8,41 +8,70 @@ import { useForm } from "react-hook-form"
 export default function useHookPageRechercheAvancee() {
     // Récupérer la méthode pour pouvoir naviguer entre les pages.
     const navigate = useNavigate()
-    
-    /**
-     * Récupérer le contrôleur et la méthode qui gère la soumission du formulaire
-     * de la librairie react-hook-form.
-     * @property {Control<FieldValues, any, FieldValues>} control Contrôleur pour gérer les champs du formulaire.
-     * @property {Function} handleSubmit Méthode qui gère la soumission du formulaire.
-     * Il faut lui passer en paramètre une méthode de callback qui recevra les données du formulaire.
-     */
-    const { control, handleSubmit } = useForm()
 
     /**
      * Méthode appelée lorsque l'utilisateur clique sur le bouton « Rechercher ».
      * Construit un URL selon les filtres de recherche sélectionnés et navigue vers la page de résultats de recherche.
      */
-    const onSubmit = (data: any) => {
-        // Créer un objet URLSearchParams initialement vide
-        // pour construire l'URL de recherche.
-        const params = new URLSearchParams();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        // Empêche le comportement par défaut du formulaire qui recharge la page.
+        event.preventDefault();
 
-        // Convertir l'objet en URLSearchParams qui est accepté par la méthode navigate.
-        Object.entries(data).forEach(([key, value]) => {
-            // Ne pas ajouter les paramètres vides.
-            if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
-                return; // Passer au paramètre suivant si la valeur est vide.
+        // Récupération des données du formulaire.
+        // FormData utilise la propriété `name` de chaque contrôle du formulaire.
+        // Retourne tous les champs du formulaire.
+        const formData = new FormData(event.currentTarget);
+        // Conversion de FormData en un objet.
+        const formJson = Object.fromEntries(formData.entries());
+
+        // Filtrer les champs vides.
+        for (const key in formJson) {
+            if (formJson[key] === "" || formJson[key] === null) {
+                delete formJson[key];
+                continue;
             }
+        }
 
-            if (Array.isArray(value)) {
-                // Convertir le tableau en une chaîne de caractères séparée par des virgules.
-                // Concaténer la clé actuelle et la valeur au URLSearchParams.
-                params.append(key, value.map(encodeURIComponent).join(","));
+        // S'il y a des erreurs de validation, bloquer l'envoi du formulaire à l'API.
+        // if (!validerFormulaire(formJson)) {
+        //     // Arrêter la soumission.
+        //     return;
+        // }
+
+        const finalData: { [key: string]: string } = {};
+        // Boucler chaque filtre de recherche qui a été sélectionné et les ajouter un à un à l'URL.
+        for (const key in formJson) {
+            const value = formJson[key];
+
+            if (key.startsWith("range")) {
+                // Extraire le nom du champ après "range"
+                const suffix = key.slice(5); // ex: "HauteurMm"
+                // Séparer la valeur (chaine de caractères) en deux: min et max.
+                const [min, max] = (value as string).split(",");
+                // Générer les clés minXxx et maxXxx avec la première lettre en majuscule
+                const suffixeAvecMajuscule = suffix.charAt(0).toUpperCase() + suffix.slice(1); // Prendre le premier caractère du suffixe.
+
+                // Récupérer les valeurs par défaut du slider.
+                const [defMin, defMax] = sliderDefaults[key];
+                // Si la valeur du slider est différente de la valeur par défaut.
+                if (Number(min) !== defMin) {
+                    // Ajouter le filtre min.
+                    finalData["min" + suffixeAvecMajuscule] = min;
+                }
+                if (Number(max) !== defMax) {
+                    // Ajouter le filtre max.
+                    finalData["max" + suffixeAvecMajuscule] = max;
+                }
+            } else if (key.startsWith("possede")) {
+                // Si la valeur est 'on', convertir en 'true'
+                finalData[key] = value === "on" ? "true" : "false";
             } else {
-                // Concaténer la clé actuelle et la valeur au URLSearchParams.
-                params.append(key, String(value));
+                finalData[key] = value as string;
             }
-        });
+        }
+
+        // Créer un objet pour l'URL de recherche.
+        const params = new URLSearchParams(finalData);
 
         // Naviguer vers la page de résultats avec les filtres de recherche.
         navigate(`/resultats-recherche?${params.toString()}`);
@@ -50,8 +79,6 @@ export default function useHookPageRechercheAvancee() {
 
     // Exposer les variables d'état et les méthodes pour qu'elles soient accessibles dans le composant.
     return {
-        formController: control,
-        handleSubmit,
-        onSubmit
+        handleSubmit
     }
 }

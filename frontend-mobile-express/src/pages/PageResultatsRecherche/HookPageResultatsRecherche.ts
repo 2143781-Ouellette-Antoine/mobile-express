@@ -57,6 +57,8 @@ export default function useHookPageResultatsRecherche() {
 
             return filtresRecherche as FiltresRecherche
         } catch (_error) {
+            console.error("Erreur: ", _error)
+
             setSnackbarMessage("Une erreur est survenue lors de la récupération des filtres de recherche.")
             setSnackbarMessageType("error")
             setIsSnackbarOpen(true)

@@ -20,7 +20,7 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
     /**
      * Configurations de mémoire et de stockage entrées.
      */
-    const [configurationsMemoireStockage, setConfigurationsMemoireStockage] = useState([
+    const [configurationsMemoireViveStockage, setConfigurationsMemoireViveStockage] = useState([
         { stockageGb: 0, memoireViveGb: 0 }
     ]);
 
@@ -43,7 +43,7 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
 
     useEffect(() => {
         if (telephoneIntelligentAModifier) {
-            setConfigurationsMemoireStockage(telephoneIntelligentAModifier.configurationsMemoireViveStockage);
+            setConfigurationsMemoireViveStockage(telephoneIntelligentAModifier.configurationsMemoireViveStockage);
             setCapteursCamera(telephoneIntelligentAModifier.capteursCamera);
         }
     }, [telephoneIntelligentAModifier]);
@@ -66,12 +66,12 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
                 config
             )
 
-            // Rafraichir la page après modification
-            window.location.reload();
-
             setSnackbarMessage("Le téléphone intelligent a été modifié avec succès.")
             setSnackbarMessageType("success")
             setIsSnackbarOpen(true)
+
+            // Rafraichir la page après modification
+            window.location.reload();
 
             return response.data
         } catch (_error) {
@@ -91,9 +91,9 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
         const newErrors: Record<string, string> = {};
 
         // Validation des configurations mémoire-stockage.
-        if (Array.isArray(configurationsMemoireStockage)) {
+        if (Array.isArray(configurationsMemoireViveStockage)) {
             // Boucler sur chaque configuration mémoire-stockage.
-            configurationsMemoireStockage.forEach((_config, i) => {
+            configurationsMemoireViveStockage.forEach((_config, i) => {
                 // Récupérer les clés pour chaque configuration.
                 const memoireKey = `configurationsMemoireViveStockage[${i}].memoireViveGb`;
                 const stockageKey = `configurationsMemoireViveStockage[${i}].stockageGb`;
@@ -369,16 +369,6 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
             return;
         }
 
-        // Reconstruction des configurations de mémoire et stockage.
-        const configurationsMemoireViveStockage = [];
-        // Boucler toutes les configurations. Convertir les valeurs en chaines de caractères en nombres.
-        for (let i = 0; i < configurationsMemoireStockage.length; i++) {
-            configurationsMemoireViveStockage.push({
-                memoireViveGb: parseInt(formJson[`configurationsMemoireViveStockage[${i}].memoireViveGb`] as string, 10), // en base 10
-                stockageGb: parseInt(formJson[`configurationsMemoireViveStockage[${i}].stockageGb`] as string, 10), // en base 10
-            });
-        }
-
         // Ajout des configurations reconstruites à l'objet final
         const finalData: TelephoneIntelligent = {
             nom: formJson["nom"] as string,
@@ -427,11 +417,11 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
     /**
      * Méthode appelée lorsqu'une valeur de configuration de mémoire ou de stockage change.
      * @param {number} index L'index de la configuration à modifier.
-     * @param {"memoire" | "stockage"} field Le champ à modifier (mémoire ou stockage).
+     * @param {"memoireViveGb" | "stockageGb"} field Le champ à modifier (mémoire ou stockage).
      * @param {string} value La nouvelle valeur pour le champ spécifié.
      */
-    const handleChangeConfigurationsMemoireStockage = (index: number, field: "memoire" | "stockage", value: string) => {
-        setConfigurationsMemoireStockage(prev =>
+    const handleChangeConfigurationsMemoireStockage = (index: number, field: "memoireViveGb" | "stockageGb", value: string) => {
+        setConfigurationsMemoireViveStockage(prev =>
             prev.map((config, i) =>
                 i === index ? { ...config, [field]: parseInt(value, 10) } : config
             )
@@ -444,7 +434,7 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
     const addEmptyConfigurationMemoireStockage = () => {
         // Remplacer le tableau des configurations par un tableau qui contient
         // l'ancienne liste plus une nouvelle configuration vide.
-        setConfigurationsMemoireStockage(prevConfigs => [...prevConfigs, { memoireViveGb: 0, stockageGb: 0 }]);
+        setConfigurationsMemoireViveStockage(prevConfigs => [...prevConfigs, { memoireViveGb: 0, stockageGb: 0 }]);
     };
 
     /**
@@ -452,7 +442,7 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
      * @param {number} indexASupprimer L'index de la configuration à supprimer.
      */
     const removeConfigurationMemoireStockage = (indexASupprimer: number) => {
-        setConfigurationsMemoireStockage(prevConfigs =>
+        setConfigurationsMemoireViveStockage(prevConfigs =>
             // Si la liste a plus de 1 élément.
             // Filter(): Garde tous les éléments qui ne sont pas égal à l'index à supprimer.
             prevConfigs.length > 1 ? prevConfigs.filter((_config, currentIndex) => currentIndex !== indexASupprimer) : prevConfigs
@@ -500,8 +490,8 @@ export default function useHookFormulaireModificationTelephoneIntelligent(props:
         isTelephoneIntelligentAModifierLoading,
         errors,
         handleSubmit,
-        configurationsMemoireStockage,
-        setConfigurationsMemoireStockage,
+        configurationsMemoireStockage: configurationsMemoireViveStockage,
+        setConfigurationsMemoireStockage: setConfigurationsMemoireViveStockage,
         modifierTelephoneIntelligent,
         validerFormulaire,
         handleChangeConfigurationsMemoireStockage,

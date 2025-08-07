@@ -5,7 +5,7 @@ import useHookRecupererValeursParCleBd from "../../../hooks/HookRecupererValeurs
 /**
  * Props pour le composant React: AutocompleteOneChoice.
  * @property {string} id L'id HTML du composant.
- * @property {string} name Le nom du champ.
+ * @property {string} name Nom utilisé pour récupérer la valeur du champ dans le formulaire.
  * @property {string} label Le texte affiché au-dessus du champ texte.
  * @property {string} placeholder Le texte affiché dans le champ texte lorsqu'il est vide.
  * @property {string} cleBdChoix La clé dans la base de données pour laquelle récupérer les choix.

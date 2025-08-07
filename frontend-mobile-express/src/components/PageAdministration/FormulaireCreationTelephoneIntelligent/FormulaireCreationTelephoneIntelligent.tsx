@@ -296,15 +296,15 @@ function FormulaireCreationTelephoneIntelligent(props: FormulaireCreationTelepho
                         <Typography variant="h5">Stockage</Typography>
 
                         {/* Configurations de mémoire-vive et de stockage */}
-                        {configurationsMemoireStockage.map((config, index) => (
+                        {configurationsMemoireStockage.map((configuration, index) => (
                             <Stack direction="row" gap={2} alignItems="center" key={index}>
                                 <TextField
                                     name={`configurationsMemoireViveStockage[${index}].memoireViveGb`}
                                     label="Mémoire vive (Go)"
                                     type="number"
                                     variant="outlined"
-                                    value={config.memoire}
-                                    onChange={e => handleChangeConfigurationsMemoireStockage(index, 'memoire', e.target.value)}
+                                    value={configuration.memoireViveGb}
+                                    onChange={e => handleChangeConfigurationsMemoireStockage(index, 'memoireViveGb', e.target.value)}
                                     sx={{ flex: 1 }}
                                     error={!!errors[`configurationsMemoireViveStockage[${index}].memoireViveGb`]}
                                     helperText={errors[`configurationsMemoireViveStockage[${index}].memoireViveGb`]}
@@ -314,8 +314,8 @@ function FormulaireCreationTelephoneIntelligent(props: FormulaireCreationTelepho
                                     label="Stockage (Go)"
                                     type="number"
                                     variant="outlined"
-                                    value={config.stockage}
-                                    onChange={e => handleChangeConfigurationsMemoireStockage(index, 'stockage', e.target.value)}
+                                    value={configuration.stockageGb}
+                                    onChange={e => handleChangeConfigurationsMemoireStockage(index, 'stockageGb', e.target.value)}
                                     sx={{ flex: 1 }}
                                     error={!!errors[`configurationsMemoireViveStockage[${index}].stockageGb`]}
                                     helperText={errors[`configurationsMemoireViveStockage[${index}].stockageGb`]}
