@@ -36,12 +36,8 @@ function PageAdministration() {
 
                 {/* Fenêtre contextuelle pour le formulaire de création d'un téléphone intelligent */}
                 <FormulaireCreationTelephoneIntelligent
-                    isModifier={false}
                     isFormulaireOuvert={isFormulaireCreationOuvert}
                     setIsFormulaireOuvert={setIsFormulaireCreationOuvert}
-                    titreFormulaire={"Créer un téléphone intelligent"}
-                    texteBoutonSoumettre={"Créer"}
-                    idAModifier={null}
                 />
             </Stack>
         </Box>

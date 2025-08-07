@@ -4,6 +4,7 @@ import AutocompleteMateriauxMultiChoices from "../../components/ControlesFiltres
 import AutocompleteMultiChoices from "../../components/ControlesFiltresRecherche/generic/AutocompleteMultiChoices"
 import SliderMinMax from "../../components/ControlesFiltresRecherche/generic/SliderMinMax"
 import useHookPageRechercheAvancee from "./HookPageRechercheAvancee"
+import sliderDefaults from "../../constants/MinMaxFiltresRecherche"
 
 /**
  * Page de recherche avancée pour les téléphones intelligents.
@@ -13,7 +14,7 @@ function PageRechercheAvancee() {
     /**
      * Récupération des variables d'état et des méthodes de la page de recherche avancée.
      */
-    const { handleSubmit } = useHookPageRechercheAvancee()
+    const { handleSubmit, errors } = useHookPageRechercheAvancee()
 
     return (
         <Box
@@ -74,8 +75,8 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangeHauteurMm"
                                     label="Hauteur (mm)"
-                                    MINIMUM={80}
-                                    MAXIMUM={200}
+                                    MINIMUM={sliderDefaults["rangeHauteurMm"][0]}
+                                    MAXIMUM={sliderDefaults["rangeHauteurMm"][1]}
                                     ariaLabelValueSuffix=" mm"
                                 />
 
@@ -83,8 +84,8 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangeLargeurMm"
                                     label="Largeur (mm)"
-                                    MINIMUM={40}
-                                    MAXIMUM={100}
+                                    MINIMUM={sliderDefaults["rangeLargeurMm"][0]}
+                                    MAXIMUM={sliderDefaults["rangeLargeurMm"][1]}
                                     ariaLabelValueSuffix=" mm"
                                 />
                             </Stack>
@@ -94,8 +95,8 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangeEpaisseurMm"
                                     label="Épaisseur (mm)"
-                                    MINIMUM={1}
-                                    MAXIMUM={40}
+                                    MINIMUM={sliderDefaults["rangeEpaisseurMm"][0]}
+                                    MAXIMUM={sliderDefaults["rangeEpaisseurMm"][1]}
                                     ariaLabelValueSuffix=" mm"
                                 />
 
@@ -103,8 +104,8 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangePoidsG"
                                     label="Poids (g)"
-                                    MINIMUM={50}
-                                    MAXIMUM={250}
+                                    MINIMUM={sliderDefaults["rangePoidsG"][0]}
+                                    MAXIMUM={sliderDefaults["rangePoidsG"][1]}
                                     ariaLabelValueSuffix=" g"
                                 />
                             </Stack>
@@ -116,13 +117,13 @@ function PageRechercheAvancee() {
                             <Stack direction="column" spacing={2} width="50%">
                                 {/* Matériaux avant (multi-sélection) */}
                                 <AutocompleteMateriauxMultiChoices
-                                    name="materiauxAvant"
+                                    name="materiauxAvants"
                                     label={"Matériau avant"}
                                 />
 
                                 {/* Matériaux arrière (multi-sélection) */}
                                 <AutocompleteMateriauxMultiChoices
-                                    name="materiauxArriere"
+                                    name="materiauxArrieres"
                                     label={"Matériau arrière"}
                                 />
                             </Stack>
@@ -130,7 +131,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Matériaux cadre (multi-sélection) */}
                                 <AutocompleteMateriauxMultiChoices
-                                    name="materiauxCadre"
+                                    name="materiauxCadres"
                                     label={"Matériau cadre"}
                                 />
                             </Box>
@@ -164,36 +165,36 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangeTailleEcranPouces"
                                     label="Taille écran (pouces)"
-                                    MINIMUM={5}
-                                    MAXIMUM={12}
+                                    MINIMUM={sliderDefaults["rangeTailleEcranPouces"][0]}
+                                    MAXIMUM={sliderDefaults["rangeTailleEcranPouces"][1]}
                                     ariaLabelValueSuffix=" pouces"
                                 />
 
                                 {/* Taux de rafraichissement (min max) */}
                                 <SliderMinMax
-                                    name="rangeTauxRafraichissementHz"
+                                    name="rangeTauxRafraichissementEcranHz"
                                     label="Taux de rafraichissement (Hz)"
-                                    MINIMUM={60}
-                                    MAXIMUM={120}
+                                    MINIMUM={sliderDefaults["rangeTauxRafraichissementEcranHz"][0]}
+                                    MAXIMUM={sliderDefaults["rangeTauxRafraichissementEcranHz"][1]}
                                     ariaLabelValueSuffix=" Hz"
                                 />
                             </Stack>
                             <Stack direction="column" justifyContent="flex-end" spacing={3} width="50%">
                                 {/* Résolution largeur (min max) */}
                                 <SliderMinMax
-                                    name="rangeResolutionLargeurPixels"
+                                    name="rangeResolutionEcranLargeurPixels"
                                     label="Résolution largeur (px)"
-                                    MINIMUM={640}
-                                    MAXIMUM={3840}
+                                    MINIMUM={sliderDefaults["rangeResolutionEcranLargeurPixels"][0]}
+                                    MAXIMUM={sliderDefaults["rangeResolutionEcranLargeurPixels"][1]}
                                     ariaLabelValueSuffix=" px"
                                 />
 
                                 {/* Résolution hauteur (min max) */}
                                 <SliderMinMax
-                                    name="rangeResolutionHauteurPixels"
+                                    name="rangeResolutionEcranHauteurPixels"
                                     label="Résolution hauteur (px)"
-                                    MINIMUM={480}
-                                    MAXIMUM={2160}
+                                    MINIMUM={sliderDefaults["rangeResolutionEcranHauteurPixels"][0]}
+                                    MAXIMUM={sliderDefaults["rangeResolutionEcranHauteurPixels"][1]}
                                     ariaLabelValueSuffix=" px"
                                 />
                             </Stack>
@@ -219,46 +220,10 @@ function PageRechercheAvancee() {
                                 <SliderMinMax
                                     name="rangeVitessePuceGhz"
                                     label="Vitesse processeur (GHz)"
-                                    MINIMUM={1}
-                                    MAXIMUM={5}
+                                    MINIMUM={sliderDefaults["rangeVitessePuceGhz"][0]}
+                                    MAXIMUM={sliderDefaults["rangeVitessePuceGhz"][1]}
                                     step={0.01}
                                     ariaLabelValueSuffix=" GHz"
-                                />
-                            </Box>
-                        </Stack>
-                    </Stack>
-
-                    <Stack direction="column" spacing={2}>
-                        <Typography variant="h5" color="#c00000" sx={{ paddingTop: 2 }}>Stockage</Typography>
-
-                        <Stack direction="row" spacing={8}>
-                            <Stack direction="column" spacing={3} width="50%">
-                                {/* Mémoire vive (nombre) */}
-                                <SliderMinMax
-                                    name="rangeMemoireViveGb"
-                                    label="Mémoire vive (Go)"
-                                    MINIMUM={1}
-                                    MAXIMUM={16}
-                                    ariaLabelValueSuffix=" Go"
-                                />
-
-                                {/* Technologie du stockage (texte) */}
-                                <AutocompleteMultiChoices
-                                    name="technologiesStockage"
-                                    label="Technologie du stockage"
-                                    placeholder="Sélectionnez une ou plusieurs technologies"
-                                    cleBdChoix="technologieStockage"
-                                />
-                            </Stack>
-
-                            <Box width="50%">
-                                {/* Stockage (nombre) */}
-                                <SliderMinMax
-                                    name="rangeStockageGb"
-                                    label="Stockage (Go)"
-                                    MINIMUM={8}
-                                    MAXIMUM={2048}
-                                    ariaLabelValueSuffix=" Go"
                                 />
                             </Box>
                         </Stack>
@@ -270,12 +235,12 @@ function PageRechercheAvancee() {
                         <Stack direction="row" spacing={3}>
                             <Box width="50%">
                                 {/* Système d'exploitation (multi-sélection) */}
-                                        <AutocompleteMultiChoices
-                                            name="systemesExploitation"
-                                            label={"Système d'exploitation"}
-                                            placeholder={"Sélectionnez un ou plusieurs systèmes d'exploitation"}
-                                            cleBdChoix={"systemeExploitation"}
-                                        />
+                                <AutocompleteMultiChoices
+                                    name="systemesExploitation"
+                                    label={"Système d'exploitation"}
+                                    placeholder={"Sélectionnez un ou plusieurs systèmes d'exploitation"}
+                                    cleBdChoix={"systemeExploitation"}
+                                />
                             </Box>
 
                             <Box width="50%">
@@ -286,45 +251,10 @@ function PageRechercheAvancee() {
                                     type="number"
                                     variant="outlined"
                                     fullWidth
+                                    error={!!errors["minVersionSystemeExploitation"]}
+                                    helperText={errors["minVersionSystemeExploitation"]}
                                 />
                             </Box>
-                        </Stack>
-                    </Stack>
-
-                    <Stack direction="column" spacing={2}>
-                        <Typography variant="h5" color="#c00000" sx={{ paddingTop: 2 }}>Caméras arrières</Typography>
-
-                        <Stack direction="row" spacing={3}>
-                            <Stack direction="column" spacing={2} width="50%">
-                                {/* Possède type de caméra (texte) */}
-                                <AutocompleteMultiChoices
-                                    name="typesCamera"
-                                    label={"Type de caméra"}
-                                    placeholder={"Sélectionnez un ou plusieurs types de caméra"}
-                                    cleBdChoix={"typeCamera"}
-                                />
-
-                                {/* Possède stabilisation optique de l'image (booléen) */}
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            name="possedeStabilisationOptiqueImage"
-                                        />
-                                    }
-                                    label="Stabilisation optique"
-                                />
-                            </Stack>
-
-                            <Stack direction="column" spacing={3} width="50%">
-                                {/* Résolution minimum (nombre) */}
-                                <TextField
-                                    name="minResolutionCameraMp"
-                                    label="Résolution minimum (MP)"
-                                    type="number"
-                                    variant="outlined"
-                                    fullWidth
-                                />
-                            </Stack>
                         </Stack>
                     </Stack>
 
@@ -335,7 +265,7 @@ function PageRechercheAvancee() {
                             <Box width="50%">
                                 {/* Port (texte) */}
                                 <AutocompleteMultiChoices
-                                    name="modelesPortUsb"
+                                    name="modelesPortsUsb"
                                     label={"Port"}
                                     placeholder={"Sélectionnez un ou plusieurs ports"}
                                     cleBdChoix={"modelePortUsb"}
@@ -364,8 +294,8 @@ function PageRechercheAvancee() {
                             <SliderMinMax
                                 name="rangeCapaciteBatterieMah"
                                 label="Capacité de la batterie (mAh)"
-                                MINIMUM={1000}
-                                MAXIMUM={10000}
+                                MINIMUM={sliderDefaults["rangeCapaciteBatterieMah"][0]}
+                                MAXIMUM={sliderDefaults["rangeCapaciteBatterieMah"][1]}
                                 ariaLabelValueSuffix={" mAh"}
                             />
                         </Box>
@@ -415,7 +345,7 @@ function PageRechercheAvancee() {
                                 <FormControlLabel
                                     control={
                                         <Checkbox
-                                            name="possedeCarteMicroSd"
+                                            name="possedeCarteMicroSD"
                                         />
                                     }
                                     label="Carte microSD"

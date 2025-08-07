@@ -333,7 +333,7 @@ function FormulaireModificationTelephoneIntelligent(props: FormulaireModificatio
                                         type="number"
                                         variant="outlined"
                                         value={config.memoireViveGb}
-                                        onChange={e => handleChangeConfigurationsMemoireStockage(index, 'memoire', e.target.value)}
+                                        onChange={e => handleChangeConfigurationsMemoireStockage(index, 'memoireViveGb', e.target.value)}
                                         sx={{ flex: 1 }}
                                         error={!!errors[`configurationsMemoireViveStockage[${index}].memoireViveGb`]}
                                         helperText={errors[`configurationsMemoireViveStockage[${index}].memoireViveGb`]}
@@ -344,7 +344,7 @@ function FormulaireModificationTelephoneIntelligent(props: FormulaireModificatio
                                         type="number"
                                         variant="outlined"
                                         value={config.stockageGb}
-                                        onChange={e => handleChangeConfigurationsMemoireStockage(index, 'stockage', e.target.value)}
+                                        onChange={e => handleChangeConfigurationsMemoireStockage(index, 'stockageGb', e.target.value)}
                                         sx={{ flex: 1 }}
                                         error={!!errors[`configurationsMemoireViveStockage[${index}].stockageGb`]}
                                         helperText={errors[`configurationsMemoireViveStockage[${index}].stockageGb`]}

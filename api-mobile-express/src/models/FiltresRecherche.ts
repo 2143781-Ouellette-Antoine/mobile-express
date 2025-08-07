@@ -61,5 +61,6 @@ export const DictionnaireFiltreRequete: Record<string, FilterProperties> = {
     typesAuthentification: { nomChampBd: "typeAuthentification", operator: "$in", type: "array" },
     possedeNfc: { nomChampBd: "possedeNfc", operator: "$eq", type: "boolean" },
     possedePortAudio: { nomChampBd: "possedePortAudio", operator: "$eq", type: "boolean" },
+    possedeCarteMicroSD: { nomChampBd: "possedeCarteMicroSD", operator: "$eq", type: "boolean" },
     generationReseauMobile: { nomChampBd: "generationReseauMobile", operator: "$eq", type: "number" },
 };

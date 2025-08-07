@@ -1,0 +1,616 @@
+[{
+  "_id": {
+    "$oid": "68891add5062392d23669df3"
+  },
+  "nom": "iPhone 16 Pro Max",
+  "nomCompagnie": "Apple",
+  "hauteurMm": 163,
+  "largeurMm": 77.6,
+  "epaisseurMm": 8.3,
+  "poidsG": 227,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Titane",
+  "resistanceEau": "IP68 étanche à la poussière et à l'eau (immersible jusqu'à 6 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.9,
+  "resolutionEcranLargeurPixels": 1320,
+  "resolutionEcranHauteurPixels": 2868,
+  "tauxRafraichissementEcranHz": 120,
+  "nomPuce": "Apple A18 Pro",
+  "vitessePuceGhz": 4.05,
+  "descriptionCoeursPuce": "Hexa-coeur (2x4.05 GHz + 4x2.42 GHz)",
+  "nomGraphiquesPuce": "Apple GPU (graphiques 6 coeurs)",
+  "technologieStockage": "NVMe",
+  "systemeExploitation": "iOS",
+  "maxVersionSystemeExploitation": 18,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 4685,
+  "typeAuthentification": "Reconnaissance faciale",
+  "possedeNfc": true,
+  "possedePortAudio": false,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "International: Nano-SIM + eSIM + eSIM (max 2 à la fois)\nÉtats-Unis: eSIM + eSIM (8 ou plus, max 2 à la fois)\nChine: Nano-SIM + Nano-SIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-16-pro-max-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "68891add5062392d23669df4"
+      }
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "68891add5062392d23669df5"
+      }
+    },
+    {
+      "stockageGb": 1024,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "68891add5062392d23669df6"
+      }
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891add5062392d23669df7"
+      }
+    },
+    {
+      "type": "Téléphoto périscope",
+      "estEnAvant": false,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891add5062392d23669df8"
+      }
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "68891add5062392d23669df9"
+      }
+    }
+  ],
+  "couleurs": [
+    "Titane noir",
+    "Titane blanc",
+    "Titane naturel",
+    "Titane desert"
+  ],
+  "__v": 0,
+  "compagnieEstEpinglee": true,
+  "possedeCarteMicroSD": false,
+  "dateSortie": {
+    "$date": "2024-09-20T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68891c605062392d23669e1d"
+  },
+  "nom": "Pixel 9 Pro XL",
+  "nomCompagnie": "Google",
+  "hauteurMm": 162.8,
+  "largeurMm": 76.6,
+  "epaisseurMm": 8.5,
+  "poidsG": 221,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Aluminium",
+  "resistanceEau": "IP68 étanche à la poussière et à l'eau (immersible jusqu'à 1,5 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.8,
+  "resolutionEcranLargeurPixels": 1344,
+  "resolutionEcranHauteurPixels": 2992,
+  "tauxRafraichissementEcranHz": 120,
+  "nomPuce": "Google Tensor G4",
+  "vitessePuceGhz": 3.1,
+  "descriptionCoeursPuce": "Octa-coeurs (1x3.1 GHz Cortex-X4 & 3x2.6 GHz Cortex-A720 & 4x1.92 GHz Cortex-A520)",
+  "nomGraphiquesPuce": "Mali-G715 MC7",
+  "technologieStockage": "UFS",
+  "systemeExploitation": "Android",
+  "maxVersionSystemeExploitation": 15,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 5060,
+  "typeAuthentification": "Empreinte digitale (sous l'écran, ultrasonique)",
+  "possedeNfc": true,
+  "possedePortAudio": false,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "Nano-SIM + eSIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/google/google-pixel-9-pro-xl-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 128,
+      "memoireViveGb": 16,
+      "_id": {
+        "$oid": "68891c605062392d23669e1e"
+      }
+    },
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 16,
+      "_id": {
+        "$oid": "68891c605062392d23669e1f"
+      }
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 16,
+      "_id": {
+        "$oid": "68891c605062392d23669e20"
+      }
+    },
+    {
+      "stockageGb": 1024,
+      "memoireViveGb": 16,
+      "_id": {
+        "$oid": "68891c605062392d23669e21"
+      }
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 50,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891c605062392d23669e22"
+      }
+    },
+    {
+      "type": "Téléphoto périscope",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891c605062392d23669e23"
+      }
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "68891c605062392d23669e24"
+      }
+    }
+  ],
+  "couleurs": [
+    "Porcelaine",
+    "Quartz rose",
+    "Noisette",
+    "Obisidienne"
+  ],
+  "__v": 0,
+  "compagnieEstEpinglee": true,
+  "possedeCarteMicroSD": false,
+  "dateSortie": {
+    "$date": "2024-08-22T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68891dfd5062392d23669e2f"
+  },
+  "nom": "Galaxy S25 Ultra",
+  "nomCompagnie": "Samsung",
+  "hauteurMm": 162.8,
+  "largeurMm": 77.6,
+  "epaisseurMm": 8.2,
+  "poidsG": 218,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Titane",
+  "resistanceEau": "IP68 étanche à la poussière et à l'eau (immersible jusqu'à 1,5 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.9,
+  "resolutionEcranLargeurPixels": 1440,
+  "resolutionEcranHauteurPixels": 3120,
+  "tauxRafraichissementEcranHz": 120,
+  "nomPuce": "Qualcomm SM8750-AC Snapdragon 8 Elite",
+  "vitessePuceGhz": 4.47,
+  "descriptionCoeursPuce": "Octa-coeurs (2x4.47 GHz Oryon V2 Phoenix L + 6x3.53 GHz Oryon V2 Phoenix M)",
+  "nomGraphiquesPuce": "Adreno 830 (1200 MHz)",
+  "technologieStockage": "UFS",
+  "systemeExploitation": "Android",
+  "maxVersionSystemeExploitation": 15,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 5000,
+  "typeAuthentification": "Empreinte digitale (sous l'écran, ultrasonique)",
+  "possedeNfc": true,
+  "possedePortAudio": false,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "International: Nano-SIM + Nano-SIM + eSIM + eSIM (max 2 à la fois)\nÉtats-UnisNano-SIM + eSIM + eSIM (max 2 à la fois)\nChine: Nano-SIM + Nano-SIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s25-ultra-sm-s938-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 12,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e30"
+      }
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 12,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e31"
+      }
+    },
+    {
+      "stockageGb": 1024,
+      "memoireViveGb": 12,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e32"
+      }
+    },
+    {
+      "stockageGb": 1024,
+      "memoireViveGb": 16,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e33"
+      }
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 200,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e34"
+      }
+    },
+    {
+      "type": "Téléphoto",
+      "estEnAvant": false,
+      "resolutionMp": 10,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e35"
+      }
+    },
+    {
+      "type": "Téléphoto périscope",
+      "estEnAvant": false,
+      "resolutionMp": 50,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e36"
+      }
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 50,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "68891dfd5062392d23669e37"
+      }
+    }
+  ],
+  "couleurs": [
+    "Bleu argent titane",
+    "Noir titane",
+    "Blanc argent titane",
+    "Gris titane",
+    "Vert jade titane",
+    "Noir de jais titane",
+    "Rose doré titane"
+  ],
+  "__v": 0,
+  "compagnieEstEpinglee": true,
+  "possedeCarteMicroSD": false,
+  "dateSortie": {
+    "$date": "2025-02-03T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68921fdca4653ec2b74ce1fb"
+  },
+  "nom": "Xperia 1 VII",
+  "nomCompagnie": "Sony",
+  "dateSortie": {
+    "$date": "2025-06-04T00:00:00.000Z"
+  },
+  "hauteurMm": 162,
+  "largeurMm": 74,
+  "epaisseurMm": 8.2,
+  "poidsG": 197,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Aluminium",
+  "resistanceEau": "IP65/IP68 étanche à la poussière et à l'eau (jets d'eau basse pression ; immersible jusqu'à 1,5 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.5,
+  "resolutionEcranLargeurPixels": 1080,
+  "resolutionEcranHauteurPixels": 2340,
+  "tauxRafraichissementEcranHz": 120,
+  "nomPuce": "Qualcomm SM8750-AB Snapdragon 8 Elite",
+  "vitessePuceGhz": 4.32,
+  "descriptionCoeursPuce": "Octa-coeurs (2x4.32 GHz Oryon V2 Phoenix L + 6x3.53 GHz Oryon V2 Phoenix M)",
+  "nomGraphiquesPuce": "Adreno 830",
+  "technologieStockage": "UFS",
+  "systemeExploitation": "Android",
+  "maxVersionSystemeExploitation": 15,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 5000,
+  "typeAuthentification": "Empreinte digitale (sur le côté)",
+  "possedeNfc": true,
+  "possedePortAudio": true,
+  "possedeCarteMicroSD": true,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "Nano-SIM + eSIM\nNano-SIM + Nano-SIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/sony/sony-xperia-1-vii-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 12,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce1fc"
+      }
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 12,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce1fd"
+      }
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce1fe"
+      }
+    },
+    {
+      "type": "Téléphoto",
+      "estEnAvant": false,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce1ff"
+      }
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce200"
+      }
+    },
+    {
+      "type": "Large",
+      "estEnAvant": true,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "68921fdca4653ec2b74ce201"
+      }
+    }
+  ],
+  "couleurs": [
+    "Vert mousse",
+    "Mauve orchidé",
+    "Noir ardoise"
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "688bc926a547d603e7bb63df"
+  },
+  "nom": "iPhone 16 Pro",
+  "nomCompagnie": "Apple",
+  "hauteurMm": 149.6,
+  "largeurMm": 71.5,
+  "epaisseurMm": 8.3,
+  "poidsG": 199,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Titane",
+  "resistanceEau": "IP68 étanche à la poussière et à l'eau (immersible jusqu'à 6 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.3,
+  "resolutionEcranLargeurPixels": 1206,
+  "resolutionEcranHauteurPixels": 2622,
+  "tauxRafraichissementEcranHz": 120,
+  "nomPuce": "Apple A18 Pro",
+  "vitessePuceGhz": 4.05,
+  "descriptionCoeursPuce": "Hexa-coeurs (2x4.05 GHz + 4x2.42 GHz)",
+  "nomGraphiquesPuce": "Apple GPU (graphiques 6 coeurs)",
+  "technologieStockage": "NVMe",
+  "systemeExploitation": "iOS",
+  "maxVersionSystemeExploitation": 18,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 3582,
+  "typeAuthentification": "Reconnaissance faciale",
+  "possedeNfc": true,
+  "possedePortAudio": false,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "International: Nano-SIM + eSIM + eSIM (max 2 at a time)\nÉtats-Unis: eSIM + eSIM (8 or more, max 2 at a time)\nChine: Nano-SIM + Nano-SIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-16-pro-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 128,
+      "memoireViveGb": 8
+    },
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 8
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 8
+    },
+    {
+      "stockageGb": 1024,
+      "memoireViveGb": 8
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": true
+    },
+    {
+      "type": "Téléphoto périscopique",
+      "estEnAvant": false,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": true
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": false
+    },
+    {
+      "type": "Large",
+      "estEnAvant": true,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": false
+    }
+  ],
+  "couleurs": [
+    "Titane noir",
+    "Titane blanc",
+    "Titane naturel",
+    "Titane désert"
+  ],
+  "possedeCarteMicroSD": false,
+  "dateSortie": {
+    "$date": "2024-09-20T00:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6893a74b965b9c5b8e2c6802"
+  },
+  "nom": "iPhone 16",
+  "nomCompagnie": "Apple",
+  "dateSortie": {
+    "$date": "2025-09-20T00:00:00.000Z"
+  },
+  "hauteurMm": 147.6,
+  "largeurMm": 71.6,
+  "epaisseurMm": 7.8,
+  "poidsG": 170,
+  "materiauAvant": "Verre",
+  "materiauArriere": "Verre",
+  "materiauCadre": "Aluminium",
+  "resistanceEau": "IP68 étanche à la poussière et à l'eau (immersible jusqu'à 6 m pendant 30 min)",
+  "technologieEcran": "OLED",
+  "tailleEcranPouces": 6.1,
+  "resolutionEcranLargeurPixels": 1179,
+  "resolutionEcranHauteurPixels": 2556,
+  "tauxRafraichissementEcranHz": 60,
+  "nomPuce": "Apple A18",
+  "vitessePuceGhz": 4.04,
+  "descriptionCoeursPuce": "Hexa-coeur (2x4.04 GHz + 4x2.20 GHz)",
+  "nomGraphiquesPuce": "Apple GPU (graphiques 5 coeurs)",
+  "technologieStockage": "NVMe",
+  "systemeExploitation": "iOS",
+  "maxVersionSystemeExploitation": 18,
+  "modelePortUsb": "USB-C",
+  "possedeRechargeSansFil": true,
+  "capaciteBatterieMah": 3561,
+  "typeAuthentification": "Reconnaissance faciale",
+  "possedeNfc": true,
+  "possedePortAudio": false,
+  "possedeCarteMicroSD": false,
+  "generationReseauMobile": 5,
+  "descriptionCartesSim": "International: Nano-SIM + eSIM + eSIM (max 2 à la fois)\nÉtats-Unis: eSIM + eSIM (8 ou plus, max 2 à la fois)\nChine: Nano-SIM + Nano-SIM",
+  "urlImagePrincipale": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-16-1.jpg",
+  "configurationsMemoireViveStockage": [
+    {
+      "stockageGb": 128,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6803"
+      }
+    },
+    {
+      "stockageGb": 256,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6804"
+      }
+    },
+    {
+      "stockageGb": 512,
+      "memoireViveGb": 8,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6805"
+      }
+    }
+  ],
+  "capteursCamera": [
+    {
+      "type": "Large",
+      "estEnAvant": false,
+      "resolutionMp": 48,
+      "possedeStabilisationOptiqueImage": true,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6806"
+      }
+    },
+    {
+      "type": "Ultra-large",
+      "estEnAvant": false,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6807"
+      }
+    },
+    {
+      "type": "Large",
+      "estEnAvant": true,
+      "resolutionMp": 12,
+      "possedeStabilisationOptiqueImage": false,
+      "_id": {
+        "$oid": "6893a74b965b9c5b8e2c6808"
+      }
+    }
+  ],
+  "couleurs": [
+    "Noir",
+    "Blanc",
+    "Rose",
+    "Sarcelle",
+    "Bleu outremer"
+  ],
+  "__v": 0
+}]

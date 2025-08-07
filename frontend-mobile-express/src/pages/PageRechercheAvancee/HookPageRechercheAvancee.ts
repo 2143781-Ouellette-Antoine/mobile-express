@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import sliderDefaults from "../../constants/MinMaxFiltresRecherche"
 
@@ -8,6 +9,35 @@ import sliderDefaults from "../../constants/MinMaxFiltresRecherche"
 export default function useHookPageRechercheAvancee() {
     // Récupérer la méthode pour pouvoir naviguer entre les pages.
     const navigate = useNavigate()
+
+    // Variable d'état pour stocker les erreurs de validation du formulaire.
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    /**
+     * Valide le formulaire en vérifiant que les valeurs ne sont pas invalides.
+     * @param formJson Les données du formulaire à valider.
+     * @returns true si le formulaire est valide, sinon false.
+     */
+    function validerFormulaire(formJson: Record<string, any>) {
+        // Initialiser un objet pour stocker les erreurs.
+        const newErrors: Record<string, string> = {};
+
+        if (
+            formJson["minVersionSystemeExploitation"] &&
+            (
+                isNaN(parseInt(formJson["minVersionSystemeExploitation"], 10)) ||
+                parseInt(formJson["minVersionSystemeExploitation"], 10) < 0
+            )
+        ) {
+            newErrors["minVersionSystemeExploitation"] = "La version minimale du système d'exploitation doit être un nombre positif.";
+        }
+
+        // Mettre à jour la variable d'état du tableau des erreurs.
+        setErrors(newErrors);
+        // keys(): Retourne un tableau des clés de l'objet.
+        // Retourner true si aucune erreur, sinon false.
+        return Object.keys(newErrors).length === 0;
+    };
 
     /**
      * Méthode appelée lorsque l'utilisateur clique sur le bouton « Rechercher ».
@@ -33,11 +63,12 @@ export default function useHookPageRechercheAvancee() {
         }
 
         // S'il y a des erreurs de validation, bloquer l'envoi du formulaire à l'API.
-        // if (!validerFormulaire(formJson)) {
-        //     // Arrêter la soumission.
-        //     return;
-        // }
+        if (!validerFormulaire(formJson)) {
+            // Arrêter la soumission.
+            return;
+        }
 
+        // Contiendra les données triées. Sera passé à l'URL de recherche.
         const finalData: { [key: string]: string } = {};
         // Boucler chaque filtre de recherche qui a été sélectionné et les ajouter un à un à l'URL.
         for (const key in formJson) {
@@ -48,19 +79,17 @@ export default function useHookPageRechercheAvancee() {
                 const suffix = key.slice(5); // ex: "HauteurMm"
                 // Séparer la valeur (chaine de caractères) en deux: min et max.
                 const [min, max] = (value as string).split(",");
-                // Générer les clés minXxx et maxXxx avec la première lettre en majuscule
-                const suffixeAvecMajuscule = suffix.charAt(0).toUpperCase() + suffix.slice(1); // Prendre le premier caractère du suffixe.
 
                 // Récupérer les valeurs par défaut du slider.
                 const [defMin, defMax] = sliderDefaults[key];
                 // Si la valeur du slider est différente de la valeur par défaut.
                 if (Number(min) !== defMin) {
                     // Ajouter le filtre min.
-                    finalData["min" + suffixeAvecMajuscule] = min;
+                    finalData["min" + suffix] = min;
                 }
                 if (Number(max) !== defMax) {
                     // Ajouter le filtre max.
-                    finalData["max" + suffixeAvecMajuscule] = max;
+                    finalData["max" + suffix] = max;
                 }
             } else if (key.startsWith("possede")) {
                 // Si la valeur est 'on', convertir en 'true'
@@ -79,6 +108,7 @@ export default function useHookPageRechercheAvancee() {
 
     // Exposer les variables d'état et les méthodes pour qu'elles soient accessibles dans le composant.
     return {
-        handleSubmit
+        handleSubmit,
+        errors
     }
 }
